@@ -122,6 +122,32 @@ We write comprehensive unit tests and integration tests for React components usi
   cd ThriftKaro
 ```
 
+### Create a dot env ".env" in socket folder and append the below given port number in it
+
+```bash
+PORT = 4000
+```
+
+### Create a dot env ".env" in backend folder and append the below given code in it
+
+```bash
+PORT = 8000
+DB_URL = "mongodb+srv://yourDB_name"
+JWT_SECRET_KEY = "2FxXT1NTf2K1Mo4i6AOvtdI"
+JWT_EXPIRES = 7d
+ACTIVATION_SECRET = 'PWj0fI#&DsZY9w$8tHe11*yr9F45K*j2xj&fceGZ!tEnMNZcEN'
+SMPT_SERVICE = gmail
+SMPT_HOST = smtp.gmail.com
+SMPT_PORT = 465
+SMPT_PASSWORD = "your app password / gmail password"
+SMPT_MAIL = "your@gmail.com"
+STRIPE_API_KEY = 'pk_test_51N8wSIIgVdZ3fy8KtfIGuiGbTptdEltd8tHzhx6CrwIuslzoyzq2Fy49bBLkzp19FACzgN1F4v4BZ9d6bFq3E6wC00AcYZR3Ya'
+STRIPE_SECRET_KEY = 'sk_test_51N8wSIIgVdZ3fy8KJMneUWY0XjnSBwWrZw8sMvbqQXWbuRgIdRbwX5V5cFM4kkyQi3NQr60Z7EycsG8lYXq3JqT300wniHQrdx'
+CLOUDINARY_NAME = "your_cloudinary_name"
+CLOUDINARY_API_KEY = "your_api_key"
+CLOUDINARY_API_SECRET = "your_api_secret"
+```
+
 ### Install dependencies for frontend and backend separately
 **Tip:** To efficiently install dependencies for both frontend and backend simultaneously, use split terminals.
 
