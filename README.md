@@ -128,7 +128,7 @@ We write comprehensive unit tests and integration tests for React components usi
 PORT = 4000
 ```
 
-### Create a dot env ".env" in backend folder and append the below given code in it
+### Create a folder "config" and inside it create dot env ".env" in backend folder and append the below given code in it
 
 ```bash
 PORT = 8000
