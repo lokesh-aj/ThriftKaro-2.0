@@ -8,8 +8,7 @@ import {
   footerProductLinks,
   footerSupportLinks,
 } from "../../static/data";
-import Logo from 'C:/Users/prati/Downloads/ThriftKaro/frontend/src/ThriftKaro-removebg-preview.svg';
-
+import Logo from "../../ThriftKaro-removebg-preview.svg";
 const Footer = () => {
   return (
     <div className="bg-[#000] text-white">

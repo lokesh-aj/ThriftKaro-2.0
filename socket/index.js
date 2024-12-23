@@ -4,13 +4,24 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const server = http.createServer(app);
-const io = socketIO(server);
+const io = socketIO(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+  transports: ['websocket', 'polling']
+});
 
 require("dotenv").config({
   path: "./.env",
 });
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000",
+  methods: ["GET", "POST"],
+  credentials: true
+}));
 app.use(express.json());
 
 app.get("/", (req, res) => {

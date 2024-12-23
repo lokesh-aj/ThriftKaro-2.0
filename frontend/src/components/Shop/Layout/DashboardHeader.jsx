@@ -5,7 +5,7 @@ import { FiPackage, FiShoppingBag } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { BiMessageSquareDetail } from "react-icons/bi";
-import Logo from 'C:/Users/prati/Downloads/ThriftKaro/frontend/src/ThriftKaro-removebg-preview.svg';
+import Logo from '../../../ThriftKaro-removebg-preview.svg';
 
 const DashboardHeader = () => {
   const { seller } = useSelector((state) => state.seller);

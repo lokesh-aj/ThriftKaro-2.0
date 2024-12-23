@@ -9,6 +9,7 @@ const cloudinary = require("cloudinary");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 const sendShopToken = require("../utils/shopToken");
+const axios = require("axios");
 
 // create shop
 router.post(
@@ -64,7 +65,7 @@ router.post(
 // create activation token
 const createActivationToken = (seller) => {
   return jwt.sign(seller, process.env.ACTIVATION_SECRET, {
-    expiresIn: "5m",
+    expiresIn: "24h",
   });
 };
 
@@ -83,8 +84,8 @@ router.post(
       if (!newSeller) {
         return next(new ErrorHandler("Invalid token", 400));
       }
-      const { name, email, password, avatar, zipCode, address, phoneNumber } =
-        newSeller;
+
+      const { name, email, password, avatar, zipCode, address, phoneNumber } = newSeller;
 
       let seller = await Shop.findOne({ email });
 
@@ -360,5 +361,37 @@ router.delete(
     }
   })
 );
+
+// resend activation
+router.post("/resend-activation", catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const seller = await Shop.findOne({ email, isVerified: false });
+
+    if (!seller) {
+      return next(new ErrorHandler("Seller not found or already verified", 400));
+    }
+
+    const activationToken = createActivationToken(seller);
+
+    const activationUrl = `http://localhost:3000/seller/activation/${activationToken}`;
+
+    try {
+      await sendMail({
+        email: seller.email,
+        subject: "Activate your Shop",
+        message: `Hello ${seller.name}, please click on the link to activate your shop: ${activationUrl}`,
+      });
+      res.status(201).json({
+        success: true,
+        message: `please check your email:- ${seller.email} to activate your shop!`,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+}));
 
 module.exports = router;
