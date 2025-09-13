@@ -1,4 +1,4 @@
-package com.userservice.security;
+package com.productservice.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,27 +12,16 @@ import java.util.Date;
 public class JwtUtil {
 
     // Secret key (in production, keep this in env variable)
-    // Using a fixed key so both services can validate each other's tokens
+    // This should match the UserService secret key for proper validation
     private final Key key = Keys.hmacShaKeyFor("mySecretKey123456789012345678901234567890".getBytes());
 
     // Token validity: 24 hours
     private final long expiration = 1000 * 60 * 60 * 24;
 
-    // Generate JWT token
+    // Generate JWT token (if needed for testing)
     public String generateToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(key)
-                .compact();
-    }
-
-    // Generate JWT token with role
-    public String generateToken(String email, String role) {
-        return Jwts.builder()
-                .setSubject(email)
-                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(key)
@@ -58,5 +47,17 @@ public class JwtUtil {
                 .getBody()
                 .get("role", String.class);
     }
-}
 
+    // Validate if token is valid
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+}

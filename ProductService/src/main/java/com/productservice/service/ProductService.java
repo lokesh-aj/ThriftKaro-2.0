@@ -37,4 +37,14 @@ public class ProductService {
 		product.setStockQuantity(quantity);
 		return product;
 	}
+
+	@Transactional
+	public boolean deleteProduct(Long id) {
+		Product product = productRepository.findById(id).orElse(null);
+		if (product == null) {
+			return false;
+		}
+		productRepository.delete(product);
+		return true;
+	}
 } 
