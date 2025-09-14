@@ -40,11 +40,10 @@ public class ProductService {
 
 	@Transactional
 	public boolean deleteProduct(Long id) {
-		Product product = productRepository.findById(id).orElse(null);
-		if (product == null) {
-			return false;
+		if (productRepository.existsById(id)) {
+			productRepository.deleteById(id);
+			return true;
 		}
-		productRepository.delete(product);
-		return true;
+		return false;
 	}
 } 

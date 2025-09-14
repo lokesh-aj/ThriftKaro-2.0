@@ -46,7 +46,7 @@ public class AuthController {
             return ResponseEntity.status(401).body("Invalid email or password");
         }
 
-        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
+        String token = jwtUtil.generateToken(user.getEmail(), user.getUserId());
         return ResponseEntity.ok(new AuthResponse(token));
     }
 

@@ -12,8 +12,7 @@ import java.util.Date;
 public class JwtUtil {
 
     // Secret key (in production, keep this in env variable)
-    // Using a fixed key so both services can validate each other's tokens
-    private final Key key = Keys.hmacShaKeyFor("mySecretKey123456789012345678901234567890".getBytes());
+    private final Key key = Keys.hmacShaKeyFor("mySecretKeyForJWTTokenGenerationThatIsLongEnoughForSecurityRequirements".getBytes());
 
     // Token validity: 24 hours
     private final long expiration = 1000 * 60 * 60 * 24;
@@ -28,11 +27,11 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Generate JWT token with role
-    public String generateToken(String email, String role) {
+    // Generate JWT token with userId
+    public String generateToken(String email, Long userId) {
         return Jwts.builder()
                 .setSubject(email)
-                .claim("role", role)
+                .claim("userId", userId)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(key)
@@ -49,14 +48,36 @@ public class JwtUtil {
                 .getSubject();
     }
 
-    // Extract role from token
-    public String extractRole(String token) {
-        return Jwts.parserBuilder()
+    // Extract username (same as email for this service)
+    public String extractUsername(String token) {
+        return extractEmail(token);
+    }
+
+    // Extract user ID from token
+    public Long extractUserId(String token) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .get("userId", Long.class);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    // Validate token
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .get("role", String.class);
+                .parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
 

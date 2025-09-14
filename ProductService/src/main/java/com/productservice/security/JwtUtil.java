@@ -13,7 +13,7 @@ public class JwtUtil {
 
     // Secret key (in production, keep this in env variable)
     // This should match the UserService secret key for proper validation
-    private final Key key = Keys.hmacShaKeyFor("mySecretKey123456789012345678901234567890".getBytes());
+    private final Key key = Keys.hmacShaKeyFor("mySecretKeyForJWTTokenGenerationThatIsLongEnoughForSecurityRequirements".getBytes());
 
     // Token validity: 24 hours
     private final long expiration = 1000 * 60 * 60 * 24;
@@ -58,6 +58,25 @@ public class JwtUtil {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    // Extract username (same as email for this service)
+    public String extractUsername(String token) {
+        return extractEmail(token);
+    }
+
+    // Extract user ID from token
+    public Long extractUserId(String token) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .get("userId", Long.class);
+        } catch (Exception e) {
+            return null;
         }
     }
 }
