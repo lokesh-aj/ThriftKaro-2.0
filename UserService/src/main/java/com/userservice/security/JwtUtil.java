@@ -17,10 +17,11 @@ public class JwtUtil {
     // Token validity: 24 hours
     private final long expiration = 1000 * 60 * 60 * 24;
 
-    // Generate JWT token
+    // Generate JWT token (kept for compatibility)
     public String generateToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
+                .claim("role", "USER")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(key)
@@ -32,6 +33,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setSubject(email)
                 .claim("userId", userId)
+                .claim("role", "USER")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(key)

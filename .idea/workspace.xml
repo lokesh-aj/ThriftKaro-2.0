@@ -9,22 +9,30 @@
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EurekaServer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/EurekaServer/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProductService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProductService/src/main/java/com/productservice/ProductServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/src/main/java/com/productservice/ProductServiceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProductService/src/main/java/com/productservice/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/src/main/java/com/productservice/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProductService/src/main/java/com/productservice/security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/src/main/java/com/productservice/security/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProductService/src/main/java/com/productservice/security/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/src/main/java/com/productservice/security/JwtUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/jvm.config" beforeDir="false" afterPath="$PROJECT_DIR$/.mvn/jvm.config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProductService/src/main/java/com/productservice/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/src/main/java/com/productservice/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProductService/src/main/java/com/productservice/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/src/main/java/com/productservice/service/ProductService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProductService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProductService/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProductService/target/classes/com/productservice/security/JwtUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/target/classes/com/productservice/security/JwtUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProductService/target/classes/com/productservice/service/ProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/target/classes/com/productservice/service/ProductService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/com/userservice/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/com/userservice/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProductService/target/classes/com/productservice/security/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/target/classes/com/productservice/security/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TROUBLESHOOTING.md" beforeDir="false" afterPath="$PROJECT_DIR$/TROUBLESHOOTING.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserService/src/main/java/com/userservice/security/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/com/userservice/security/JwtUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/API_DOCUMENTATION.md" beforeDir="false" afterPath="$PROJECT_DIR$/cart/API_DOCUMENTATION.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/controller/CartController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/dto/AddItemRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/dto/AddItemRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/dto/CartItemResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/dto/CartItemResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/dto/CartResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/dto/CartResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/dto/ProductResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/dto/ProductResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/entities/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/entities/Cart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/entities/CartItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/entities/CartItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/repository/CartItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/repository/CartItemRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/repository/CartRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/repository/CartRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/security/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/security/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/security/JwtUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/service/CartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/service/ProductServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/service/ProductServiceClient.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,6 +86,7 @@
   "keyToString": {
     "Application.CartApplication.executor": "Run",
     "Application.EurekaServerApplication.executor": "Run",
+    "Application.GatewayApplication.executor": "Run",
     "Application.ProductServiceApplication.executor": "Run",
     "Application.UserServiceApplication.executor": "Run",
     "Maven.EurekaServer [clean].executor": "Run",
@@ -109,7 +118,7 @@
       <command value="mvn clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.CartApplication">
+  <component name="RunManager" selected="Application.GatewayApplication">
     <configuration name="CartApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.cart.CartApplication" />
       <module name="cart" />
@@ -129,6 +138,19 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.eurekaserver.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.gateway.GatewayApplication" />
+      <module name="gateway" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.gateway.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -175,9 +197,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.CartApplication" />
+        <item itemvalue="Application.GatewayApplication" />
         <item itemvalue="Application.ProductServiceApplication" />
         <item itemvalue="Application.UserServiceApplication" />
+        <item itemvalue="Application.CartApplication" />
         <item itemvalue="Application.EurekaServerApplication" />
       </list>
     </recent_temporary>

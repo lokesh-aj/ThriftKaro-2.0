@@ -23,11 +23,11 @@ public class SecurityConfig {
                         // Allow health check and debug endpoints
                         .requestMatchers("/actuator/**", "/products/health", "/products/debug", "/products/test-jwt").permitAll()
                         // Public endpoints - no authentication required
-                        .requestMatchers("GET", "/products", "/products/*").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/products", "/products/*").permitAll()
                         // Seller-only endpoints - require authentication
-                        .requestMatchers("POST", "/products").authenticated()
-                        .requestMatchers("PUT", "/products/*/stock").authenticated()
-                        .requestMatchers("DELETE", "/products/*").authenticated()
+                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/products").authenticated()
+                        .requestMatchers(org.springframework.http.HttpMethod.PUT, "/products/*/stock").authenticated()
+                        .requestMatchers(org.springframework.http.HttpMethod.DELETE, "/products/*").authenticated()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(org.springframework.security.config.http.SessionCreationPolicy.STATELESS))
