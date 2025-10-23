@@ -2,8 +2,7 @@ import { React, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../../styles/styles";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { server } from "../../server";
+import axiosInstance from "../../api/axiosInstance";
 import { toast } from "react-toastify";
 
 const Login = () => {
@@ -15,16 +14,23 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios
+    await axiosInstance
       .post(
-        `${server}/user/login-user`,
+        `/user/login-user`,
         {
           email,
           password,
-        },
-        { withCredentials: true }
+        }
       )
       .then((res) => {
+        // Store JWT token in localStorage
+        if (res.data.token) {
+          localStorage.setItem('token', res.data.token);
+        }
+        // Store user data if provided
+        if (res.data.user) {
+          localStorage.setItem('user', JSON.stringify(res.data.user));
+        }
         toast.success("Login Success!");
         navigate("/");
         window.location.reload(true); 

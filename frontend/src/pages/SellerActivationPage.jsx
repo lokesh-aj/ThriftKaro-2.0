@@ -1,8 +1,7 @@
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { server } from "../server";
 
 const SellerActivationPage = () => {
   const { activation_token } = useParams();
@@ -11,8 +10,8 @@ const SellerActivationPage = () => {
   useEffect(() => {
     if (activation_token) {
       const sendRequest = async () => {
-        await axios
-          .post(`${server}/shop/activation`, {
+        await axiosInstance
+          .post("/shop/activation", {
             activation_token,
           })
           .then((res) => {

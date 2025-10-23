@@ -3,8 +3,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
 import { RxAvatar } from "react-icons/rx";
-import axios from "axios";
-import { server } from "../../server";
+import axiosInstance from "../../api/axiosInstance";
 import { toast } from "react-toastify";
 
 const Singup = () => {
@@ -29,9 +28,17 @@ const Singup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    axios
-      .post(`${server}/user/create-user`, { name, email, password, avatar })
+    axiosInstance
+      .post(`/user/create-user`, { name, email, password, avatar })
       .then((res) => {
+        // Store JWT token in localStorage if provided
+        if (res.data.token) {
+          localStorage.setItem('token', res.data.token);
+        }
+        // Store user data if provided
+        if (res.data.user) {
+          localStorage.setItem('user', JSON.stringify(res.data.user));
+        }
         toast.success(res.data.message);
         setName("");
         setEmail("");

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { backend_url, server } from "../../server";
 import { AiOutlineCamera } from "react-icons/ai";
 import styles from "../../styles/styles";
-import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 import { loadSeller } from "../../redux/actions/user";
 import { toast } from "react-toastify";
 
@@ -26,14 +26,8 @@ const ShopSettings = () => {
     reader.onload = () => {
       if (reader.readyState === 2) {
         setAvatar(reader.result);
-        axios
-          .put(
-            `${server}/shop/update-shop-avatar`,
-            { avatar: reader.result },
-            {
-              withCredentials: true,
-            }
-          )
+        axiosInstance
+          .put("/shop/update-shop-avatar", { avatar: reader.result })
           .then((res) => {
             dispatch(loadSeller());
             toast.success("Avatar updated successfully!");
@@ -50,18 +44,14 @@ const ShopSettings = () => {
   const updateHandler = async (e) => {
     e.preventDefault();
 
-    await axios
-      .put(
-        `${server}/shop/update-seller-info`,
-        {
-          name,
-          address,
-          zipCode,
-          phoneNumber,
-          description,
-        },
-        { withCredentials: true }
-      )
+    await axiosInstance
+      .put("/shop/update-seller-info", {
+        name,
+        address,
+        zipCode,
+        phoneNumber,
+        description,
+      })
       .then((res) => {
         toast.success("Shop info updated succesfully!");
         dispatch(loadSeller());

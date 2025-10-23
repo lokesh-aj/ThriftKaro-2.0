@@ -7,8 +7,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { Button } from "@material-ui/core";
 import styles from "../../styles/styles";
 import { RxCross1 } from "react-icons/rx";
-import axios from "axios";
-import { server } from "../../server";
+import axiosInstance from "../../api/axiosInstance";
 import { toast } from "react-toastify";
 
 const AllUsers = () => {
@@ -22,8 +21,8 @@ const AllUsers = () => {
   }, [dispatch]);
 
   const handleDelete = async (id) => {
-    await axios
-    .delete(`${server}/user/delete-user/${id}`, { withCredentials: true })
+    await axiosInstance
+    .delete(`/user/delete-user/${id}`)
     .then((res) => {
       toast.success(res.data.message);
     });

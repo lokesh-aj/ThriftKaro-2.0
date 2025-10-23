@@ -8,7 +8,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllProductsShop } from "../../redux/actions/product";
-import { server } from "../../server";
+import axiosInstance from "../../api/axiosInstance";
 import styles from "../../styles/styles";
 import {
   addToWishlist,
@@ -17,11 +17,11 @@ import {
 import { addTocart } from "../../redux/actions/cart";
 import { toast } from "react-toastify";
 import Ratings from "./Ratings";
-import axios from "axios";
+ 
 
 const ProductDetails = ({ data }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
-  const { cart } = useSelector((state) => state.cart);
+  const { items } = useSelector((state) => state.cart);
   const { user, isAuthenticated } = useSelector((state) => state.user);
   const { products } = useSelector((state) => state.products);
   const [count, setCount] = useState(1);
@@ -59,7 +59,12 @@ const ProductDetails = ({ data }) => {
   };
 
   const addToCartHandler = (id) => {
-    const isItemExists = cart && cart.find((i) => i._id === id);
+    if (!user) {
+      toast.error("Please login to add items to cart!");
+      return;
+    }
+    
+    const isItemExists = items && items.find((item) => item.product._id === id);
     if (isItemExists) {
       toast.error("Item already in cart!");
     } else {
@@ -67,8 +72,7 @@ const ProductDetails = ({ data }) => {
         toast.error("Product stock limited!");
       } else {
         const cartData = { ...data, qty: count };
-        dispatch(addTocart(cartData));
-        toast.success("Item added to cart successfully!");
+        dispatch(addTocart(cartData, user._id));
       }
     }
   };
@@ -95,8 +99,8 @@ const ProductDetails = ({ data }) => {
       const groupTitle = data._id + user._id;
       const userId = user._id;
       const sellerId = data.shop._id;
-      await axios
-        .post(`${server}/conversation/create-new-conversation`, {
+      await axiosInstance
+        .post(`/conversation/create-new-conversation`, {
           groupTitle,
           userId,
           sellerId,

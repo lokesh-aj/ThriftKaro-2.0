@@ -2,17 +2,14 @@ import React, { useEffect, useState } from 'react'
 import AdminHeader from '../components/Layout/AdminHeader'
 import AdminSideBar from '../components/Admin/Layout/AdminSideBar'
 import AllUsers from "../components/Admin/AllUsers";
-import axios from 'axios';
-import { server } from '../server';
+import axiosInstance from '../api/axiosInstance';
 
 const AdminDashboardUsers = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`${server}/user/admin-all-users`, {
-        withCredentials: true,
-      })
+    axiosInstance
+      .get("/user/admin-all-users")
       .then((res) => {
         setData(res.data.users);
       })

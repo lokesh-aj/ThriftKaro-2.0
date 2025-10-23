@@ -1,0 +1,23 @@
+# Product Service Configuration
+server:
+  port: 8083
+
+spring:
+  application:
+    name: ProductService
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/thriftkaro_product_db
+      auto-index-creation: true
+
+# Product Service specific properties
+product:
+  service:
+    image-upload-path: /uploads/products/
+    max-image-size: 5242880 # 5MB
+    allowed-image-types: jpg,jpeg,png,gif
+
+logging:
+  level:
+    com.thriftkaro.productservice: DEBUG
+    org.springframework.web.multipart: INFO

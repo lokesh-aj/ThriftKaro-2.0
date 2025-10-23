@@ -1,7 +1,6 @@
-import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { server } from "../../server";
 import styles from "../../styles/styles";
 import Loader from "../Layout/Loader";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +16,7 @@ const ShopInfo = ({ isOwner }) => {
   useEffect(() => {
     dispatch(getAllProductsShop(id));
     setIsLoading(true);
-    axios.get(`${server}/shop/get-shop-info/${id}`).then((res) => {
+    axiosInstance.get(`/shop/get-shop-info/${id}`).then((res) => {
      setData(res.data.shop);
      setIsLoading(false);
     }).catch((error) => {
@@ -28,9 +27,10 @@ const ShopInfo = ({ isOwner }) => {
   
 
   const logoutHandler = async () => {
-    axios.get(`${server}/shop/logout`,{
-      withCredentials: true,
-    });
+    // Clear localStorage tokens
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('seller');
     window.location.reload();
   };
 

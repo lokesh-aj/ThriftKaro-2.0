@@ -1,0 +1,29 @@
+# Default configuration for all services
+server:
+  port: 8080
+
+spring:
+  application:
+    name: default-service
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/thriftkaro_default_db
+      auto-index-creation: true
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 2000ms
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+logging:
+  level:
+    org.springframework.cloud: DEBUG
+    com.thriftkaro: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

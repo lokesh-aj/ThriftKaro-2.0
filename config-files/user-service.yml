@@ -1,0 +1,27 @@
+# User Service Configuration
+server:
+  port: 8082
+
+spring:
+  application:
+    name: UserService
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/thriftkaro_user_db
+      auto-index-creation: true
+
+# JWT Configuration
+jwt:
+  secret: thriftkaro-secret-key-2024
+  expiration: 86400000 # 24 hours
+
+# User Service specific properties
+user:
+  service:
+    activation-timeout: 3600000 # 1 hour
+    password-reset-timeout: 1800000 # 30 minutes
+
+logging:
+  level:
+    com.thriftkaro.userservice: DEBUG
+    org.springframework.security: INFO

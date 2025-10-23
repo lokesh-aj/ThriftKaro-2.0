@@ -1,0 +1,28 @@
+# Chat Service Configuration
+server:
+  port: 8087
+
+spring:
+  application:
+    name: ChatService
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/thriftkaro_chat_db
+      auto-index-creation: true
+
+# WebSocket Configuration
+websocket:
+  allowed-origins: "*"
+  message-size-limit: 8192
+  buffer-size-limit: 51200
+
+# Chat Service specific properties
+chat:
+  service:
+    message-history-limit: 100
+    online-status-timeout: 300000 # 5 minutes
+
+logging:
+  level:
+    com.thriftkaro.chatservice: DEBUG
+    org.springframework.web.socket: INFO

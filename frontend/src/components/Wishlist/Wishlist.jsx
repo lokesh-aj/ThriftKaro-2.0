@@ -9,6 +9,7 @@ import { addTocart } from "../../redux/actions/cart";
 
 const Wishlist = ({ setOpenWishlist }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
+  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const removeFromWishlistHandler = (data) => {
@@ -17,7 +18,7 @@ const Wishlist = ({ setOpenWishlist }) => {
 
   const addToCartHandler = (data) => {
     const newData = { ...data, qty: 1 };
-    dispatch(addTocart(newData));
+    dispatch(addTocart(newData, user._id));
     setOpenWishlist(false);
   }
 

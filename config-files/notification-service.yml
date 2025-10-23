@@ -1,0 +1,30 @@
+# Notification Service Configuration
+server:
+  port: 8086
+
+spring:
+  application:
+    name: NotificationService
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: your-email@gmail.com
+    password: your-app-password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+# Notification Service specific properties
+notification:
+  service:
+    email-template-path: /templates/email/
+    sms-provider: twilio
+    push-notification-enabled: true
+
+logging:
+  level:
+    com.thriftkaro.notificationservice: DEBUG
+    org.springframework.mail: INFO

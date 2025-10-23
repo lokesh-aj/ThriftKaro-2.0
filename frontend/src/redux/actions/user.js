@@ -1,5 +1,4 @@
-import axios from "axios";
-import { server } from "../../server";
+import axiosInstance from "../../api/axiosInstance";
 
 // load user
 export const loadUser = () => async (dispatch) => {
@@ -7,9 +6,7 @@ export const loadUser = () => async (dispatch) => {
     dispatch({
       type: "LoadUserRequest",
     });
-    const { data } = await axios.get(`${server}/user/getuser`, {
-      withCredentials: true,
-    });
+    const { data } = await axiosInstance.get("/user/getuser");
     dispatch({
       type: "LoadUserSuccess",
       payload: data.user,
@@ -28,9 +25,7 @@ export const loadSeller = () => async (dispatch) => {
     dispatch({
       type: "LoadSellerRequest",
     });
-    const { data } = await axios.get(`${server}/shop/getSeller`, {
-      withCredentials: true,
-    });
+    const { data } = await axiosInstance.get("/shop/getSeller");
     dispatch({
       type: "LoadSellerSuccess",
       payload: data.seller,
@@ -51,21 +46,12 @@ export const updateUserInformation =
         type: "updateUserInfoRequest",
       });
 
-      const { data } = await axios.put(
-        `${server}/user/update-user-info`,
-        {
-          email,
-          password,
-          phoneNumber,
-          name,
-        },
-        {
-          withCredentials: true,
-          headers: {
-            "Access-Control-Allow-Credentials": true,
-          },
-        }
-      );
+      const { data } = await axiosInstance.put("/user/update-user-info", {
+        email,
+        password,
+        phoneNumber,
+        name,
+      });
 
       dispatch({
         type: "updateUserInfoSuccess",
@@ -88,18 +74,14 @@ export const updatUserAddress =
         type: "updateUserAddressRequest",
       });
 
-      const { data } = await axios.put(
-        `${server}/user/update-user-addresses`,
-        {
-          country,
-          city,
-          address1,
-          address2,
-          zipCode,
-          addressType,
-        },
-        { withCredentials: true }
-      );
+      const { data } = await axiosInstance.put("/user/update-user-addresses", {
+        country,
+        city,
+        address1,
+        address2,
+        zipCode,
+        addressType,
+      });
 
       dispatch({
         type: "updateUserAddressSuccess",
@@ -123,10 +105,7 @@ export const deleteUserAddress = (id) => async (dispatch) => {
       type: "deleteUserAddressRequest",
     });
 
-    const { data } = await axios.delete(
-      `${server}/user/delete-user-address/${id}`,
-      { withCredentials: true }
-    );
+    const { data } = await axiosInstance.delete(`/user/delete-user-address/${id}`);
 
     dispatch({
       type: "deleteUserAddressSuccess",
@@ -150,9 +129,7 @@ export const getAllUsers = () => async (dispatch) => {
       type: "getAllUsersRequest",
     });
 
-    const { data } = await axios.get(`${server}/user/admin-all-users`, {
-      withCredentials: true,
-    });
+    const { data } = await axiosInstance.get("/user/admin-all-users");
 
     dispatch({
       type: "getAllUsersSuccess",

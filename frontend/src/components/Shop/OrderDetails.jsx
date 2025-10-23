@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOrdersOfShop } from "../../redux/actions/order";
 import { server } from "../../server";
-import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 import { toast } from "react-toastify";
 
 const OrderDetails = () => {
@@ -24,14 +24,10 @@ const OrderDetails = () => {
   const data = orders && orders.find((item) => item._id === id);
 
   const orderUpdateHandler = async (e) => {
-    await axios
-      .put(
-        `${server}/order/update-order-status/${id}`,
-        {
-          status,
-        },
-        { withCredentials: true }
-      )
+    await axiosInstance
+      .put(`/order/update-order-status/${id}`, {
+        status,
+      })
       .then((res) => {
         toast.success("Order updated!");
         navigate("/dashboard-orders");
@@ -42,14 +38,10 @@ const OrderDetails = () => {
   };
 
   const refundOrderUpdateHandler = async (e) => {
-    await axios
-      .put(
-        `${server}/order/order-refund-success/${id}`,
-        {
-          status,
-        },
-        { withCredentials: true }
-      )
+    await axiosInstance
+      .put(`/order/order-refund-success/${id}`, {
+        status,
+      })
       .then((res) => {
         toast.success("Order updated!");
         dispatch(getAllOrdersOfShop(seller._id));

@@ -1,0 +1,29 @@
+# Payment Service Configuration
+server:
+  port: 8085
+
+spring:
+  application:
+    name: PaymentService
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/thriftkaro_payment_db
+      auto-index-creation: true
+
+# Stripe Configuration
+stripe:
+  secret-key: sk_test_your_stripe_secret_key_here
+  publishable-key: pk_test_your_stripe_publishable_key_here
+  webhook-secret: whsec_your_webhook_secret_here
+
+# Payment Service specific properties
+payment:
+  service:
+    timeout: 30000
+    retry-attempts: 3
+    currency: USD
+
+logging:
+  level:
+    com.thriftkaro.paymentservice: DEBUG
+    com.stripe: INFO

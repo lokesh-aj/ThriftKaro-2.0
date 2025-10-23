@@ -2,8 +2,7 @@ import { React, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../../styles/styles";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { server } from "../../server";
+import axiosInstance from "../../api/axiosInstance";
 import { toast } from "react-toastify";
 import { RxAvatar } from "react-icons/rx";
 
@@ -20,8 +19,8 @@ const ShopCreate = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    axios
-      .post(`${server}/shop/create-shop`, {
+    axiosInstance
+      .post(`/shop/create-shop`, {
         name,
         email,
         password,

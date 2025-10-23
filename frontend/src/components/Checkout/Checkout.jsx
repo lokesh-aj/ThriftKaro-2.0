@@ -4,13 +4,12 @@ import { Country, State } from "country-state-city";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import axios from "axios";
-import { server } from "../../server";
+import axiosInstance from "../../api/axiosInstance";
 import { toast } from "react-toastify";
 
 const Checkout = () => {
   const { user } = useSelector((state) => state.user);
-  const { cart } = useSelector((state) => state.cart);
+  const { items } = useSelector((state) => state.cart);
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
   const [userInfo, setUserInfo] = useState(false);
@@ -39,7 +38,7 @@ const Checkout = () => {
       };
 
       const orderData = {
-        cart,
+        cart: items,
         totalPrice,
         subTotalPrice,
         shipping,
@@ -54,8 +53,8 @@ const Checkout = () => {
     }
   };
 
-  const subTotalPrice = cart.reduce(
-    (acc, item) => acc + item.qty * item.discountPrice,
+  const subTotalPrice = items.reduce(
+    (acc, item) => acc + item.quantity * item.product.discountPrice,
     0
   );
 
@@ -66,19 +65,19 @@ const Checkout = () => {
     e.preventDefault();
     const name = couponCode;
 
-    await axios.get(`${server}/coupon/get-coupon-value/${name}`).then((res) => {
+    await axiosInstance.get(`/coupon/get-coupon-value/${name}`).then((res) => {
       const shopId = res.data.couponCode?.shopId;
       const couponCodeValue = res.data.couponCode?.value;
       if (res.data.couponCode !== null) {
         const isCouponValid =
-          cart && cart.filter((item) => item.shopId === shopId);
+          items && items.filter((item) => item.product.shopId === shopId);
 
         if (isCouponValid.length === 0) {
           toast.error("Coupon code is not valid for this shop");
           setCouponCode("");
         } else {
           const eligiblePrice = isCouponValid.reduce(
-            (acc, item) => acc + item.qty * item.discountPrice,
+            (acc, item) => acc + item.quantity * item.product.discountPrice,
             0
           );
           const discountPrice = (eligiblePrice * couponCodeValue) / 100;

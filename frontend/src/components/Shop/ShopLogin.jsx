@@ -2,8 +2,7 @@ import { React, useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../../styles/styles";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { server } from "../../server";
+import axiosInstance from "../../api/axiosInstance";
 import { toast } from "react-toastify";
 
 const ShopLogin = () => {
@@ -15,16 +14,23 @@ const ShopLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios
+    await axiosInstance
       .post(
-        `${server}/shop/login-shop`,
+        `/shop/login-shop`,
         {
           email,
           password,
-        },
-        { withCredentials: true }
+        }
       )
       .then((res) => {
+        // Store JWT token in localStorage
+        if (res.data.token) {
+          localStorage.setItem('token', res.data.token);
+        }
+        // Store seller data if provided
+        if (res.data.seller) {
+          localStorage.setItem('seller', JSON.stringify(res.data.seller));
+        }
         toast.success("Login Success!");
         navigate("/dashboard");
         window.location.reload(true); 

@@ -1,0 +1,23 @@
+# Shop Service Configuration
+server:
+  port: 8089
+
+spring:
+  application:
+    name: ShopService
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/thriftkaro_shop_db
+      auto-index-creation: true
+
+# Shop Service specific properties
+shop:
+  service:
+    activation-timeout: 3600000 # 1 hour
+    withdrawal-min-amount: 100
+    commission-rate: 0.05 # 5%
+
+logging:
+  level:
+    com.thriftkaro.shopservice: DEBUG
+    org.springframework.web: INFO

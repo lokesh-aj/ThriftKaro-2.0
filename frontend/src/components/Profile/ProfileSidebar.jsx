@@ -10,8 +10,7 @@ import {
 import { TbAddressBook } from "react-icons/tb";
 import { RxPerson } from "react-icons/rx";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { server } from "../../server";
+import axiosInstance from "../../api/axiosInstance";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
@@ -19,16 +18,14 @@ const ProfileSidebar = ({ setActive, active }) => {
   const navigate = useNavigate();
  const {user} = useSelector((state) => state.user);
   const logoutHandler = () => {
-    axios
-      .get(`${server}/user/logout`, { withCredentials: true })
-      .then((res) => {
-        toast.success(res.data.message);
-        window.location.reload(true);
-        navigate("/login");
-      })
-      .catch((error) => {
-        console.log(error.response.data.message);
-      });
+    // Clear localStorage tokens
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('seller');
+    
+    toast.success("Logged out successfully!");
+    window.location.reload(true);
+    navigate("/login");
   };
   return (
     <div className="w-full bg-white shadow-sm rounded-[10px] p-4 pt-8">

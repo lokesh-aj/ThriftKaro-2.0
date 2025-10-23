@@ -7,11 +7,17 @@ import { addTocart } from "../../redux/actions/cart";
 import { toast } from "react-toastify";
 
 const EventCard = ({ active, data }) => {
-  const { cart } = useSelector((state) => state.cart);
+  const { items } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const addToCartHandler = (data) => {
-    const isItemExists = cart && cart.find((i) => i._id === data._id);
+    if (!user) {
+      toast.error("Please login to add items to cart!");
+      return;
+    }
+    
+    const isItemExists = items && items.find((item) => item.product._id === data._id);
     if (isItemExists) {
       toast.error("Item already in cart!");
     } else {
@@ -19,8 +25,7 @@ const EventCard = ({ active, data }) => {
         toast.error("Product stock limited!");
       } else {
         const cartData = { ...data, qty: 1 };
-        dispatch(addTocart(cartData));
-        toast.success("Item added to cart successfully!");
+        dispatch(addTocart(cartData, user._id));
       }
     }
   }

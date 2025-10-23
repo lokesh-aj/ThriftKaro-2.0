@@ -1,0 +1,23 @@
+# Order Service Configuration
+server:
+  port: 8081
+
+spring:
+  application:
+    name: OrderService
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/thriftkaro_order_db
+      auto-index-creation: true
+
+# Order Service specific properties
+order:
+  service:
+    timeout: 30000
+    retry-attempts: 3
+    payment-gateway-url: http://localhost:8085/payment/process
+
+logging:
+  level:
+    com.thriftkaro.orderservice: DEBUG
+    org.springframework.web: INFO

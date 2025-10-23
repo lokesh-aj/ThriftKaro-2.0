@@ -1,6 +1,5 @@
-import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 import React, { useEffect, useState } from "react";
-import { server } from "../../server";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@material-ui/data-grid";
 import { BsPencil } from "react-icons/bs";
@@ -15,10 +14,8 @@ const AllWithdraw = () => {
   const [withdrawStatus, setWithdrawStatus] = useState('Processing');
 
   useEffect(() => {
-    axios
-      .get(`${server}/withdraw/get-all-withdraw-request`, {
-        withCredentials: true,
-      })
+    axiosInstance
+      .get("/withdraw/get-all-withdraw-request")
       .then((res) => {
         setData(res.data.withdraws);
       })
@@ -81,10 +78,10 @@ const AllWithdraw = () => {
   ];
 
   const handleSubmit = async () => {
-    await axios
-      .put(`${server}/withdraw/update-withdraw-request/${withdrawData.id}`, {
+    await axiosInstance
+      .put(`/withdraw/update-withdraw-request/${withdrawData.id}`, {
         sellerId: withdrawData.shopId,
-      }, { withCredentials: true })
+      })
       .then((res) => {
         toast.success("Withdraw request updated successfully!");
         setData(res.data.withdraws);

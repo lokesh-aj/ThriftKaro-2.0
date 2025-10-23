@@ -22,7 +22,8 @@ import Ratings from "../../Products/Ratings";
 
 const ProductCard = ({ data, isEvent }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
-  const { cart } = useSelector((state) => state.cart);
+  const { items } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.user);
   const [click, setClick] = useState(false);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
@@ -46,7 +47,12 @@ const ProductCard = ({ data, isEvent }) => {
   };
 
   const addToCartHandler = (id) => {
-    const isItemExists = cart && cart.find((i) => i._id === id);
+    if (!user) {
+      toast.error("Please login to add items to cart!");
+      return;
+    }
+    
+    const isItemExists = items && items.find((item) => item.product._id === id);
     if (isItemExists) {
       toast.error("Item already in cart!");
     } else {
@@ -54,8 +60,7 @@ const ProductCard = ({ data, isEvent }) => {
         toast.error("Product stock limited!");
       } else {
         const cartData = { ...data, qty: 1 };
-        dispatch(addTocart(cartData));
-        toast.success("Item added to cart successfully!");
+        dispatch(addTocart(cartData, user._id));
       }
     }
   };

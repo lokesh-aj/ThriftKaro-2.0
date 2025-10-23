@@ -1,0 +1,27 @@
+# Cart Service Configuration
+server:
+  port: 8088
+
+spring:
+  application:
+    name: CartService
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/thriftkaro_cart_db
+      auto-index-creation: true
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 2000ms
+
+# Cart Service specific properties
+cart:
+  service:
+    session-timeout: 1800000 # 30 minutes
+    max-items-per-cart: 50
+    auto-save-interval: 300000 # 5 minutes
+
+logging:
+  level:
+    com.thriftkaro.cartservice: DEBUG
+    org.springframework.data.redis: INFO

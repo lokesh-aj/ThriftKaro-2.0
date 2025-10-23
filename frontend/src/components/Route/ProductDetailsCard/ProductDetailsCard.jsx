@@ -17,7 +17,8 @@ import {
 } from "../../../redux/actions/wishlist";
 
 const ProductDetailsCard = ({ setOpen, data }) => {
-  const { cart } = useSelector((state) => state.cart);
+  const { items } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.user);
   const { wishlist } = useSelector((state) => state.wishlist);
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
@@ -37,7 +38,12 @@ const ProductDetailsCard = ({ setOpen, data }) => {
   };
 
   const addToCartHandler = (id) => {
-    const isItemExists = cart && cart.find((i) => i._id === id);
+    if (!user) {
+      toast.error("Please login to add items to cart!");
+      return;
+    }
+    
+    const isItemExists = items && items.find((item) => item.product._id === id);
     if (isItemExists) {
       toast.error("Item already in cart!");
     } else {
@@ -45,8 +51,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
         toast.error("Product stock limited!");
       } else {
         const cartData = { ...data, qty: count };
-        dispatch(addTocart(cartData));
-        toast.success("Item added to cart successfully!");
+        dispatch(addTocart(cartData, user._id));
       }
     }
   };

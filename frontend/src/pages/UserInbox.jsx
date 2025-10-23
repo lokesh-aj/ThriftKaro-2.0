@@ -1,22 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import Header from "../components/Layout/Header";
 import { useSelector } from "react-redux";
-import socketIO from "socket.io-client";
 import { format } from "timeago.js";
-import { server } from "../server";
-import axios from "axios";
+ 
+import axiosInstance from "../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineArrowRight, AiOutlineSend } from "react-icons/ai";
 import { TfiGallery } from "react-icons/tfi";
 import styles from "../styles/styles";
-const ENDPOINT = "http://localhost:4000";
-const socketId = socketIO(ENDPOINT, {
-  transports: ["websocket", "polling"],
-  cors: {
-    origin: "http://localhost:3000",
-    credentials: true,
-  }
-});
+import webSocketService from "../services/websocketService";
 
 const UserInbox = () => {
   const { user,loading } = useSelector((state) => state.user);
@@ -33,29 +25,37 @@ const UserInbox = () => {
   const scrollRef = useRef(null);
 
   useEffect(() => {
-    socketId.on("getMessage", (data) => {
-      setArrivalMessage({
-        sender: data.senderId,
-        text: data.text,
-        createdAt: Date.now(),
-      });
-    });
-  }, []);
+    if (user && currentChat) {
+      // Connect to WebSocket when user and current chat are available
+      webSocketService.connect(
+        user._id,
+        currentChat._id,
+        (message) => {
+          // Handle incoming messages
+          setMessages((prev) => [...prev, message]);
+        },
+        (joinMessage) => {
+          // Handle user join
+          console.log('User joined:', joinMessage);
+        },
+        (leaveMessage) => {
+          // Handle user leave
+          console.log('User left:', leaveMessage);
+        }
+      );
+    }
 
-  useEffect(() => {
-    arrivalMessage &&
-      currentChat?.members.includes(arrivalMessage.sender) &&
-      setMessages((prev) => [...prev, arrivalMessage]);
-  }, [arrivalMessage, currentChat]);
+    // Cleanup on unmount or when dependencies change
+    return () => {
+      webSocketService.disconnect();
+    };
+  }, [user, currentChat]);
 
   useEffect(() => {
     const getConversation = async () => {
       try {
-        const resonse = await axios.get(
-          `${server}/conversation/get-all-conversation-user/${user?._id}`,
-          {
-            withCredentials: true,
-          }
+        const resonse = await axiosInstance.get(
+          `/conversation/get-all-conversation-user/${user?._id}`
         );
 
         setConversations(resonse.data.conversations);
@@ -66,15 +66,7 @@ const UserInbox = () => {
     getConversation();
   }, [user, messages]);
 
-  useEffect(() => {
-    if (user) {
-      const sellerId = user?._id;
-      socketId.emit("addUser", sellerId);
-      socketId.on("getUsers", (data) => {
-        setOnlineUsers(data);
-      });
-    }
-  }, [user]);
+  // Remove old socket connection logic - now handled by WebSocket service
 
   const onlineCheck = (chat) => {
     const chatMembers = chat.members.find((member) => member !== user?._id);
@@ -87,8 +79,8 @@ const UserInbox = () => {
   useEffect(() => {
     const getMessage = async () => {
       try {
-        const response = await axios.get(
-          `${server}/message/get-all-messages/${currentChat?._id}`
+        const response = await axiosInstance.get(
+          `/message/get-all-messages/${currentChat?._id}`
         );
         setMessages(response.data.messages);
       } catch (error) {
@@ -102,35 +94,39 @@ const UserInbox = () => {
   const sendMessageHandler = async (e) => {
     e.preventDefault();
 
-    const message = {
-      sender: user._id,
-      text: newMessage,
-      conversationId: currentChat._id,
-    };
-    const receiverId = currentChat.members.find(
-      (member) => member !== user?._id
-    );
+    if (newMessage !== "" && currentChat) {
+      const chatMessage = {
+        conversationId: currentChat._id,
+        text: newMessage,
+        sender: user._id,
+        type: "CHAT"
+      };
 
-    socketId.emit("sendMessage", {
-      senderId: user?._id,
-      receiverId,
-      text: newMessage,
-    });
+      // Send message via WebSocket
+      webSocketService.sendMessage(chatMessage);
 
-    try {
-      if (newMessage !== "") {
-        await axios
-          .post(`${server}/message/create-new-message`, message)
+      // Also save to database via REST API for persistence
+      try {
+        const message = {
+          sender: user._id,
+          text: newMessage,
+          conversationId: currentChat._id,
+        };
+
+        await axiosInstance.post(`/message/create-new-message`, message)
           .then((res) => {
+            // Update local state with saved message
             setMessages([...messages, res.data.message]);
             updateLastMessage();
           })
           .catch((error) => {
             console.log(error);
           });
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+
+      setNewMessage("");
     }
   };
 
@@ -140,8 +136,8 @@ const UserInbox = () => {
       lastMessageId: user._id,
     });
 
-    await axios
-      .put(`${server}/conversation/update-last-message/${currentChat._id}`, {
+    await axiosInstance
+      .put(`/conversation/update-last-message/${currentChat._id}`, {
         lastMessage: newMessage,
         lastMessageId: user._id,
       })
@@ -167,25 +163,25 @@ const UserInbox = () => {
   };
 
   const imageSendingHandler = async (e) => {
+    if (currentChat) {
+      const chatMessage = {
+        conversationId: currentChat._id,
+        text: "",
+        sender: user._id,
+        images: e,
+        type: "CHAT"
+      };
 
-    const receiverId = currentChat.members.find(
-      (member) => member !== user._id
-    );
+      // Send image via WebSocket
+      webSocketService.sendMessage(chatMessage);
 
-    socketId.emit("sendMessage", {
-      senderId: user._id,
-      receiverId,
-      images: e,
-    });
-
-    try {
-      await axios
-        .post(
-          `${server}/message/create-new-message`,
+      try {
+        await axiosInstance.post(
+          `/message/create-new-message`,
           {
             images: e,
             sender: user._id,
-            text: newMessage,
+            text: "",
             conversationId: currentChat._id,
           }
         )
@@ -194,14 +190,15 @@ const UserInbox = () => {
           setMessages([...messages, res.data.message]);
           updateLastMessageForImage();
         });
-    } catch (error) {
-      console.log(error);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   const updateLastMessageForImage = async () => {
-    await axios.put(
-      `${server}/conversation/update-last-message/${currentChat._id}`,
+    await axiosInstance.put(
+      `/conversation/update-last-message/${currentChat._id}`,
       {
         lastMessage: "Photo",
         lastMessageId: user._id,
@@ -284,7 +281,7 @@ const MessageList = ({
     const userId = data.members.find((user) => user !== me);
     const getUser = async () => {
       try {
-        const res = await axios.get(`${server}/shop/get-shop-info/${userId}`);
+        const res = await axiosInstance.get(`/shop/get-shop-info/${userId}`);
         setUser(res.data.shop);
       } catch (error) {
         console.log(error);

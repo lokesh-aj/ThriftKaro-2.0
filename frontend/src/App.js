@@ -56,17 +56,17 @@ import { ShopHomePage } from "./ShopRoutes.js";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute";
 import { getAllProducts } from "./redux/actions/product";
 import { getAllEvents } from "./redux/actions/event";
-import axios from "axios";
-import { server } from "./server";
+import axiosInstance from "./api/axiosInstance";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import StripeApiKeyTest from "./components/Payment/StripeApiKeyTest";
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState("");
 
   async function getStripeApikey() {
-    const { data } = await axios.get(`${server}/payment/stripeapikey`);
-    setStripeApiKey(data.stripeApikey);
+    const { data } = await axiosInstance.get(`/payment/stripeapikey`);
+    setStripeApiKey(data.stripeApiKey);
   }
   useEffect(() => {
     Store.dispatch(loadUser());
@@ -316,6 +316,8 @@ const App = () => {
             </ProtectedAdminRoute>
           }
         />
+        {/* Test route for Stripe API key verification */}
+        <Route path="/test-stripe" element={<StripeApiKeyTest />} />
       </Routes>
       <ToastContainer
         position="bottom-center"

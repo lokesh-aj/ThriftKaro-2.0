@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllOrdersOfShop } from "../../redux/actions/order";
 import styles from "../../styles/styles";
 import { RxCross1 } from "react-icons/rx";
-import axios from "axios";
-import { server } from "../../server";
+import axiosInstance from "../../api/axiosInstance";
 import { toast } from "react-toastify";
 import { loadSeller } from "../../redux/actions/user";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -42,14 +41,10 @@ const WithdrawMoney = () => {
 
     setPaymentMethod(false);
 
-    await axios
-      .put(
-        `${server}/shop/update-payment-methods`,
-        {
-          withdrawMethod,
-        },
-        { withCredentials: true }
-      )
+    await axiosInstance
+      .put("/shop/update-payment-methods", {
+        withdrawMethod,
+      })
       .then((res) => {
         toast.success("Withdraw method added successfully!");
         dispatch(loadSeller());
@@ -68,10 +63,8 @@ const WithdrawMoney = () => {
   };
 
   const deleteHandler = async () => {
-    await axios
-      .delete(`${server}/shop/delete-withdraw-method`, {
-        withCredentials: true,
-      })
+    await axiosInstance
+      .delete("/shop/delete-withdraw-method")
       .then((res) => {
         toast.success("Withdraw method deleted successfully!");
         dispatch(loadSeller());
@@ -87,12 +80,8 @@ const WithdrawMoney = () => {
       toast.error("You can't withdraw this amount!");
     } else {
       const amount = withdrawAmount;
-      await axios
-        .post(
-          `${server}/withdraw/create-withdraw-request`,
-          { amount },
-          { withCredentials: true }
-        )
+      await axiosInstance
+        .post("/withdraw/create-withdraw-request", { amount })
         .then((res) => {
           toast.success("Withdraw money request is successful!");
         });

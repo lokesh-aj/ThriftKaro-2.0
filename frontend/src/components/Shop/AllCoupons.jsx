@@ -1,13 +1,12 @@
 import { Button } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
-import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 import React, { useEffect, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RxCross1 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../../styles/styles";
 import Loader from "../Layout/Loader";
-import { server } from "../../server";
 import { toast } from "react-toastify";
 
 const AllCoupons = () => {
@@ -26,10 +25,8 @@ const AllCoupons = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    axios
-      .get(`${server}/coupon/get-coupon/${seller._id}`, {
-        withCredentials: true,
-      })
+    axiosInstance
+      .get(`/coupon/get-coupon/${seller._id}`)
       .then((res) => {
         setIsLoading(false);
         setCoupouns(res.data.couponCodes);
@@ -40,7 +37,7 @@ const AllCoupons = () => {
   }, [dispatch]);
 
   const handleDelete = async (id) => {
-    axios.delete(`${server}/coupon/delete-coupon/${id}`,{withCredentials: true}).then((res) => {
+    axiosInstance.delete(`/coupon/delete-coupon/${id}`).then((res) => {
       toast.success("Coupon code deleted succesfully!")
     })
     window.location.reload();
@@ -49,19 +46,15 @@ const AllCoupons = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios
-      .post(
-        `${server}/coupon/create-coupon-code`,
-        {
-          name,
-          minAmount,
-          maxAmount,
-          selectedProducts,
-          value,
-          shopId: seller._id,
-        },
-        { withCredentials: true }
-      )
+    await axiosInstance
+      .post("/coupon/create-coupon-code", {
+        name,
+        minAmount,
+        maxAmount,
+        selectedProducts,
+        value,
+        shopId: seller._id,
+      })
       .then((res) => {
        toast.success("Coupon code created successfully!");
        setOpen(false);

@@ -1,5 +1,4 @@
-import axios from "axios";
-import { server } from "../../server";
+import axiosInstance from "../../api/axiosInstance";
 
 // get all orders of user
 export const getAllOrdersOfUser = (userId) => async (dispatch) => {
@@ -8,9 +7,7 @@ export const getAllOrdersOfUser = (userId) => async (dispatch) => {
       type: "getAllOrdersUserRequest",
     });
 
-    const { data } = await axios.get(
-      `${server}/order/get-all-orders/${userId}`
-    );
+    const { data } = await axiosInstance.get(`/order/get-all-orders/${userId}`);
 
     dispatch({
       type: "getAllOrdersUserSuccess",
@@ -31,9 +28,7 @@ export const getAllOrdersOfShop = (shopId) => async (dispatch) => {
       type: "getAllOrdersShopRequest",
     });
 
-    const { data } = await axios.get(
-      `${server}/order/get-seller-all-orders/${shopId}`
-    );
+    const { data } = await axiosInstance.get(`/order/get-seller-all-orders/${shopId}`);
 
     dispatch({
       type: "getAllOrdersShopSuccess",
@@ -54,9 +49,7 @@ export const getAllOrdersOfAdmin = () => async (dispatch) => {
       type: "adminAllOrdersRequest",
     });
 
-    const { data } = await axios.get(`${server}/order/admin-all-orders`, {
-      withCredentials: true,
-    });
+    const { data } = await axiosInstance.get("/order/admin-all-orders");
 
     dispatch({
       type: "adminAllOrdersSuccess",
