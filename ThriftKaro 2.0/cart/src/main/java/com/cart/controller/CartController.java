@@ -42,7 +42,7 @@ public class CartController {
     }
     
     @PostMapping("/{cartId}/items")
-    public ResponseEntity<CartResponse> addItemToCart(@PathVariable Long cartId,
+    public ResponseEntity<CartResponse> addItemToCart(@PathVariable String cartId,
                                                       @RequestBody AddItemRequest request,
                                                       Authentication authentication) {
         try {
@@ -91,7 +91,7 @@ public class CartController {
     }
     
     @DeleteMapping("/{cartId}/items/{productId}")
-    public ResponseEntity<CartResponse> removeItemFromCart(@PathVariable Long cartId,
+    public ResponseEntity<CartResponse> removeItemFromCart(@PathVariable String cartId,
                                                            @PathVariable Long productId,
                                                            Authentication authentication) {
         try {
@@ -136,7 +136,7 @@ public class CartController {
     }
     
     @DeleteMapping("/{cartId}/clear")
-    public ResponseEntity<Void> clearCart(@PathVariable Long cartId,
+    public ResponseEntity<Void> clearCart(@PathVariable String cartId,
                                           Authentication authentication) {
         try {
             String token = getTokenFromAuthentication(authentication);

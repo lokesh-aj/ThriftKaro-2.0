@@ -34,14 +34,10 @@ public class User {
 
     private Map<String, Object> avatar;
 
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     private String resetPasswordToken;
 
     private LocalDateTime resetPasswordTime;
 
-    public User() {
-        this.role = "USER";
-        this.createdAt = LocalDateTime.now();
-    }
 }

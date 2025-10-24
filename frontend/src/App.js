@@ -65,10 +65,17 @@ const App = () => {
   const [stripeApikey, setStripeApiKey] = useState("");
 
   async function getStripeApikey() {
-    const { data } = await axiosInstance.get(`/payment/stripeapikey`);
-    setStripeApiKey(data.stripeApiKey);
+    try {
+      const { data } = await axiosInstance.get(`/payment/stripeapikey`);
+      setStripeApiKey(data.stripeApiKey);
+    } catch (error) {
+      console.error('Failed to load Stripe API key:', error);
+      // Set a default or empty key to prevent app from hanging
+      setStripeApiKey('');
+    }
   }
   useEffect(() => {
+    console.log('App component mounted');
     Store.dispatch(loadUser());
     Store.dispatch(loadSeller());
     Store.dispatch(getAllProducts());

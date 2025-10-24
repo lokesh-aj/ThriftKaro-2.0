@@ -31,10 +31,13 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     if (error.response?.status === 401) {
-      // Token expired or invalid, clear token and redirect to login
+      // Token expired or invalid, clear token and redirect to login (once)
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+      const currentPath = window.location.pathname;
+      if (currentPath !== '/login' && currentPath !== '/shop-login') {
+        window.location.replace('/login');
+      }
     }
     return Promise.reject(error);
   }

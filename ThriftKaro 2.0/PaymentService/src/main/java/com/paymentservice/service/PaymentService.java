@@ -6,7 +6,7 @@ import com.paymentservice.repository.PaymentRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,10 +24,10 @@ public class PaymentService {
     public Payment initiate(String orderId, Long userId, BigDecimal amount) {
         Payment payment = Payment.builder()
                 .orderId(orderId)
-                .userId(userId)
+                .userId(userId.toString())
                 .amount(amount)
                 .status("INITIATED")
-                .timestamp(Instant.now())
+                .timestamp(LocalDateTime.now())
                 .build();
         Payment saved = paymentRepository.save(payment);
 
@@ -44,7 +44,7 @@ public class PaymentService {
         Payment latest = paymentRepository.findTopByOrderIdOrderByTimestampDesc(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Payment not found"));
         latest.setStatus("SUCCESS");
-        latest.setTimestamp(Instant.now());
+        latest.setTimestamp(LocalDateTime.now());
         Payment saved = paymentRepository.save(latest);
 
         Map<String, Object> payload = new HashMap<>();
@@ -60,7 +60,7 @@ public class PaymentService {
         Payment latest = paymentRepository.findTopByOrderIdOrderByTimestampDesc(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Payment not found"));
         latest.setStatus("REFUNDED");
-        latest.setTimestamp(Instant.now());
+        latest.setTimestamp(LocalDateTime.now());
         Payment saved = paymentRepository.save(latest);
 
         Map<String, Object> payload = new HashMap<>();

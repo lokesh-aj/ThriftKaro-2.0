@@ -43,12 +43,7 @@ public class Product {
 
 	private Map<String, Object> shop;
 
-	private Integer soldOut;
+	private Integer soldOut = 0;
 
-	private LocalDateTime createdAt;
-
-	public Product() {
-		this.soldOut = 0;
-		this.createdAt = LocalDateTime.now();
-	}
+	private LocalDateTime createdAt = LocalDateTime.now();
 } 

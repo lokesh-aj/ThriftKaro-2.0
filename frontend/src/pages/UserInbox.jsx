@@ -131,11 +131,6 @@ const UserInbox = () => {
   };
 
   const updateLastMessage = async () => {
-    socketId.emit("updateLastMessage", {
-      lastMessage: newMessage,
-      lastMessageId: user._id,
-    });
-
     await axiosInstance
       .put(`/conversation/update-last-message/${currentChat._id}`, {
         lastMessage: newMessage,

@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class CartResponse {
-    private Long cartId;
+    private String cartId;
     private Long userId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

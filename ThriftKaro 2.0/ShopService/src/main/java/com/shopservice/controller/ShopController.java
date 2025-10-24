@@ -34,17 +34,17 @@ public class ShopController {
     }
 
     @GetMapping("/details/{shopId}")
-    public ResponseEntity<Shop> details(@PathVariable Long shopId) {
+    public ResponseEntity<Shop> details(@PathVariable String shopId) {
         return ResponseEntity.ok(shopService.details(shopId));
     }
 
     @PutMapping("/update/{shopId}")
-    public ResponseEntity<Shop> update(@PathVariable Long shopId, @RequestBody Shop updates) {
+    public ResponseEntity<Shop> update(@PathVariable String shopId, @RequestBody Shop updates) {
         return ResponseEntity.ok(shopService.update(shopId, updates));
     }
 
     @GetMapping("/products/{shopId}")
-    public ResponseEntity<List<Map<String, Object>>> products(@PathVariable Long shopId) {
+    public ResponseEntity<List<Map<String, Object>>> products(@PathVariable String shopId) {
         return ResponseEntity.ok(shopService.listSellerProducts(shopId));
     }
 }

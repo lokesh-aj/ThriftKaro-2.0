@@ -1,5 +1,6 @@
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import { backend_url } from '../server';
 
 class WebSocketService {
   constructor() {
@@ -13,8 +14,8 @@ class WebSocketService {
       return;
     }
 
-    // Create SockJS connection
-    const socket = new SockJS('http://localhost:8080/ws');
+    // Create SockJS connection using configured backend URL
+    const socket = new SockJS(`${backend_url}ws`);
     
     // Create STOMP client
     this.client = new Client({

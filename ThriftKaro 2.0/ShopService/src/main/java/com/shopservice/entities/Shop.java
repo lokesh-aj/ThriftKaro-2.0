@@ -42,21 +42,15 @@ public class Shop {
 
     private Map<String, Object> withdrawMethod;
 
-    private Double availableBalance;
+    private Double availableBalance = 0.0;
 
     private List<Map<String, Object>> transactions;
 
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     private String resetPasswordToken;
 
     private LocalDateTime resetPasswordTime;
-
-    public Shop() {
-        this.role = "Seller";
-        this.availableBalance = 0.0;
-        this.createdAt = LocalDateTime.now();
-    }
 }
 
 

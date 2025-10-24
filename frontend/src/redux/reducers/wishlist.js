@@ -1,9 +1,15 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
-  wishlist: localStorage.getItem("wishlistItems")
-    ? JSON.parse(localStorage.getItem("wishlistItems"))
-    : [],
+  wishlist: (() => {
+    try {
+      const wishlistItems = localStorage.getItem("wishlistItems");
+      return wishlistItems ? JSON.parse(wishlistItems) : [];
+    } catch (error) {
+      console.error('Error parsing wishlist from localStorage:', error);
+      return [];
+    }
+  })(),
 };
 
 export const wishlistReducer = createReducer(initialState, {

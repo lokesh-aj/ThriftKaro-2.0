@@ -1,0 +1,20 @@
+# ThriftKaro MongoDB Atlas Environment Variables
+# Copy this file to .env and replace the placeholder values with your actual Atlas credentials
+
+# MongoDB Atlas Connection Strings
+# Replace YOUR_PASSWORD with your actual database user password
+# Replace YOUR_CLUSTER with your actual cluster connection string from Atlas
+
+USER_MONGODB_URI=mongodb+srv://thriftkaro-admin:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/thriftkaro_user_db?retryWrites=true&w=majority
+PRODUCT_MONGODB_URI=mongodb+srv://thriftkaro-admin:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/thriftkaro_product_db?retryWrites=true&w=majority
+SHOP_MONGODB_URI=mongodb+srv://thriftkaro-admin:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/thriftkaro_shop_db?retryWrites=true&w=majority
+ORDER_MONGODB_URI=mongodb+srv://thriftkaro-admin:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/thriftkaro_order_db?retryWrites=true&w=majority
+CART_MONGODB_URI=mongodb+srv://thriftkaro-admin:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/thriftkaro_cart_db?retryWrites=true&w=majority
+PAYMENT_MONGODB_URI=mongodb+srv://thriftkaro-admin:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/thriftkaro_payment_db?retryWrites=true&w=majority
+CHAT_MONGODB_URI=mongodb+srv://thriftkaro-admin:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/thriftkaro_chat_db?retryWrites=true&w=majority
+
+# JWT Configuration (optional - already set in properties files)
+JWT_SECRET=mySecretKey123456789012345678901234567890
+
+# Stripe Configuration (if using payment service)
+STRIPE_PUBLIC_KEY=pk_test_your_stripe_public_key_here

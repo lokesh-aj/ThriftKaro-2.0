@@ -10,7 +10,7 @@ import java.util.Map;
 @FeignClient(name = "ProductService")
 public interface ProductClient {
     @GetMapping("/api/v2/product/seller/{shopId}")
-    List<Map<String, Object>> getProductsBySeller(@PathVariable("shopId") Long shopId);
+    List<Map<String, Object>> getProductsBySeller(@PathVariable("shopId") String shopId);
 }
 
 

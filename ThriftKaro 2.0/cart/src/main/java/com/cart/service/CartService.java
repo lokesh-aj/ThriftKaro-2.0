@@ -41,7 +41,7 @@ public class CartService {
         return convertToCartResponse(savedCart);
     }
     
-    public CartResponse addItemToCart(Long cartId, Long productId, int quantity, String token) {
+    public CartResponse addItemToCart(String cartId, Long productId, int quantity, String token) {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found with id: " + cartId));
         
@@ -78,7 +78,7 @@ public class CartService {
         return convertToCartResponse(cart);
     }
     
-    public CartResponse removeItemFromCart(Long cartId, Long productId) {
+    public CartResponse removeItemFromCart(String cartId, Long productId) {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found with id: " + cartId));
         
@@ -96,7 +96,7 @@ public class CartService {
         return convertToCartResponse(cart);
     }
     
-    public void clearCart(Long cartId) {
+    public void clearCart(String cartId) {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found with id: " + cartId));
         

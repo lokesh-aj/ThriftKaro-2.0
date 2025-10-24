@@ -5,32 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e1e3723e-c9c7-4f37-b734-6f2bc0207916" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/jvm.config" beforeDir="false" afterPath="$PROJECT_DIR$/.mvn/jvm.config" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProductService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProductService/src/main/java/com/productservice/entities/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/src/main/java/com/productservice/entities/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProductService/src/main/java/com/productservice/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/src/main/java/com/productservice/repository/ProductRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProductService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProductService/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/com/userservice/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/com/userservice/entities/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/java/com/userservice/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/java/com/userservice/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cart/API_DOCUMENTATION.md" beforeDir="false" afterPath="$PROJECT_DIR$/cart/API_DOCUMENTATION.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cart/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/cart/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/dto/CartItemResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/dto/CartItemResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/entities/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/entities/Cart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/entities/CartItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/entities/CartItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/repository/CartItemRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/repository/CartRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/repository/CartRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cart/src/main/java/com/cart/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/java/com/cart/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cart/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/cart/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start-services.bat" beforeDir="false" afterPath="$PROJECT_DIR$/start-services.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../config-files/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../config-files/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../config-files/cart-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/cart-service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../config-files/chat-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/chat-service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../config-files/notification-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/notification-service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../config-files/order-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/order-service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../config-files/payment-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/payment-service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../config-files/product-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/product-service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../config-files/shop-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/shop-service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../config-files/user-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/user-service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/api/axiosInstance.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/api/axiosInstance.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/api/paymentService.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/api/paymentService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Layout/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Layout/Header.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Login/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Login/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Payment/StripeApiKeyTest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Payment/StripeApiKeyTest.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Shop/DashboardMessages.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Shop/DashboardMessages.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/UserInbox.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/UserInbox.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/redux/reducers/wishlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/redux/reducers/wishlist.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/routes/ProtectedAdminRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/routes/ProtectedAdminRoute.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/routes/ProtectedRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/routes/ProtectedRoute.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/services/websocketService.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/services/websocketService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../upload-config-to-github.bat" beforeDir="false" afterPath="$PROJECT_DIR$/../upload-config-to-github.bat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +45,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -80,34 +79,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.CartApplication.executor": "Run",
-    "Application.ChatServiceApplication.executor": "Run",
-    "Application.ConfigServerApplication.executor": "Run",
-    "Application.EurekaServerApplication.executor": "Run",
-    "Application.GatewayApplication.executor": "Run",
-    "Application.NotificationServiceApplication.executor": "Run",
-    "Application.OrderServiceApplication.executor": "Run",
-    "Application.PaymentServiceApplication.executor": "Run",
-    "Application.ProductServiceApplication.executor": "Run",
-    "Application.ShopServiceApplication.executor": "Run",
-    "Application.UserServiceApplication.executor": "Run",
-    "Maven.EurekaServer [clean].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "lokesh",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/Thriftkaro Main Folder/ThriftKaro/ThriftKaro 2.0",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.importing"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.CartApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ChatServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ConfigServerApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.EurekaServerApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.GatewayApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.NotificationServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.OrderServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PaymentServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ProductServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ShopServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.UserServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.EurekaServer [clean].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Thriftkaro Main Folder/ThriftKaro/ThriftKaro 2.0&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.importing&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\ThriftKaro 2.0\ProductService\src\main\java\com\productservice" />
@@ -122,13 +121,13 @@
       <command value="mvn clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.ConfigServerApplication">
-    <configuration name="ConfigServerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.configserver.ConfigServerApplication" />
-      <module name="config-server" />
+  <component name="RunManager" selected="Application.UserServiceApplication">
+    <configuration name="OrderServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.orderservice.OrderServiceApplication" />
+      <module name="order-service" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.configserver.*" />
+          <option name="PATTERN" value="com.orderservice.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -136,12 +135,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EurekaServerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.eurekaserver.EurekaServerApplication" />
-      <module name="EurekaServer" />
+    <configuration name="PaymentServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.paymentservice.PaymentServiceApplication" />
+      <module name="PaymentService" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.eurekaserver.*" />
+          <option name="PATTERN" value="com.paymentservice.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -190,11 +189,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ConfigServerApplication" />
-        <item itemvalue="Application.EurekaServerApplication" />
         <item itemvalue="Application.UserServiceApplication" />
         <item itemvalue="Application.ShopServiceApplication" />
         <item itemvalue="Application.ProductServiceApplication" />
+        <item itemvalue="Application.PaymentServiceApplication" />
+        <item itemvalue="Application.OrderServiceApplication" />
       </list>
     </recent_temporary>
   </component>

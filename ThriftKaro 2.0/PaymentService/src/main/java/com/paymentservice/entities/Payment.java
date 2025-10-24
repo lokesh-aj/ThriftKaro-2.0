@@ -31,10 +31,6 @@ public class Payment {
     private String transactionId;
 
     private LocalDateTime timestamp;
-
-    public Payment() {
-        this.timestamp = LocalDateTime.now();
-    }
 }
 
 

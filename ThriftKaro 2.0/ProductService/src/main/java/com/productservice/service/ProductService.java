@@ -23,27 +23,31 @@ public class ProductService {
 		return productRepository.findAll();
 	}
 
-	public Product getProductById(Long id) {
+	public Product getProductById(String id) {
 		return productRepository.findById(id)
 				.orElse(null);
 	}
 
 	@Transactional
-	public Product updateStock(Long id, Integer quantity) {
+	public Product updateStock(String id, Integer quantity) {
 		Product product = productRepository.findById(id).orElse(null);
 		if (product == null) {
 			return null;
 		}
-		product.setStockQuantity(quantity);
+		product.setStock(quantity);
 		return product;
 	}
 
 	@Transactional
-	public boolean deleteProduct(Long id) {
+	public boolean deleteProduct(String id) {
 		if (productRepository.existsById(id)) {
 			productRepository.deleteById(id);
 			return true;
 		}
 		return false;
+	}
+
+	public List<Product> getProductsByShopId(String shopId) {
+		return productRepository.findByShopId(shopId);
 	}
 } 

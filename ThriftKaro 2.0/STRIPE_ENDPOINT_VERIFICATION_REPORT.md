@@ -168,3 +168,7 @@ export STRIPE_PUBLIC_KEY=pk_test_your_actual_stripe_public_key_here
 **Version**: ThriftKaro 2.0
 
 
+
+
+
+

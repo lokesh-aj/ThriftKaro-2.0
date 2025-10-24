@@ -37,3 +37,4 @@ echo 3. Other services
 echo.
 echo Test config server at: http://localhost:8888/order-service/default
 pause
+

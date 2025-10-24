@@ -10,6 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -31,8 +36,22 @@ public class AuthController {
         user.setName(request.getName());
         user.setEmail(request.getEmail());
         user.setPasswordHash(request.getPassword());
-        user.setShippingAddress(request.getShippingAddress());
-        user.setBillingAddress(request.getBillingAddress());
+        
+        // Create addresses list with shipping and billing addresses
+        List<Map<String, Object>> addresses = new ArrayList<>();
+        if (request.getShippingAddress() != null) {
+            Map<String, Object> shippingAddress = new HashMap<>();
+            shippingAddress.put("type", "shipping");
+            shippingAddress.put("address", request.getShippingAddress());
+            addresses.add(shippingAddress);
+        }
+        if (request.getBillingAddress() != null) {
+            Map<String, Object> billingAddress = new HashMap<>();
+            billingAddress.put("type", "billing");
+            billingAddress.put("address", request.getBillingAddress());
+            addresses.add(billingAddress);
+        }
+        user.setAddresses(addresses);
 
         userService.register(user);
         return ResponseEntity.ok("User registered successfully: " + user.getEmail());
@@ -46,7 +65,7 @@ public class AuthController {
             return ResponseEntity.status(401).body("Invalid email or password");
         }
 
-        String token = jwtUtil.generateToken(user.getEmail(), user.getUserId());
+        String token = jwtUtil.generateToken(user.getEmail());
         return ResponseEntity.ok(new AuthResponse(token));
     }
 

@@ -123,7 +123,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+	public ResponseEntity<Product> getProductById(@PathVariable String id) {
 		System.out.println("Public request to view product with ID: " + id);
 		Product product = productService.getProductById(id);
 		if (product == null) {
@@ -132,9 +132,16 @@ public class ProductController {
 		return ResponseEntity.ok(product);
 	}
 
+	@GetMapping("/api/v2/product/seller/{shopId}")
+	public ResponseEntity<List<Product>> getProductsBySeller(@PathVariable String shopId) {
+		System.out.println("Request to get products for seller with shopId: " + shopId);
+		List<Product> products = productService.getProductsByShopId(shopId);
+		return ResponseEntity.ok(products);
+	}
+
 	@PutMapping("/{id}/stock")
 	public ResponseEntity<?> updateStock(
-			@PathVariable Long id,
+			@PathVariable String id,
 			@RequestParam("quantity") Integer quantity,
 			Authentication authentication
 	) {
@@ -152,7 +159,7 @@ public class ProductController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteProduct(@PathVariable Long id, Authentication authentication) {
+	public ResponseEntity<?> deleteProduct(@PathVariable String id, Authentication authentication) {
 		if (!isSeller(authentication)) {
 			return ResponseEntity.status(403).body("Access denied. Only sellers can delete products.");
 		}

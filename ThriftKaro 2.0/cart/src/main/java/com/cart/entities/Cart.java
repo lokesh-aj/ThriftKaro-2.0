@@ -19,22 +19,18 @@ import java.util.List;
 public class Cart {
     
     @Id
-    private String id;
+    private String cartId;
     
-    private String userId;
+    private Long userId;
     
-    private LocalDateTime createdAt;
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
     
-    private LocalDateTime updatedAt;
+    @Builder.Default
+    private LocalDateTime updatedAt = LocalDateTime.now();
     
     @Builder.Default
     private List<CartItem> cartItems = new ArrayList<>();
-    
-    public Cart() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-        this.cartItems = new ArrayList<>();
-    }
 }
 
 

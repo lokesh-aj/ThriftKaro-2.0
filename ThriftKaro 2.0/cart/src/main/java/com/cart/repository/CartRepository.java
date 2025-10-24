@@ -9,9 +9,9 @@ import java.util.Optional;
 @Repository
 public interface CartRepository extends MongoRepository<Cart, String> {
     
-    Optional<Cart> findByUserId(String userId);
+    Optional<Cart> findByUserId(Long userId);
     
-    boolean existsByUserId(String userId);
+    boolean existsByUserId(Long userId);
 }
 
 

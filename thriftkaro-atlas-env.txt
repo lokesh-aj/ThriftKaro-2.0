@@ -1,0 +1,17 @@
+# ThriftKaro MongoDB Atlas Environment Variables
+# Replace <db_password> with your actual database password
+
+# MongoDB Atlas Connection Strings
+USER_MONGODB_URI=mongodb+srv://thriftkaro-admin:ux3z2LlUywATqY5d@thriftkaro-cluster.avf9cvi.mongodb.net/thriftkaro_user_db?retryWrites=true&w=majority&appName=ThriftKaro-Cluster
+PRODUCT_MONGODB_URI=mongodb+srv://thriftkaro-admin:ux3z2LlUywATqY5d@thriftkaro-cluster.avf9cvi.mongodb.net/thriftkaro_product_db?retryWrites=true&w=majority&appName=ThriftKaro-Cluster
+SHOP_MONGODB_URI=mongodb+srv://thriftkaro-admin:ux3z2LlUywATqY5d@thriftkaro-cluster.avf9cvi.mongodb.net/thriftkaro_shop_db?retryWrites=true&w=majority&appName=ThriftKaro-Cluster
+ORDER_MONGODB_URI=mongodb+srv://thriftkaro-admin:ux3z2LlUywATqY5d@thriftkaro-cluster.avf9cvi.mongodb.net/thriftkaro_order_db?retryWrites=true&w=majority&appName=ThriftKaro-Cluster
+CART_MONGODB_URI=mongodb+srv://thriftkaro-admin:ux3z2LlUywATqY5d@thriftkaro-cluster.avf9cvi.mongodb.net/thriftkaro_cart_db?retryWrites=true&w=majority&appName=ThriftKaro-Cluster
+PAYMENT_MONGODB_URI=mongodb+srv://thriftkaro-admin:ux3z2LlUywATqY5d@thriftkaro-cluster.avf9cvi.mongodb.net/thriftkaro_payment_db?retryWrites=true&w=majority&appName=ThriftKaro-Cluster
+CHAT_MONGODB_URI=mongodb+srv://thriftkaro-admin:ux3z2LlUywATqY5d@thriftkaro-cluster.avf9cvi.mongodb.net/thriftkaro_chat_db?retryWrites=true&w=majority&appName=ThriftKaro-Cluster
+
+# JWT Configuration
+JWT_SECRET=mySecretKey123456789012345678901234567890
+
+# Stripe Configuration (if using payment service)
+STRIPE_PUBLIC_KEY=pk_test_your_stripe_public_key_here

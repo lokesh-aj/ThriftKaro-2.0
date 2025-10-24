@@ -38,19 +38,18 @@ public class ShopService {
         return res;
     }
 
-    public Shop details(Long shopId) {
+    public Shop details(String shopId) {
         return shopRepository.findById(shopId).orElseThrow(() -> new IllegalArgumentException("Shop not found"));
     }
 
-    public Shop update(Long shopId, Shop updates) {
+    public Shop update(String shopId, Shop updates) {
         Shop shop = details(shopId);
         if (updates.getName() != null) shop.setName(updates.getName());
-        if (updates.getOwnerName() != null) shop.setOwnerName(updates.getOwnerName());
         if (updates.getAddress() != null) shop.setAddress(updates.getAddress());
         return shopRepository.save(shop);
     }
 
-    public List<Map<String, Object>> listSellerProducts(Long shopId) {
+    public List<Map<String, Object>> listSellerProducts(String shopId) {
         return productClient.getProductsBySeller(shopId);
     }
 }

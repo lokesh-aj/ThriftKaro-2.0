@@ -65,15 +65,6 @@ const DashboardMessages = () => {
     getConversation();
   }, [seller, messages]);
 
-  useEffect(() => {
-    if (seller) {
-      const sellerId = seller?._id;
-      socketId.emit("addUser", sellerId);
-      socketId.on("getUsers", (data) => {
-        setOnlineUsers(data);
-      });
-    }
-  }, [seller]);
 
   const onlineCheck = (chat) => {
     const chatMembers = chat.members.find((member) => member !== seller?._id);
@@ -138,11 +129,6 @@ const DashboardMessages = () => {
   };
 
   const updateLastMessage = async () => {
-    socketId.emit("updateLastMessage", {
-      lastMessage: newMessage,
-      lastMessageId: seller._id,
-    });
-
     await axiosInstance
       .put(`/conversation/update-last-message/${currentChat._id}`, {
         lastMessage: newMessage,
@@ -175,11 +161,15 @@ const DashboardMessages = () => {
       (member) => member !== seller._id
     );
 
-    socketId.emit("sendMessage", {
-      senderId: seller._id,
-      receiverId,
+    const chatMessage = {
+      conversationId: currentChat._id,
+      text: "",
+      sender: seller._id,
       images: e,
-    });
+      type: "CHAT",
+    };
+
+    webSocketService.sendMessage(chatMessage);
 
     try {
       await axiosInstance
