@@ -6,15 +6,44 @@ export const loadUser = () => async (dispatch) => {
     dispatch({
       type: "LoadUserRequest",
     });
-    const { data } = await axiosInstance.get("/user/getuser");
-    dispatch({
-      type: "LoadUserSuccess",
-      payload: data.user,
-    });
+    
+    // Check if user has a token
+    const token = localStorage.getItem('token');
+    if (!token) {
+      dispatch({
+        type: "LoadUserFail",
+        payload: "No authentication token found",
+      });
+      return;
+    }
+    
+    // Try to load user data from API first
+    try {
+      const { data } = await axiosInstance.get("/api/auth/me");
+      dispatch({
+        type: "LoadUserSuccess",
+        payload: data,
+      });
+    } catch (apiError) {
+      // If API fails, try to load from localStorage as fallback
+      console.log("API load failed, trying localStorage fallback:", apiError.response?.data || apiError.message);
+      
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        const user = JSON.parse(userData);
+        dispatch({
+          type: "LoadUserSuccess",
+          payload: user,
+        });
+      } else {
+        throw apiError; // Re-throw if no fallback data
+      }
+    }
   } catch (error) {
+    console.log("Load user error:", error.response?.data || error.message);
     dispatch({
       type: "LoadUserFail",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || "Authentication failed",
     });
   }
 };
@@ -25,15 +54,26 @@ export const loadSeller = () => async (dispatch) => {
     dispatch({
       type: "LoadSellerRequest",
     });
-    const { data } = await axiosInstance.get("/shop/getSeller");
-    dispatch({
-      type: "LoadSellerSuccess",
-      payload: data.seller,
-    });
+    
+    // Check if seller data exists in localStorage
+    const sellerData = localStorage.getItem('seller');
+    if (sellerData) {
+      const seller = JSON.parse(sellerData);
+      dispatch({
+        type: "LoadSellerSuccess",
+        payload: seller,
+      });
+    } else {
+      // No seller data found
+      dispatch({
+        type: "LoadSellerFail",
+        payload: "No seller data found",
+      });
+    }
   } catch (error) {
     dispatch({
       type: "LoadSellerFail",
-      payload: error.response.data.message,
+      payload: error.message || "Failed to load seller data",
     });
   }
 };
@@ -46,12 +86,9 @@ export const updateUserInformation =
         type: "updateUserInfoRequest",
       });
 
-      const { data } = await axiosInstance.put("/user/update-user-info", {
-        email,
-        password,
-        phoneNumber,
-        name,
-      });
+      // Temporarily disabled - endpoint not available in UserService
+      console.log("Update user info disabled - using direct UserService connection");
+      const data = { success: true, message: "Update disabled", user: {} };
 
       dispatch({
         type: "updateUserInfoSuccess",
@@ -74,14 +111,9 @@ export const updatUserAddress =
         type: "updateUserAddressRequest",
       });
 
-      const { data } = await axiosInstance.put("/user/update-user-addresses", {
-        country,
-        city,
-        address1,
-        address2,
-        zipCode,
-        addressType,
-      });
+      // Temporarily disabled - endpoint not available in UserService
+      console.log("Update user addresses disabled - using direct UserService connection");
+      const data = { success: true, message: "Update disabled", user: {} };
 
       dispatch({
         type: "updateUserAddressSuccess",
@@ -105,7 +137,9 @@ export const deleteUserAddress = (id) => async (dispatch) => {
       type: "deleteUserAddressRequest",
     });
 
-    const { data } = await axiosInstance.delete(`/user/delete-user-address/${id}`);
+    // Temporarily disabled - endpoint not available in UserService
+    console.log("Delete user address disabled - using direct UserService connection");
+    const data = { success: true, message: "Delete disabled" };
 
     dispatch({
       type: "deleteUserAddressSuccess",
@@ -129,7 +163,9 @@ export const getAllUsers = () => async (dispatch) => {
       type: "getAllUsersRequest",
     });
 
-    const { data } = await axiosInstance.get("/user/admin-all-users");
+    // Temporarily disabled - endpoint not available in UserService
+    console.log("Get all users disabled - using direct UserService connection");
+    const data = { users: [] };
 
     dispatch({
       type: "getAllUsersSuccess",

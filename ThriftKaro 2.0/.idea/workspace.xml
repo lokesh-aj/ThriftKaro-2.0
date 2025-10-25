@@ -5,31 +5,80 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e1e3723e-c9c7-4f37-b734-6f2bc0207916" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../config-files/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../config-files/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../config-files/cart-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/cart-service.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../config-files/chat-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/chat-service.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../config-files/notification-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/notification-service.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../config-files/order-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/order-service.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../config-files/payment-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/payment-service.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../config-files/product-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/product-service.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../config-files/shop-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/shop-service.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../config-files/user-service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../config-files/user-service.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/controller/conversation.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/controller/coupounCode.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/controller/event.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/controller/message.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/controller/order.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/controller/payment.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/controller/product.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/controller/shop.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/controller/user.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/controller/withdraw.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/db/Database.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/middleware/auth.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/middleware/catchAsyncErrors.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/middleware/error.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/model/conversation.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/model/coupounCode.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/model/event.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/model/messages.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/model/order.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/model/product.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/model/shop.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/model/user.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/model/withdraw.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/utils/ErrorHandler.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/utils/jwtToken.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/utils/sendMail.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/utils/shopToken.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/vercel.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/api/axiosInstance.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/api/axiosInstance.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/api/cartService.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/api/cartService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/api/paymentService.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/api/paymentService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Layout/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Layout/Header.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Admin/AdminDashboardMain.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Admin/AdminDashboardMain.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Admin/AllEvents.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Admin/AllEvents.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Admin/AllProducts.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Admin/AllProducts.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Checkout/Checkout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Checkout/Checkout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Events/CountDown.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Events/CountDown.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Events/Events.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Events/Events.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/Login/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Login/Login.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/Payment/StripeApiKeyTest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Payment/StripeApiKeyTest.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Shop/AllCoupons.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Shop/AllCoupons.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Shop/AllEvents.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Shop/AllEvents.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Shop/AllOrders.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Shop/AllOrders.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Shop/AllProducts.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Shop/AllProducts.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Shop/AllRefundOrders.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Shop/AllRefundOrders.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Shop/DashboardHero.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Shop/DashboardHero.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/Shop/DashboardMessages.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Shop/DashboardMessages.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Shop/Layout/DashboardHeader.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Shop/Layout/DashboardHeader.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Shop/ShopCreate.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Shop/ShopCreate.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Shop/ShopInfo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Shop/ShopInfo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Shop/ShopLogin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Shop/ShopLogin.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Signup/Signup.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Signup/Signup.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/UserOrderDetails.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/UserOrderDetails.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/AdminDashboardOrders.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/AdminDashboardOrders.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/pages/UserInbox.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/UserInbox.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/redux/reducers/wishlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/redux/reducers/wishlist.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/routes/ProtectedAdminRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/routes/ProtectedAdminRoute.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/routes/ProtectedRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/routes/ProtectedRoute.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/redux/actions/event.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/redux/actions/event.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/redux/actions/order.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/redux/actions/order.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/redux/actions/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/redux/actions/product.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/redux/actions/sellers.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/redux/actions/sellers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/redux/actions/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/redux/actions/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/redux/reducers/event.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/redux/reducers/event.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/redux/reducers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/redux/reducers/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/services/websocketService.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/services/websocketService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../upload-config-to-github.bat" beforeDir="false" afterPath="$PROJECT_DIR$/../upload-config-to-github.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../socket/.env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../socket/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../socket/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../socket/package.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +134,7 @@
     &quot;Application.ChatServiceApplication.executor&quot;: &quot;Run&quot;,
     &quot;Application.ConfigServerApplication.executor&quot;: &quot;Run&quot;,
     &quot;Application.EurekaServerApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.EventServiceApplication.executor&quot;: &quot;Run&quot;,
     &quot;Application.GatewayApplication.executor&quot;: &quot;Run&quot;,
     &quot;Application.NotificationServiceApplication.executor&quot;: &quot;Run&quot;,
     &quot;Application.OrderServiceApplication.executor&quot;: &quot;Run&quot;,
@@ -121,7 +171,7 @@
       <command value="mvn clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.UserServiceApplication">
+  <component name="RunManager" selected="Application.ProductServiceApplication">
     <configuration name="OrderServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.orderservice.OrderServiceApplication" />
       <module name="order-service" />
@@ -189,9 +239,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.UserServiceApplication" />
-        <item itemvalue="Application.ShopServiceApplication" />
         <item itemvalue="Application.ProductServiceApplication" />
+        <item itemvalue="Application.ShopServiceApplication" />
+        <item itemvalue="Application.UserServiceApplication" />
         <item itemvalue="Application.PaymentServiceApplication" />
         <item itemvalue="Application.OrderServiceApplication" />
       </list>

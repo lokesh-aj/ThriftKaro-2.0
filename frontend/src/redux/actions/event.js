@@ -7,7 +7,9 @@ export const createevent = (data) => async (dispatch) => {
       type: "eventCreateRequest",
     });
 
-    const { data: d } = await axiosInstance.post("/event/create-event", data);
+    // Temporarily disabled - EventService not available when connecting directly to UserService
+    console.log("Create event disabled - using direct UserService connection");
+    const d = { success: true, message: "Event creation disabled" };
     dispatch({
       type: "eventCreateSuccess",
       payload: d.event,
@@ -27,7 +29,9 @@ export const getAllEventsShop = (id) => async (dispatch) => {
       type: "getAlleventsShopRequest",
     });
 
-    const { data } = await axiosInstance.get(`/event/get-all-events/${id}`);
+    // Temporarily disabled - EventService not available when connecting directly to UserService
+    console.log("Get all events disabled - using direct UserService connection");
+    const data = { events: [] };
     dispatch({
       type: "getAlleventsShopSuccess",
       payload: data.events,
@@ -47,7 +51,9 @@ export const deleteEvent = (id) => async (dispatch) => {
       type: "deleteeventRequest",
     });
 
-    const { data } = await axiosInstance.delete(`/event/delete-shop-event/${id}`);
+    // Temporarily disabled - EventService not available when connecting directly to UserService
+    console.log("Delete event disabled - using direct UserService connection");
+    const data = { success: true, message: "Event deletion disabled" };
 
     dispatch({
       type: "deleteeventSuccess",
@@ -68,7 +74,9 @@ export const getAllEvents = () => async (dispatch) => {
       type: "getAlleventsRequest",
     });
 
-    const { data } = await axiosInstance.get("/event/get-all-events");
+    // Temporarily disabled - EventService not available when connecting directly to UserService
+    console.log("Get all events disabled - using direct UserService connection");
+    const data = { events: [] };
     dispatch({
       type: "getAlleventsSuccess",
       payload: data.events,

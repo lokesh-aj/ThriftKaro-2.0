@@ -5,6 +5,7 @@ import com.shopservice.service.ShopService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,13 +25,27 @@ public class ShopController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Shop> register(@RequestBody Shop shop) {
-        return ResponseEntity.ok(shopService.register(shop));
+    public ResponseEntity<?> register(@RequestBody Shop shop) {
+        try {
+            Map<String, Object> response = shopService.register(shop);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> body) {
-        return ResponseEntity.ok(shopService.login(body.get("email"), body.get("password")));
+    public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
+        try {
+            Map<String, Object> response = shopService.login(body.get("email"), body.get("password"));
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.status(401).body(errorResponse);
+        }
     }
 
     @GetMapping("/details/{shopId}")
@@ -46,6 +61,21 @@ public class ShopController {
     @GetMapping("/products/{shopId}")
     public ResponseEntity<List<Map<String, Object>>> products(@PathVariable String shopId) {
         return ResponseEntity.ok(shopService.listSellerProducts(shopId));
+    }
+
+    @GetMapping("/admin-all-sellers")
+    public ResponseEntity<?> getAllSellersForAdmin(@RequestHeader("Authorization") String token) {
+        try {
+            List<Shop> sellers = shopService.getAllSellers();
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("sellers", sellers);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Failed to fetch sellers: " + e.getMessage());
+            return ResponseEntity.status(500).body(errorResponse);
+        }
     }
 }
 

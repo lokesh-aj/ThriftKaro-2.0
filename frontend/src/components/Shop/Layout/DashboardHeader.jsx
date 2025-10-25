@@ -9,6 +9,27 @@ import Logo from '../../../ThriftKaro-removebg-preview.svg';
 
 const DashboardHeader = () => {
   const { seller } = useSelector((state) => state.seller);
+  
+  // Add null check to prevent errors
+  if (!seller) {
+    return (
+      <div className="w-full h-[80px] bg-white shadow sticky top-0 left-0 z-30 flex items-center justify-between px-4">
+        <div>
+          <Link to="/">
+            <img
+              src={Logo}
+              alt="Logo"
+              style={{ width: '35%' }}
+            />
+          </Link>
+        </div>
+        <div className="flex items-center">
+          <div className="text-gray-500">Loading...</div>
+        </div>
+      </div>
+    );
+  }
+  
   return (
     <div className="w-full h-[80px] bg-white shadow sticky top-0 left-0 z-30 flex items-center justify-between px-4">
       <div>

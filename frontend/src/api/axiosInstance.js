@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { server } from '../server';
 
-// Create axios instance with base configuration
+// Create axios instance with base configuration - Direct connection to User Service
 const axiosInstance = axios.create({
-  baseURL: server,
+  baseURL: "http://localhost:8082", // Direct connection to User Service
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

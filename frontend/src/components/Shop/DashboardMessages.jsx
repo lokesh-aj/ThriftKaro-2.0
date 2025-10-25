@@ -111,15 +111,12 @@ const DashboardMessages = () => {
           conversationId: currentChat._id,
         };
 
-        await axiosInstance.post(`/message/create-new-message`, message)
-          .then((res) => {
-            // Update local state with saved message
-            setMessages([...messages, res.data.message]);
-            updateLastMessage();
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        // Temporarily disabled - ChatService not available when connecting directly to UserService
+        console.log("Create message disabled - using direct UserService connection");
+        // Simulate successful message creation
+        const mockResponse = { data: { message: { ...message, _id: Date.now(), createdAt: new Date() } } };
+        setMessages([...messages, mockResponse.data.message]);
+        updateLastMessage();
       } catch (error) {
         console.log(error);
       }
@@ -274,7 +271,9 @@ const MessageList = ({
 
     const getUser = async () => {
       try {
-        const res = await axiosInstance.get(`/user/user-info/${userId}`);
+        // Temporarily disabled - endpoint not available in UserService
+        console.log("Get user info disabled - using direct UserService connection");
+        const res = { data: { user: { name: "User", email: "user@example.com" } } };
         setUser(res.data.user);
       } catch (error) {
         console.log(error);

@@ -27,10 +27,24 @@ const Singup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Prepare the data in the format expected by backend
+    const signupData = {
+      name,
+      email,
+      password,
+      avatar: avatar || ""
+    };
+    
+    console.log("Signup form submitted with data:", { 
+      ...signupData,
+      password: "***" 
+    });
 
     axiosInstance
-      .post(`/user/create-user`, { name, email, password, avatar })
+      .post(`/api/auth/register`, signupData)
       .then((res) => {
+        console.log("Signup successful:", res.data);
         // Store JWT token in localStorage if provided
         if (res.data.token) {
           localStorage.setItem('token', res.data.token);
@@ -39,14 +53,18 @@ const Singup = () => {
         if (res.data.user) {
           localStorage.setItem('user', JSON.stringify(res.data.user));
         }
-        toast.success(res.data.message);
+        toast.success(res.data.message || "Registration successful!");
         setName("");
         setEmail("");
         setPassword("");
-        setAvatar();
+        setAvatar(null);
       })
       .catch((error) => {
-        toast.error(error.response.data.message);
+        console.error("Signup error:", error);
+        const errorMessage = error.response?.data?.message || 
+                           error.message || 
+                           "Registration failed. Please try again.";
+        toast.error(errorMessage);
       });
   };
 

@@ -6,6 +6,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromWishlist } from "../../redux/actions/wishlist";
 import { addTocart } from "../../redux/actions/cart";
+import { toast } from "react-toastify";
 
 const Wishlist = ({ setOpenWishlist }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
@@ -17,6 +18,12 @@ const Wishlist = ({ setOpenWishlist }) => {
   };
 
   const addToCartHandler = (data) => {
+    // Check if user is logged in and has a valid ID
+    if (!user || !user._id) {
+      toast.error("Please login to add items to cart!");
+      return;
+    }
+    
     const newData = { ...data, qty: 1 };
     dispatch(addTocart(newData, user._id));
     setOpenWishlist(false);

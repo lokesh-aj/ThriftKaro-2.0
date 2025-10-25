@@ -52,32 +52,31 @@ const CreateProduct = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const newForm = new FormData();
+    // Validate required fields
+    if (!name || !description || !category || !originalPrice || !stock) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
 
-    images.forEach((image) => {
-      newForm.set("images", image);
-    });
-    newForm.append("name", name);
-    newForm.append("description", description);
-    newForm.append("category", category);
-    newForm.append("tags", tags);
-    newForm.append("originalPrice", originalPrice);
-    newForm.append("discountPrice", discountPrice);
-    newForm.append("stock", stock);
-    newForm.append("shopId", seller._id);
-    dispatch(
-      createProduct({
-        name,
-        description,
-        category,
-        tags,
-        originalPrice,
-        discountPrice,
-        stock,
-        shopId: seller._id,
-        images,
-      })
-    );
+    if (!seller || !seller._id) {
+      toast.error("Seller information not found. Please login again.");
+      return;
+    }
+
+    const productData = {
+      name,
+      description,
+      category,
+      tags: tags || "",
+      originalPrice: parseFloat(originalPrice),
+      discountPrice: discountPrice ? parseFloat(discountPrice) : null,
+      stock: parseInt(stock),
+      shopId: seller._id,
+      images: images || []
+    };
+
+    console.log("Submitting product data:", productData);
+    dispatch(createProduct(productData));
   };
 
   return (

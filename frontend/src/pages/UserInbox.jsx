@@ -113,15 +113,12 @@ const UserInbox = () => {
           conversationId: currentChat._id,
         };
 
-        await axiosInstance.post(`/message/create-new-message`, message)
-          .then((res) => {
-            // Update local state with saved message
-            setMessages([...messages, res.data.message]);
-            updateLastMessage();
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        // Temporarily disabled - ChatService not available when connecting directly to UserService
+        console.log("Create message disabled - using direct UserService connection");
+        // Simulate successful message creation
+        const mockResponse = { data: { message: { ...message, _id: Date.now(), createdAt: new Date() } } };
+        setMessages([...messages, mockResponse.data.message]);
+        updateLastMessage();
       } catch (error) {
         console.log(error);
       }
@@ -276,7 +273,9 @@ const MessageList = ({
     const userId = data.members.find((user) => user !== me);
     const getUser = async () => {
       try {
-        const res = await axiosInstance.get(`/shop/get-shop-info/${userId}`);
+        // Temporarily disabled - ShopService not available when connecting directly to UserService
+        console.log("Get shop info disabled - using direct UserService connection");
+        const res = { data: { shop: {} } };
         setUser(res.data.shop);
       } catch (error) {
         console.log(error);

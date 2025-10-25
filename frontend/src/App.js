@@ -66,8 +66,9 @@ const App = () => {
 
   async function getStripeApikey() {
     try {
-      const { data } = await axiosInstance.get(`/payment/stripeapikey`);
-      setStripeApiKey(data.stripeApiKey);
+      // Temporarily disabled - PaymentService not available when connecting directly to UserService
+      console.log('Stripe API key loading disabled - using direct UserService connection');
+      setStripeApiKey('');
     } catch (error) {
       console.error('Failed to load Stripe API key:', error);
       // Set a default or empty key to prevent app from hanging

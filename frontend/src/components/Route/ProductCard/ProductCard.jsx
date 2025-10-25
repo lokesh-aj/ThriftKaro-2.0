@@ -47,7 +47,8 @@ const ProductCard = ({ data, isEvent }) => {
   };
 
   const addToCartHandler = (id) => {
-    if (!user) {
+    // Check if user is logged in and has a valid ID
+    if (!user || !user._id) {
       toast.error("Please login to add items to cart!");
       return;
     }
@@ -69,19 +70,19 @@ const ProductCard = ({ data, isEvent }) => {
     <>
       <div className="w-full h-[370px] bg-[#FCE4EC] border-[1px] border-[#F8BBD0] rounded-lg shadow-lg p-3 relative cursor-pointer hover:bg-[#F8BBD0] hover:border-[#EC407A] transition-all duration-500 ease-in-out">
         <div className="flex justify-end"></div>
-        <Link to={`${isEvent === true ? `/product/${data._id}?isEvent=true` : `/product/${data._id}`}`}>
+        <Link to={`${isEvent === true ? `/product/${data?._id}?isEvent=true` : `/product/${data?._id}`}`}>
           <img
             src={`${data.images && data.images[0]?.url}`}
             alt=""
             className="w-full h-[170px] object-contain"
           />
         </Link>
-        <Link to={`/shop/preview/${data?.shop._id}`}>
-          <h5 className={`${styles.shop_name}`}>{data.shop.name}</h5>
+        <Link to={`/shop/preview/${data?.shop?._id}`}>
+          <h5 className={`${styles.shop_name}`}>{data?.shop?.name || 'Unknown Shop'}</h5>
         </Link>
-        <Link to={`${isEvent === true ? `/product/${data._id}?isEvent=true` : `/product/${data._id}`}`}>
+        <Link to={`${isEvent === true ? `/product/${data?._id}?isEvent=true` : `/product/${data?._id}`}`}>
           <h4 className="pb-3 font-[500]">
-            {data.name.length > 40 ? data.name.slice(0, 40) + "..." : data.name}
+            {data?.name && data.name.length > 40 ? data.name.slice(0, 40) + "..." : data?.name || 'Unnamed Product'}
           </h4>
 
           <div className="flex">
@@ -91,12 +92,12 @@ const ProductCard = ({ data, isEvent }) => {
           <div className="py-2 flex items-center justify-between">
             <div className="flex">
               <h5 className={`${styles.productDiscountPrice}`}>
-                ₹{data.originalPrice === 0
-                  ? data.originalPrice
-                  : data.discountPrice}
+                ₹{data?.originalPrice === 0
+                  ? data?.originalPrice || 0
+                  : data?.discountPrice || data?.originalPrice || 0}
               </h5>
               <h4 className={`${styles.price}`}>
-                {data.originalPrice ? " ₹" + data.originalPrice : null}
+                {data?.originalPrice ? " ₹" + data.originalPrice : null}
               </h4>
             </div>
             <span className="font-[400] text-[17px] text-[#68d284]">

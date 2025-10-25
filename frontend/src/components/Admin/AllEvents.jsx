@@ -8,7 +8,11 @@ import { Link } from "react-router-dom";
 const AllEvents = () => {
   const [events, setEvents] = useState([]);
   useEffect(() => {
-   axiosInstance.get("/event/admin-all-events").then((res) =>{
+   // Temporarily disabled - EventService not available when connecting directly to UserService
+   console.log("Get admin events disabled - using direct UserService connection");
+   const res = { data: { events: [] } };
+   // Simulate async behavior
+   setTimeout(() => {
     setEvents(res.data.events);
    })
   }, []);

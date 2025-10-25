@@ -17,12 +17,12 @@ const Events = () => {
 
       <div className="w-full grid">
          {
-          allEvents.length !== 0 && (
-            <EventCard data={allEvents && allEvents[0]} />
+          allEvents && allEvents.length !== 0 && (
+            <EventCard data={allEvents[0]} />
           )
          }
          <h4>{
-           allEvents?.length === 0 && (
+           allEvents && allEvents.length === 0 && (
             'No Events have!'
            )
           }

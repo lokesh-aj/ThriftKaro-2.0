@@ -90,6 +90,7 @@ const AllOrders = () => {
             rows={row}
             columns={columns}
             pageSize={10}
+            rowsPerPageOptions={[5, 10, 20]}
             disableSelectionOnClick
             autoHeight
           />

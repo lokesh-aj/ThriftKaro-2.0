@@ -16,13 +16,14 @@ const ShopInfo = ({ isOwner }) => {
   useEffect(() => {
     dispatch(getAllProductsShop(id));
     setIsLoading(true);
-    axiosInstance.get(`/shop/get-shop-info/${id}`).then((res) => {
-     setData(res.data.shop);
-     setIsLoading(false);
-    }).catch((error) => {
-      console.log(error);
+    // Temporarily disabled - ShopService not available when connecting directly to UserService
+    console.log("Get shop info disabled - using direct UserService connection");
+    const res = { data: { shop: {} } };
+    // Simulate async behavior
+    setTimeout(() => {
+      setData(res.data.shop);
       setIsLoading(false);
-    })
+    }, 100);
   }, [])
   
 

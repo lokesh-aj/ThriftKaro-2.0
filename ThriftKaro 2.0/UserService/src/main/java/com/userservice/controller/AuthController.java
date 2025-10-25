@@ -28,45 +28,107 @@ public class AuthController {
     // -------- REGISTER --------
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
-        if (userService.findByEmail(request.getEmail()) != null) {
-            return ResponseEntity.badRequest().body("Email already registered");
-        }
+        try {
+            if (userService.findByEmail(request.getEmail()) != null) {
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("message", "User already exists with this email!");
+                return ResponseEntity.badRequest().body(errorResponse);
+            }
 
-        User user = new User();
-        user.setName(request.getName());
-        user.setEmail(request.getEmail());
-        user.setPasswordHash(request.getPassword());
-        
-        // Create addresses list with shipping and billing addresses
-        List<Map<String, Object>> addresses = new ArrayList<>();
-        if (request.getShippingAddress() != null) {
-            Map<String, Object> shippingAddress = new HashMap<>();
-            shippingAddress.put("type", "shipping");
-            shippingAddress.put("address", request.getShippingAddress());
-            addresses.add(shippingAddress);
-        }
-        if (request.getBillingAddress() != null) {
-            Map<String, Object> billingAddress = new HashMap<>();
-            billingAddress.put("type", "billing");
-            billingAddress.put("address", request.getBillingAddress());
-            addresses.add(billingAddress);
-        }
-        user.setAddresses(addresses);
+            User user = new User();
+            user.setName(request.getName());
+            user.setEmail(request.getEmail());
+            user.setPasswordHash(request.getPassword());
+            
+            // Handle avatar if provided
+            if (request.getAvatar() != null && !request.getAvatar().isEmpty()) {
+                Map<String, Object> avatarMap = new HashMap<>();
+                avatarMap.put("url", request.getAvatar());
+                user.setAvatar(avatarMap);
+            }
+            
+            // Create addresses list with shipping and billing addresses
+            List<Map<String, Object>> addresses = new ArrayList<>();
+            if (request.getShippingAddress() != null && !request.getShippingAddress().isEmpty()) {
+                Map<String, Object> shippingAddress = new HashMap<>();
+                shippingAddress.put("type", "shipping");
+                shippingAddress.put("address", request.getShippingAddress());
+                addresses.add(shippingAddress);
+            }
+            if (request.getBillingAddress() != null && !request.getBillingAddress().isEmpty()) {
+                Map<String, Object> billingAddress = new HashMap<>();
+                billingAddress.put("type", "billing");
+                billingAddress.put("address", request.getBillingAddress());
+                addresses.add(billingAddress);
+            }
+            user.setAddresses(addresses);
 
-        userService.register(user);
-        return ResponseEntity.ok("User registered successfully: " + user.getEmail());
+            User savedUser = userService.register(user);
+            
+            // Generate JWT token
+            String token = jwtUtil.generateToken(savedUser.getEmail());
+            
+            // Prepare user object for response (without password)
+            Map<String, Object> userResponse = new HashMap<>();
+            userResponse.put("_id", savedUser.getId());
+            userResponse.put("name", savedUser.getName());
+            userResponse.put("email", savedUser.getEmail());
+            userResponse.put("role", savedUser.getRole());
+            userResponse.put("avatar", savedUser.getAvatar());
+            userResponse.put("addresses", savedUser.getAddresses());
+            userResponse.put("createdAt", savedUser.getCreatedAt());
+            
+            // Prepare complete response
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "User registered successfully!");
+            response.put("token", token);
+            response.put("user", userResponse);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Registration failed: " + e.getMessage());
+            return ResponseEntity.status(500).body(errorResponse);
+        }
     }
 
     // -------- LOGIN --------
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        User user = userService.findByEmail(request.getEmail());
-        if (user == null || !userService.checkPassword(request.getPassword(), user.getPasswordHash())) {
-            return ResponseEntity.status(401).body("Invalid email or password");
-        }
+        try {
+            User user = userService.findByEmail(request.getEmail());
+            if (user == null || !userService.checkPassword(request.getPassword(), user.getPasswordHash())) {
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("message", "Invalid email or password");
+                return ResponseEntity.status(401).body(errorResponse);
+            }
 
-        String token = jwtUtil.generateToken(user.getEmail());
-        return ResponseEntity.ok(new AuthResponse(token));
+            String token = jwtUtil.generateToken(user.getEmail());
+            
+            // Prepare user object for response (without password)
+            Map<String, Object> userResponse = new HashMap<>();
+            userResponse.put("_id", user.getId());
+            userResponse.put("name", user.getName());
+            userResponse.put("email", user.getEmail());
+            userResponse.put("role", user.getRole());
+            userResponse.put("avatar", user.getAvatar());
+            userResponse.put("addresses", user.getAddresses());
+            userResponse.put("createdAt", user.getCreatedAt());
+            
+            // Prepare complete response
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Login successful!");
+            response.put("token", token);
+            response.put("user", userResponse);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Login failed: " + e.getMessage());
+            return ResponseEntity.status(500).body(errorResponse);
+        }
     }
 
     // -------- PROTECTED ENDPOINT (ME) --------

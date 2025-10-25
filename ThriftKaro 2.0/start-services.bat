@@ -59,6 +59,11 @@ timeout /t 10 /nobreak > nul
 echo Starting Notification Service...
 start "Notification Service" cmd /k "cd notification-service && mvn clean compile spring-boot:run"
 
+timeout /t 10 /nobreak > nul
+
+echo Starting Event Service...
+start "Event Service" cmd /k "cd EventService && mvn clean compile spring-boot:run"
+
 echo.
 echo All services are starting...
 echo.
@@ -73,6 +78,7 @@ echo Shop Service: http://localhost:8089
 echo Payment Service: http://localhost:8085
 echo Chat Service: http://localhost:8087
 echo Notification Service: http://localhost:8086
+echo Event Service: http://localhost:8090
 echo.
 echo Press any key to exit...
 pause > nul

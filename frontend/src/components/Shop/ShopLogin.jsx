@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../../styles/styles";
 import { Link, useNavigate } from "react-router-dom";
-import axiosInstance from "../../api/axiosInstance";
+import { shopApiInstance } from "../../api/directApiInstances";
 import { toast } from "react-toastify";
 
 const ShopLogin = () => {
@@ -14,9 +14,9 @@ const ShopLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axiosInstance
+    await shopApiInstance
       .post(
-        `/shop/login-shop`,
+        `/api/v2/shop/login`, // Direct connection to Shop Service
         {
           email,
           password,
@@ -31,12 +31,16 @@ const ShopLogin = () => {
         if (res.data.seller) {
           localStorage.setItem('seller', JSON.stringify(res.data.seller));
         }
-        toast.success("Login Success!");
+        toast.success(res.data.message || "Login Success!");
         navigate("/dashboard");
         window.location.reload(true); 
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
+        console.error("Shop login error:", err);
+        const errorMessage = err.response?.data?.message || 
+                           err.message || 
+                           "Login failed. Please try again.";
+        toast.error(errorMessage);
       });
   };
 

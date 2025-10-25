@@ -1,11 +1,14 @@
-import axiosInstance from './axiosInstance';
+import { cartApiInstance } from './directApiInstances';
 
-// Cart API service functions
+// Cart API service functions - Direct connection to Cart Service
 export const cartService = {
   // Create or fetch cart for a user
   createOrFetchCart: async (userId) => {
+    if (!userId) {
+      throw new Error('User ID is required to create or fetch cart');
+    }
     try {
-      const response = await axiosInstance.post(`/carts/${userId}`);
+      const response = await cartApiInstance.post(`/api/v2/cart/${userId}`);
       return response.data;
     } catch (error) {
       throw error;
@@ -14,8 +17,11 @@ export const cartService = {
 
   // Get user's cart
   getCart: async (userId) => {
+    if (!userId) {
+      throw new Error('User ID is required to get cart');
+    }
     try {
-      const response = await axiosInstance.get(`/carts/${userId}`);
+      const response = await cartApiInstance.get(`/api/v2/cart/${userId}`);
       return response.data;
     } catch (error) {
       throw error;
@@ -25,7 +31,7 @@ export const cartService = {
   // Add item to cart
   addItemToCart: async (cartId, productId, quantity) => {
     try {
-      const response = await axiosInstance.post(`/carts/${cartId}/items`, {
+      const response = await cartApiInstance.post(`/api/v2/cart/${cartId}/items`, {
         productId,
         quantity
       });
@@ -38,7 +44,7 @@ export const cartService = {
   // Remove item from cart
   removeItemFromCart: async (cartId, productId) => {
     try {
-      const response = await axiosInstance.delete(`/carts/${cartId}/items/${productId}`);
+      const response = await cartApiInstance.delete(`/api/v2/cart/${cartId}/items/${productId}`);
       return response.data;
     } catch (error) {
       throw error;
@@ -48,7 +54,7 @@ export const cartService = {
   // Clear entire cart
   clearCart: async (cartId) => {
     try {
-      const response = await axiosInstance.delete(`/carts/${cartId}/clear`);
+      const response = await cartApiInstance.delete(`/api/v2/cart/${cartId}`);
       return response.data;
     } catch (error) {
       throw error;

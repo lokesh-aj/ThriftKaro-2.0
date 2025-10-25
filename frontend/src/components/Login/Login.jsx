@@ -16,7 +16,7 @@ const Login = () => {
 
     await axiosInstance
       .post(
-        `/user/login-user`,
+        `/api/auth/login`,
         {
           email,
           password,
@@ -31,11 +31,15 @@ const Login = () => {
         if (res.data.user) {
           localStorage.setItem('user', JSON.stringify(res.data.user));
         }
-        toast.success("Login Success!");
+        toast.success(res.data.message || "Login Success!");
         navigate("/", { replace: true });
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
+        console.error("Login error:", err);
+        const errorMessage = err.response?.data?.message || 
+                           err.message || 
+                           "Login failed. Please try again.";
+        toast.error(errorMessage);
       });
   };
 

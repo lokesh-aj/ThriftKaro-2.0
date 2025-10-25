@@ -11,19 +11,24 @@ import { toast } from "react-toastify";
 const Cart = ({ setOpenCart }) => {
   const { cart, items, loading, error } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
+  const { seller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
+
+  // Get current user (either regular user or seller)
+  const currentUser = user || seller;
+  const currentUserId = user?._id || seller?._id;
 
   // Load cart when component mounts
   useEffect(() => {
-    if (user && user._id) {
-      dispatch(loadCart(user._id));
+    if (currentUser && currentUserId) {
+      dispatch(loadCart(currentUserId));
     }
-  }, [dispatch, user]);
+  }, [dispatch, currentUser, currentUserId]);
 
   const removeFromCartHandler = async (productId) => {
-    if (user && user._id) {
+    if (currentUser && currentUserId) {
       try {
-        await dispatch(removeFromCart(productId, user._id));
+        await dispatch(removeFromCart(productId, currentUserId));
       } catch (error) {
         console.error('Error removing item from cart:', error);
       }
@@ -36,9 +41,9 @@ const Cart = ({ setOpenCart }) => {
   );
 
   const quantityChangeHandler = async (productId, newQuantity) => {
-    if (user && user._id) {
+    if (currentUser && currentUserId) {
       try {
-        await dispatch(updateCartItemQuantity(productId, newQuantity, user._id));
+        await dispatch(updateCartItemQuantity(productId, newQuantity, currentUserId));
       } catch (error) {
         console.error('Error updating item quantity:', error);
       }

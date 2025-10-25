@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../../styles/styles";
 import { Link, useNavigate } from "react-router-dom";
-import axiosInstance from "../../api/axiosInstance";
+import shopAxiosInstance from "../../api/shopAxiosInstance";
 import { toast } from "react-toastify";
 import { RxAvatar } from "react-icons/rx";
 
@@ -19,18 +19,36 @@ const ShopCreate = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    axiosInstance
-      .post(`/shop/create-shop`, {
-        name,
-        email,
-        password,
-        avatar,
-        zipCode,
-        address,
-        phoneNumber,
-      })
+    // Prepare the data in the format expected by backend
+    const shopData = {
+      name,
+      email,
+      password,
+      avatar: avatar ? { url: avatar } : null,
+      zipCode: zipCode ? zipCode.toString() : "",
+      address,
+      phoneNumber: phoneNumber ? phoneNumber.toString() : "",
+    };
+
+    console.log("Shop registration submitted with data:", { 
+      ...shopData,
+      password: "***",
+      avatar: avatar ? "provided" : "not provided"
+    });
+
+    shopAxiosInstance
+      .post(`/api/v2/shop/register`, shopData) // Direct connection to Shop Service
       .then((res) => {
-        toast.success(res.data.message);
+        console.log("Shop registration successful:", res.data);
+        // Store JWT token in localStorage if provided
+        if (res.data.token) {
+          localStorage.setItem('token', res.data.token);
+        }
+        // Store seller data if provided
+        if (res.data.seller) {
+          localStorage.setItem('seller', JSON.stringify(res.data.seller));
+        }
+        toast.success(res.data.message || "Shop registered successfully!");
         setName("");
         setEmail("");
         setPassword("");
@@ -40,7 +58,11 @@ const ShopCreate = () => {
         setPhoneNumber();
       })
       .catch((error) => {
-        toast.error(error.response?.data?.message || "An error occurred while creating the shop");
+        console.error("Shop registration error:", error);
+        const errorMessage = error.response?.data?.message || 
+                           error.message || 
+                           "An error occurred while creating the shop";
+        toast.error(errorMessage);
       });
   };
 

@@ -7,7 +7,9 @@ export const getAllSellers = () => async (dispatch) => {
       type: "getAllSellersRequest",
     });
 
-    const { data } = await axiosInstance.get("/shop/admin-all-sellers");
+    // Temporarily disabled - ShopService not available when connecting directly to UserService
+    console.log("Get all sellers disabled - using direct UserService connection");
+    const data = { sellers: [] };
 
     dispatch({
       type: "getAllSellersSuccess",

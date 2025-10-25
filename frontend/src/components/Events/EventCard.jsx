@@ -12,7 +12,8 @@ const EventCard = ({ active, data }) => {
   const dispatch = useDispatch();
 
   const addToCartHandler = (data) => {
-    if (!user) {
+    // Check if user is logged in and has a valid ID
+    if (!user || !user._id) {
       toast.error("Please login to add items to cart!");
       return;
     }

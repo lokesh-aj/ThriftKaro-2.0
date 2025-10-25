@@ -15,7 +15,10 @@ class WebSocketService {
     }
 
     // Create SockJS connection using configured backend URL
-    const socket = new SockJS(`${backend_url}ws`);
+    // Add options to handle permissions policy violations
+    const socket = new SockJS(`${backend_url}ws`, null, {
+      transports: ['websocket', 'xhr-streaming', 'xhr-polling']
+    });
     
     // Create STOMP client
     this.client = new Client({

@@ -12,8 +12,8 @@ import java.util.Date;
 public class JwtUtil {
 
     // Secret key (in production, keep this in env variable)
-    // This should match the UserService secret key for proper validation
-    private final Key key = Keys.hmacShaKeyFor("mySecretKeyForJWTTokenGenerationThatIsLongEnoughForSecurityRequirements".getBytes());
+    // This should match the ShopService secret key for proper validation
+    private final Key key = Keys.hmacShaKeyFor("mySecretKey123456789012345678901234567890".getBytes());
 
     // Token validity: 24 hours
     private final long expiration = 1000 * 60 * 60 * 24;

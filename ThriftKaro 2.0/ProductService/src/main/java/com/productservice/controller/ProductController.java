@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/v2/product")
 public class ProductController {
 	private final ProductService productService;
 	private final JwtUtil jwtUtil;
@@ -56,7 +56,19 @@ public class ProductController {
 		String userEmail = getCurrentUserEmail(authentication);
 		System.out.println("Seller " + userEmail + " is adding a new product: " + product.getName());
 		Product created = productService.addProduct(product);
-		return ResponseEntity.created(URI.create("/products/" + created.getId())).body(created);
+		
+		Map<String, Object> response = new HashMap<>();
+		response.put("success", true);
+		response.put("message", "Product created successfully!");
+		response.put("product", created);
+		
+		return ResponseEntity.created(URI.create("/api/v2/product/" + created.getId())).body(response);
+	}
+
+	// Frontend compatibility endpoint for create-product
+	@PostMapping("/create-product")
+	public ResponseEntity<?> createProduct(@RequestBody Product product, Authentication authentication) {
+		return addProduct(product, authentication);
 	}
 
 	// Health check endpoint (no authentication required)
@@ -122,6 +134,28 @@ public class ProductController {
 		return ResponseEntity.ok(productService.getAllProducts());
 	}
 
+	// Frontend compatibility endpoint for get-all-products
+	@GetMapping("/get-all-products")
+	public ResponseEntity<?> getAllProductsCompatibility() {
+		System.out.println("Frontend request to view all products");
+		List<Product> products = productService.getAllProducts();
+		Map<String, Object> response = new HashMap<>();
+		response.put("success", true);
+		response.put("products", products);
+		return ResponseEntity.ok(response);
+	}
+
+	// Frontend compatibility endpoint for get-all-products-shop
+	@GetMapping("/get-all-products-shop/{id}")
+	public ResponseEntity<?> getAllProductsShop(@PathVariable String id) {
+		System.out.println("Frontend request to get products for shop with ID: " + id);
+		List<Product> products = productService.getProductsByShopId(id);
+		Map<String, Object> response = new HashMap<>();
+		response.put("success", true);
+		response.put("products", products);
+		return ResponseEntity.ok(response);
+	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Product> getProductById(@PathVariable String id) {
 		System.out.println("Public request to view product with ID: " + id);
@@ -132,7 +166,7 @@ public class ProductController {
 		return ResponseEntity.ok(product);
 	}
 
-	@GetMapping("/api/v2/product/seller/{shopId}")
+	@GetMapping("/seller/{shopId}")
 	public ResponseEntity<List<Product>> getProductsBySeller(@PathVariable String shopId) {
 		System.out.println("Request to get products for seller with shopId: " + shopId);
 		List<Product> products = productService.getProductsByShopId(shopId);
@@ -172,6 +206,15 @@ public class ProductController {
 			return ResponseEntity.notFound().build();
 		}
 		
-		return ResponseEntity.ok("Product deleted successfully");
+		Map<String, Object> response = new HashMap<>();
+		response.put("success", true);
+		response.put("message", "Product deleted successfully");
+		return ResponseEntity.ok(response);
+	}
+
+	// Frontend compatibility endpoint for delete-shop-product
+	@DeleteMapping("/delete-shop-product/{id}")
+	public ResponseEntity<?> deleteShopProduct(@PathVariable String id, Authentication authentication) {
+		return deleteProduct(id, authentication);
 	}
 } 

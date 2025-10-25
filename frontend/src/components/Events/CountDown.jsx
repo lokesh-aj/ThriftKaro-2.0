@@ -16,7 +16,8 @@ const CountDown = ({ data }) => {
       typeof timeLeft.minutes === 'undefined' &&
       typeof timeLeft.seconds === 'undefined'
     ) {
-      axiosInstance.delete(`/event/delete-shop-event/${data._id}`);
+      // Temporarily disabled - EventService not available when connecting directly to UserService
+      console.log("Delete event disabled - using direct UserService connection");
     }
     return () => clearTimeout(timer);
   });

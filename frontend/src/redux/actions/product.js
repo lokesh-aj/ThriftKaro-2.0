@@ -1,46 +1,30 @@
-import axiosInstance from "../../api/axiosInstance";
+import { productApiInstance } from "../../api/directApiInstances";
 
 // create product
-export const createProduct =
-  (
-    name,
-    description,
-    category,
-    tags,
-    originalPrice,
-    discountPrice,
-    stock,
-    shopId,
-    images
-  ) =>
-  async (dispatch) => {
-    try {
-      dispatch({
-        type: "productCreateRequest",
-      });
+export const createProduct = (productData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "productCreateRequest",
+    });
 
-      const { data } = await axiosInstance.post("/product/create-product", {
-        name,
-        description,
-        category,
-        tags,
-        originalPrice,
-        discountPrice,
-        stock,
-        shopId,
-        images,
-      });
-      dispatch({
-        type: "productCreateSuccess",
-        payload: data.product,
-      });
-    } catch (error) {
-      dispatch({
-        type: "productCreateFail",
-        payload: error.response.data.message,
-      });
-    }
-  };
+    console.log("Creating product with data:", productData);
+    
+    const response = await productApiInstance.post("/api/v2/product", productData);
+    
+    console.log("Product creation response:", response.data);
+    
+    dispatch({
+      type: "productCreateSuccess",
+      payload: response.data.product,
+    });
+  } catch (error) {
+    console.error("Product creation error:", error);
+    dispatch({
+      type: "productCreateFail",
+      payload: error.response?.data?.message || error.message || "Failed to create product",
+    });
+  }
+};
 
 // get All Products of a shop
 export const getAllProductsShop = (id) => async (dispatch) => {
@@ -49,15 +33,18 @@ export const getAllProductsShop = (id) => async (dispatch) => {
       type: "getAllProductsShopRequest",
     });
 
-    const { data } = await axiosInstance.get(`/product/get-all-products-shop/${id}`);
+    console.log("Getting products for shop:", id);
+    const response = await productApiInstance.get(`/api/v2/product/get-all-products-shop/${id}`);
+    
     dispatch({
       type: "getAllProductsShopSuccess",
-      payload: data.products,
+      payload: response.data.products,
     });
   } catch (error) {
+    console.error("Get shop products error:", error);
     dispatch({
       type: "getAllProductsShopFailed",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Failed to get shop products",
     });
   }
 };
@@ -69,16 +56,18 @@ export const deleteProduct = (id) => async (dispatch) => {
       type: "deleteProductRequest",
     });
 
-    const { data } = await axiosInstance.delete(`/product/delete-shop-product/${id}`);
-
+    console.log("Deleting product:", id);
+    const response = await productApiInstance.delete(`/api/v2/product/${id}`);
+    
     dispatch({
       type: "deleteProductSuccess",
-      payload: data.message,
+      payload: response.data.message,
     });
   } catch (error) {
+    console.error("Delete product error:", error);
     dispatch({
       type: "deleteProductFailed",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Failed to delete product",
     });
   }
 };
@@ -90,15 +79,18 @@ export const getAllProducts = () => async (dispatch) => {
       type: "getAllProductsRequest",
     });
 
-    const { data } = await axiosInstance.get("/product/get-all-products");
+    console.log("Getting all products");
+    const response = await productApiInstance.get("/api/v2/product/get-all-products");
+    
     dispatch({
       type: "getAllProductsSuccess",
-      payload: data.products,
+      payload: response.data.products,
     });
   } catch (error) {
+    console.error("Get all products error:", error);
     dispatch({
       type: "getAllProductsFailed",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message || "Failed to get products",
     });
   }
 };

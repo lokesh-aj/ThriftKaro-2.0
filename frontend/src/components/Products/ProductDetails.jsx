@@ -23,6 +23,7 @@ const ProductDetails = ({ data }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
   const { items } = useSelector((state) => state.cart);
   const { user, isAuthenticated } = useSelector((state) => state.user);
+  const { seller, isSeller } = useSelector((state) => state.seller);
   const { products } = useSelector((state) => state.products);
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
@@ -59,7 +60,11 @@ const ProductDetails = ({ data }) => {
   };
 
   const addToCartHandler = (id) => {
-    if (!user) {
+    // Check if user or seller is logged in and has a valid ID
+    const currentUser = user || seller;
+    const currentUserId = user?._id || seller?._id;
+    
+    if (!currentUser || !currentUserId) {
       toast.error("Please login to add items to cart!");
       return;
     }
@@ -72,7 +77,7 @@ const ProductDetails = ({ data }) => {
         toast.error("Product stock limited!");
       } else {
         const cartData = { ...data, qty: count };
-        dispatch(addTocart(cartData, user._id));
+        dispatch(addTocart(cartData, currentUserId));
       }
     }
   };
@@ -95,9 +100,13 @@ const ProductDetails = ({ data }) => {
 
 
   const handleMessageSubmit = async () => {
-    if (isAuthenticated) {
-      const groupTitle = data._id + user._id;
-      const userId = user._id;
+    const currentUser = user || seller;
+    const currentUserId = user?._id || seller?._id;
+    const isUserAuthenticated = isAuthenticated || isSeller;
+    
+    if (isUserAuthenticated && currentUser) {
+      const groupTitle = data._id + currentUserId;
+      const userId = currentUserId;
       const sellerId = data.shop._id;
       await axiosInstance
         .post(`/conversation/create-new-conversation`, {

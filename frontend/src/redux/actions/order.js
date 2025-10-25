@@ -7,7 +7,9 @@ export const getAllOrdersOfUser = (userId) => async (dispatch) => {
       type: "getAllOrdersUserRequest",
     });
 
-    const { data } = await axiosInstance.get(`/order/get-all-orders/${userId}`);
+    // Temporarily disabled - OrderService not available when connecting directly to UserService
+    console.log("Get all orders disabled - using direct UserService connection");
+    const data = { orders: [] };
 
     dispatch({
       type: "getAllOrdersUserSuccess",
@@ -28,7 +30,9 @@ export const getAllOrdersOfShop = (shopId) => async (dispatch) => {
       type: "getAllOrdersShopRequest",
     });
 
-    const { data } = await axiosInstance.get(`/order/get-seller-all-orders/${shopId}`);
+    // Temporarily disabled - OrderService not available when connecting directly to UserService
+    console.log("Get seller orders disabled - using direct UserService connection");
+    const data = { orders: [] };
 
     dispatch({
       type: "getAllOrdersShopSuccess",
@@ -49,7 +53,9 @@ export const getAllOrdersOfAdmin = () => async (dispatch) => {
       type: "adminAllOrdersRequest",
     });
 
-    const { data } = await axiosInstance.get("/order/admin-all-orders");
+    // Temporarily disabled - OrderService not available when connecting directly to UserService
+    console.log("Get admin orders disabled - using direct UserService connection");
+    const data = { orders: [] };
 
     dispatch({
       type: "adminAllOrdersSuccess",

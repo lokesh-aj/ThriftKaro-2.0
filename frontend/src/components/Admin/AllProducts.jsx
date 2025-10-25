@@ -14,7 +14,11 @@ const AllProducts = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axiosInstance.get("/product/admin-all-products").then((res) => {
+    // Temporarily disabled - ProductService not available when connecting directly to UserService
+    console.log("Get admin products disabled - using direct UserService connection");
+    const res = { data: { products: [] } };
+    // Simulate async behavior
+    setTimeout(() => {
       setData(res.data.products);
     })
   }, []);

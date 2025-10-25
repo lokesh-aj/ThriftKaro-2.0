@@ -11,6 +11,15 @@ export const CLEAR_CART_SUCCESS = 'CLEAR_CART_SUCCESS';
 
 // Load user's cart
 export const loadCart = (userId) => async (dispatch) => {
+  if (!userId) {
+    console.error('loadCart called without userId');
+    dispatch({ 
+      type: CART_ERROR, 
+      payload: 'User ID is required to load cart' 
+    });
+    return;
+  }
+  
   try {
     dispatch({ type: CART_LOADING });
     const cart = await cartService.getCart(userId);
@@ -20,9 +29,10 @@ export const loadCart = (userId) => async (dispatch) => {
     });
     return cart;
   } catch (error) {
+    console.error('Error loading cart:', error);
     dispatch({ 
       type: CART_ERROR, 
-      payload: error.response?.data?.message || 'Failed to load cart' 
+      payload: error.response?.data?.message || error.message || 'Failed to load cart' 
     });
     throw error;
   }
@@ -30,6 +40,16 @@ export const loadCart = (userId) => async (dispatch) => {
 
 // Add to cart
 export const addTocart = (productData, userId) => async (dispatch, getState) => {
+  if (!userId) {
+    console.error('addTocart called without userId');
+    dispatch({ 
+      type: CART_ERROR, 
+      payload: 'User ID is required to add items to cart' 
+    });
+    toast.error('User ID is required to add items to cart');
+    return;
+  }
+  
   try {
     dispatch({ type: CART_LOADING });
     
@@ -57,11 +77,12 @@ export const addTocart = (productData, userId) => async (dispatch, getState) => 
     toast.success('Item added to cart successfully!');
     return updatedCart;
   } catch (error) {
+    console.error('Error adding to cart:', error);
     dispatch({ 
       type: CART_ERROR, 
-      payload: error.response?.data?.message || 'Failed to add item to cart' 
+      payload: error.response?.data?.message || error.message || 'Failed to add item to cart' 
     });
-    toast.error(error.response?.data?.message || 'Failed to add item to cart');
+    toast.error(error.response?.data?.message || error.message || 'Failed to add item to cart');
     throw error;
   }
 };
