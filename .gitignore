@@ -1,0 +1,51 @@
+﻿# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp.*
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
+build/
+dist/
+out/
+coverage/
+**/target/
+
+# Logs
+logs/
+*.log
+
+# Env
+.env*
+
+# Misc
+*.tgz
+*.zip
+
+# Frontend specific
+frontend/node_modules/
+frontend/.next/
+frontend/.cache/
+
+# JetBrains
+*.iws
+
+# VS Code
+.history/
+
+# Temporary
+.tmp/
+
+# Legacy folder to ignore
+ThriftKaro 2.0/
+
