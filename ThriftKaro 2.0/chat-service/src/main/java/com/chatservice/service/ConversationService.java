@@ -13,10 +13,13 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class ConversationService {
-    
+
+    public ConversationService(ConversationRepository conversationRepository) {
+        this.conversationRepository = conversationRepository;
+    }
+
     private final ConversationRepository conversationRepository;
     
     public Conversation createConversation(CreateConversationRequest request) {

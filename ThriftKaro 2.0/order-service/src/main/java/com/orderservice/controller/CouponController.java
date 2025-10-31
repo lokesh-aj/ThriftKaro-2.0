@@ -32,7 +32,7 @@ public class CouponController {
             response.put("couponCode", coupon);
             return ResponseEntity.status(201).body(response);
         } catch (Exception e) {
-            log.error("Error creating coupon code: {}", e.getMessage());
+//            log.error("Error creating coupon code: {}", e.getMessage());
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", e.getMessage());
@@ -51,7 +51,7 @@ public class CouponController {
             response.put("couponCodes", couponCodes);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error("Error getting coupons for shop {}: {}", id, e.getMessage());
+//            log.error("Error getting coupons for shop {}: {}", id, e.getMessage());
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", e.getMessage());
@@ -70,7 +70,7 @@ public class CouponController {
             response.put("message", "Coupon code deleted successfully!");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error("Error deleting coupon: {}", e.getMessage());
+//            log.error("Error deleting coupon: {}", e.getMessage());
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", e.getMessage());
@@ -87,7 +87,7 @@ public class CouponController {
             response.put("couponCode", couponCode.orElse(null));
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error("Error getting coupon value: {}", e.getMessage());
+//            log.error("Error getting coupon value: {}", e.getMessage());
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", e.getMessage());

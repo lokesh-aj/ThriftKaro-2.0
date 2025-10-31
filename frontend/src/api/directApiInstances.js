@@ -19,7 +19,7 @@ export const shopApiInstance = axios.create({
 
 export const productApiInstance = axios.create({
   baseURL: "http://localhost:8083", // Product Service
-  timeout: 10000,
+  timeout: 20000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -77,7 +77,8 @@ export const eventApiInstance = axios.create({
 const addAuthInterceptor = (instance) => {
   instance.interceptors.request.use(
     (config) => {
-      const token = localStorage.getItem('token');
+      // Prefer seller token for seller-protected services; fall back to generic token
+      const token = localStorage.getItem('sellerToken') || localStorage.getItem('token');
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }

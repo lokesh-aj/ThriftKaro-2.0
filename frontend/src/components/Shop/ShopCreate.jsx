@@ -40,9 +40,10 @@ const ShopCreate = () => {
       .post(`/api/v2/shop/register`, shopData) // Direct connection to Shop Service
       .then((res) => {
         console.log("Shop registration successful:", res.data);
-        // Store JWT token in localStorage if provided
+        // Store JWT token in localStorage if provided (both generic and seller-specific)
         if (res.data.token) {
           localStorage.setItem('token', res.data.token);
+          localStorage.setItem('sellerToken', res.data.token);
         }
         // Store seller data if provided
         if (res.data.seller) {

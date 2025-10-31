@@ -6,6 +6,7 @@ import com.chatservice.entities.Conversation;
 import com.chatservice.service.ConversationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,8 @@ import java.util.Map;
 @RequestMapping("/api/v2/conversation")
 @RequiredArgsConstructor
 @Slf4j
+
+
 public class ConversationController {
 
     private final ConversationService conversationService;
@@ -30,7 +33,7 @@ public class ConversationController {
             response.put("conversation", conversation);
             return ResponseEntity.status(201).body(response);
         } catch (Exception e) {
-            log.error("Error creating conversation: {}", e.getMessage());
+//            log.error("Error creating conversation: {}", e.getMessage());
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", e.getMessage());
@@ -49,7 +52,7 @@ public class ConversationController {
             response.put("conversations", conversations);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error("Error getting conversations for seller {}: {}", id, e.getMessage());
+//            log.error("Error getting conversations for seller {}: {}", id, e.getMessage());
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", e.getMessage());
@@ -68,7 +71,7 @@ public class ConversationController {
             response.put("conversations", conversations);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error("Error getting conversations for user {}: {}", id, e.getMessage());
+//            log.error("Error getting conversations for user {}: {}", id, e.getMessage());
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", e.getMessage());
@@ -87,7 +90,7 @@ public class ConversationController {
             response.put("conversation", conversation);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error("Error updating last message: {}", e.getMessage());
+//            log.error("Error updating last message: {}", e.getMessage());
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", e.getMessage());

@@ -1,4 +1,4 @@
-import axiosInstance from "../../api/axiosInstance";
+import { eventApiInstance } from "../../api/directApiInstances";
 
 // create event
 export const createevent = (data) => async (dispatch) => {
@@ -6,18 +6,15 @@ export const createevent = (data) => async (dispatch) => {
     dispatch({
       type: "eventCreateRequest",
     });
-
-    // Temporarily disabled - EventService not available when connecting directly to UserService
-    console.log("Create event disabled - using direct UserService connection");
-    const d = { success: true, message: "Event creation disabled" };
+    const res = await eventApiInstance.post("/api/v2/event/create-event", data);
     dispatch({
       type: "eventCreateSuccess",
-      payload: d.event,
+      payload: res.data.event,
     });
   } catch (error) {
     dispatch({
       type: "eventCreateFail",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message,
     });
   }
 };
@@ -28,18 +25,15 @@ export const getAllEventsShop = (id) => async (dispatch) => {
     dispatch({
       type: "getAlleventsShopRequest",
     });
-
-    // Temporarily disabled - EventService not available when connecting directly to UserService
-    console.log("Get all events disabled - using direct UserService connection");
-    const data = { events: [] };
+    const res = await eventApiInstance.get(`/api/v2/event/get-all-events/${id}`);
     dispatch({
       type: "getAlleventsShopSuccess",
-      payload: data.events,
+      payload: res.data.events,
     });
   } catch (error) {
     dispatch({
       type: "getAlleventsShopFailed",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message,
     });
   }
 };
@@ -50,19 +44,15 @@ export const deleteEvent = (id) => async (dispatch) => {
     dispatch({
       type: "deleteeventRequest",
     });
-
-    // Temporarily disabled - EventService not available when connecting directly to UserService
-    console.log("Delete event disabled - using direct UserService connection");
-    const data = { success: true, message: "Event deletion disabled" };
-
+    const res = await eventApiInstance.delete(`/api/v2/event/delete-shop-event/${id}`);
     dispatch({
       type: "deleteeventSuccess",
-      payload: data.message,
+      payload: res.data.message,
     });
   } catch (error) {
     dispatch({
       type: "deleteeventFailed",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message,
     });
   }
 };
@@ -73,18 +63,15 @@ export const getAllEvents = () => async (dispatch) => {
     dispatch({
       type: "getAlleventsRequest",
     });
-
-    // Temporarily disabled - EventService not available when connecting directly to UserService
-    console.log("Get all events disabled - using direct UserService connection");
-    const data = { events: [] };
+    const res = await eventApiInstance.get("/api/v2/event/get-all-events");
     dispatch({
       type: "getAlleventsSuccess",
-      payload: data.events,
+      payload: res.data.events,
     });
   } catch (error) {
     dispatch({
       type: "getAlleventsFailed",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || error.message,
     });
   }
 };

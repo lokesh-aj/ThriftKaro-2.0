@@ -25,7 +25,7 @@ const AllEvents = () => {
   }
 
   const columns = [
-    { field: "id", headerName: "Product Id", minWidth: 150, flex: 0.7 },
+    { field: "id", headerName: "Event Id", minWidth: 150, flex: 0.7 },
     {
       field: "name",
       headerName: "Name",
@@ -100,9 +100,9 @@ const AllEvents = () => {
   events &&
     events.forEach((item) => {
       row.push({
-        id: item._id,
+        id: item.id || item._id,
         name: item.name,
-        price: "₹ " + item.discountPrice,
+        price: "₹ " + (item.discountPrice ?? item.discount_price ?? item.price),
         Stock: item.stock,
         sold: item.sold_out,
       });
@@ -121,6 +121,7 @@ const AllEvents = () => {
             rowsPerPageOptions={[5, 10, 20]}
             disableSelectionOnClick
             autoHeight
+            getRowId={(r) => r.id || r._id || r.name}
           />
         </div>
       )}

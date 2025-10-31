@@ -15,7 +15,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v2/event")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:3000", "http://127.0.0.1:3000"}, allowCredentials = "true")
 public class EventController {
     
     private final EventService eventService;
@@ -32,23 +32,58 @@ public class EventController {
             event.setShopId((String) requestBody.get("shopId"));
             event.setShop((Map<String, Object>) requestBody.get("shop"));
             
-            // Handle numeric values
-            if (requestBody.get("originalPrice") != null) {
-                event.setOriginalPrice(((Number) requestBody.get("originalPrice")).doubleValue());
+            // Handle numeric values accepting both numbers and numeric strings
+            Object originalPriceObj = requestBody.get("originalPrice");
+            if (originalPriceObj != null) {
+                if (originalPriceObj instanceof Number n) {
+                    event.setOriginalPrice(n.doubleValue());
+                } else if (originalPriceObj instanceof String s && !s.isBlank()) {
+                    event.setOriginalPrice(Double.parseDouble(s));
+                }
             }
-            if (requestBody.get("discountPrice") != null) {
-                event.setDiscountPrice(((Number) requestBody.get("discountPrice")).doubleValue());
+            Object discountPriceObj = requestBody.get("discountPrice");
+            if (discountPriceObj != null) {
+                if (discountPriceObj instanceof Number n) {
+                    event.setDiscountPrice(n.doubleValue());
+                } else if (discountPriceObj instanceof String s && !s.isBlank()) {
+                    event.setDiscountPrice(Double.parseDouble(s));
+                }
             }
-            if (requestBody.get("stock") != null) {
-                event.setStock(((Number) requestBody.get("stock")).intValue());
+            Object stockObj = requestBody.get("stock");
+            if (stockObj != null) {
+                if (stockObj instanceof Number n) {
+                    event.setStock(n.intValue());
+                } else if (stockObj instanceof String s && !s.isBlank()) {
+                    event.setStock(Integer.parseInt(s));
+                }
             }
             
             // Handle dates
             if (requestBody.get("start_Date") != null) {
-                event.setStart_Date(new java.util.Date((Long) requestBody.get("start_Date")));
+                Object sd = requestBody.get("start_Date");
+                if (sd instanceof Number n) {
+                    event.setStart_Date(new java.util.Date(n.longValue()));
+                } else if (sd instanceof String s && !s.isBlank()) {
+                    try {
+                        java.time.Instant inst = java.time.Instant.parse(s);
+                        event.setStart_Date(java.util.Date.from(inst));
+                    } catch (Exception ex) {
+                        event.setStart_Date(new java.util.Date(java.time.LocalDate.parse(s).atStartOfDay(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli()));
+                    }
+                }
             }
             if (requestBody.get("Finish_Date") != null) {
-                event.setFinish_Date(new java.util.Date((Long) requestBody.get("Finish_Date")));
+                Object fd = requestBody.get("Finish_Date");
+                if (fd instanceof Number n) {
+                    event.setFinish_Date(new java.util.Date(n.longValue()));
+                } else if (fd instanceof String s && !s.isBlank()) {
+                    try {
+                        java.time.Instant inst = java.time.Instant.parse(s);
+                        event.setFinish_Date(java.util.Date.from(inst));
+                    } catch (Exception ex) {
+                        event.setFinish_Date(new java.util.Date(java.time.LocalDate.parse(s).atStartOfDay(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli()));
+                    }
+                }
             }
             
             // Extract images

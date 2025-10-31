@@ -23,9 +23,10 @@ const ShopLogin = () => {
         }
       )
       .then((res) => {
-        // Store JWT token in localStorage
+        // Store JWT token in localStorage (both generic and seller-specific)
         if (res.data.token) {
           localStorage.setItem('token', res.data.token);
+          localStorage.setItem('sellerToken', res.data.token);
         }
         // Store seller data if provided
         if (res.data.seller) {

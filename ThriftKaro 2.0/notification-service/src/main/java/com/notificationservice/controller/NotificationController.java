@@ -28,7 +28,7 @@ public class NotificationController {
             response.put("message", "Email sent successfully");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error("Error sending email: {}", e.getMessage());
+            //log.error("Error sending email: {}", e.getMessage());
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", e.getMessage());
@@ -48,7 +48,7 @@ public class NotificationController {
             response.put("message", "Withdraw request email sent successfully");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error("Error sending withdraw request email: {}", e.getMessage());
+            //log.error("Error sending withdraw request email: {}", e.getMessage());
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", e.getMessage());
@@ -68,7 +68,7 @@ public class NotificationController {
             response.put("message", "Payment confirmation email sent successfully");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error("Error sending payment confirmation email: {}", e.getMessage());
+            //log.error("Error sending payment confirmation email: {}", e.getMessage());
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", e.getMessage());
@@ -85,7 +85,7 @@ public class NotificationController {
             response.put("message", "Order confirmation email sent successfully");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error("Error sending order confirmation email: {}", e.getMessage());
+            //log.error("Error sending order confirmation email: {}", e.getMessage());
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", e.getMessage());

@@ -116,6 +116,7 @@ const AllProducts = () => {
             rowsPerPageOptions={[5, 10, 20]}
             disableSelectionOnClick
             autoHeight
+            getRowId={(r) => r.id ?? r._id ?? `${r.name}-${r.Stock}-${r.price}`}
           />
         </div>
       )}

@@ -23,16 +23,30 @@ public class EventService {
     public Event createEvent(Event event, List<String> imageBase64List) throws IOException {
         List<ImageData> imagesLinks = new ArrayList<>();
         
-        // Upload images to Cloudinary
+        // Upload images to Cloudinary (best-effort). If Cloudinary is not configured or fails,
+        // fall back to storing the provided data URL directly so event creation still works in dev.
         if (imageBase64List != null && !imageBase64List.isEmpty()) {
             for (String imageBase64 : imageBase64List) {
-                Map uploadResult = cloudinary.uploader().upload(imageBase64, 
-                    ObjectUtils.asMap("folder", "events"));
-                
-                ImageData imageData = new ImageData();
-                imageData.setPublic_id((String) uploadResult.get("public_id"));
-                imageData.setUrl((String) uploadResult.get("secure_url"));
-                imagesLinks.add(imageData);
+                try {
+                    Map uploadResult = cloudinary != null
+                        ? cloudinary.uploader().upload(imageBase64, ObjectUtils.asMap("folder", "events"))
+                        : null;
+
+                    ImageData imageData = new ImageData();
+                    if (uploadResult != null) {
+                        imageData.setPublic_id((String) uploadResult.get("public_id"));
+                        imageData.setUrl((String) uploadResult.get("secure_url"));
+                    } else {
+                        imageData.setPublic_id("local");
+                        imageData.setUrl(imageBase64); // data URI fallback
+                    }
+                    imagesLinks.add(imageData);
+                } catch (Exception ex) {
+                    ImageData imageData = new ImageData();
+                    imageData.setPublic_id("local");
+                    imageData.setUrl(imageBase64);
+                    imagesLinks.add(imageData);
+                }
             }
         }
         

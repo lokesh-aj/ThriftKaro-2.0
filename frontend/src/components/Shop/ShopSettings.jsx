@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { backend_url, server } from "../../server";
 import { AiOutlineCamera } from "react-icons/ai";
 import styles from "../../styles/styles";
-import axiosInstance from "../../api/axiosInstance";
+import { shopApiInstance } from "../../api/directApiInstances";
 import { loadSeller } from "../../redux/actions/user";
 import { toast } from "react-toastify";
 
@@ -26,8 +26,9 @@ const ShopSettings = () => {
     reader.onload = () => {
       if (reader.readyState === 2) {
         setAvatar(reader.result);
-        axiosInstance
-          .put("/shop/update-shop-avatar", { avatar: reader.result })
+        // Avatar update endpoint is not available in new ShopService API; skip or implement when backend adds it
+        shopApiInstance
+          .put(`/api/v2/shop/update/${seller._id}`, { avatar: reader.result })
           .then((res) => {
             dispatch(loadSeller());
             toast.success("Avatar updated successfully!");
@@ -44,8 +45,8 @@ const ShopSettings = () => {
   const updateHandler = async (e) => {
     e.preventDefault();
 
-    await axiosInstance
-      .put("/shop/update-seller-info", {
+    await shopApiInstance
+      .put(`/api/v2/shop/update/${seller._id}`, {
         name,
         address,
         zipCode,
