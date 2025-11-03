@@ -21,7 +21,7 @@ public class Cart {
     @Id
     private String cartId;
     
-    private Long userId;
+    private String userId;
     
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();

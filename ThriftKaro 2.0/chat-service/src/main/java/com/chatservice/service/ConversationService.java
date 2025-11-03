@@ -14,11 +14,8 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ConversationService {
-
-    public ConversationService(ConversationRepository conversationRepository) {
-        this.conversationRepository = conversationRepository;
-    }
 
     private final ConversationRepository conversationRepository;
     

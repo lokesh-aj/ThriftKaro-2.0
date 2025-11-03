@@ -4,6 +4,8 @@ import styles from "../../styles/styles";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
 import { toast } from "react-toastify";
+import { loadUser } from "../../redux/actions/user";
+import Store from "../../redux/store";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -31,6 +33,8 @@ const Login = () => {
         if (res.data.user) {
           localStorage.setItem('user', JSON.stringify(res.data.user));
         }
+        // Immediately load user into Redux store
+        Store.dispatch(loadUser());
         toast.success(res.data.message || "Login Success!");
         navigate("/", { replace: true });
       })

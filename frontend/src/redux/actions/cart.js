@@ -54,18 +54,30 @@ export const addTocart = (productData, userId) => async (dispatch, getState) => 
     dispatch({ type: CART_LOADING });
     
     const { cart } = getState().cart;
-    let cartId = cart?.id;
+    let cartId = cart?.cartId || cart?.id;
     
     // If no cart exists, create one
     if (!cartId) {
       const newCart = await cartService.createOrFetchCart(userId);
-      cartId = newCart.id;
+      cartId = newCart.cartId || newCart.id;
+    }
+    
+    // Validate product data
+    const productId = productData._id || productData.id;
+    if (!productId) {
+      console.error('addTocart: productData missing _id or id', productData);
+      toast.error('Product ID is missing. Cannot add to cart.');
+      dispatch({ 
+        type: CART_ERROR, 
+        payload: 'Product ID is required to add items to cart' 
+      });
+      return;
     }
     
     // Add item to cart
     const updatedCart = await cartService.addItemToCart(
       cartId, 
-      productData._id, 
+      productId, 
       productData.qty || 1
     );
     
@@ -93,7 +105,7 @@ export const removeFromCart = (productId, userId) => async (dispatch, getState) 
     dispatch({ type: CART_LOADING });
     
     const { cart } = getState().cart;
-    const cartId = cart?.id;
+    const cartId = cart?.cartId || cart?.id;
     
     if (!cartId) {
       throw new Error('No cart found');
@@ -124,7 +136,7 @@ export const clearCart = (userId) => async (dispatch, getState) => {
     dispatch({ type: CART_LOADING });
     
     const { cart } = getState().cart;
-    const cartId = cart?.id;
+    const cartId = cart?.cartId || cart?.id;
     
     if (!cartId) {
       throw new Error('No cart found');
@@ -153,7 +165,7 @@ export const updateCartItemQuantity = (productId, newQuantity, userId) => async 
     dispatch({ type: CART_LOADING });
     
     const { cart } = getState().cart;
-    const cartId = cart?.id;
+    const cartId = cart?.cartId || cart?.id;
     
     if (!cartId) {
       throw new Error('No cart found');

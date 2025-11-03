@@ -46,4 +46,4 @@ public class Product {
 	private Integer soldOut = 0;
 
 	private LocalDateTime createdAt = LocalDateTime.now();
-} 
+}

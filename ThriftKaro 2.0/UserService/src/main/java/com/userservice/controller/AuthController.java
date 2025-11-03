@@ -65,8 +65,8 @@ public class AuthController {
 
             User savedUser = userService.register(user);
             
-            // Generate JWT token
-            String token = jwtUtil.generateToken(savedUser.getEmail());
+            // Generate JWT token with userId included (same as login)
+            String token = jwtUtil.generateToken(savedUser.getEmail(), savedUser.getId());
             
             // Prepare user object for response (without password)
             Map<String, Object> userResponse = new HashMap<>();
@@ -104,7 +104,8 @@ public class AuthController {
                 return ResponseEntity.status(401).body(errorResponse);
             }
 
-            String token = jwtUtil.generateToken(user.getEmail());
+            // Generate token with userId included (as String to match MongoDB ObjectId format)
+            String token = jwtUtil.generateToken(user.getEmail(), user.getId());
             
             // Prepare user object for response (without password)
             Map<String, Object> userResponse = new HashMap<>();

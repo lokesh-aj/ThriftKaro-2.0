@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 public class CartResponse {
     private String cartId;
-    private Long userId;
+    private String userId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private List<CartItemResponse> cartItems;

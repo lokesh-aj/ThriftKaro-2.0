@@ -1,5 +1,7 @@
 package com.productservice.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.productservice.dto.CreateProductRequest;
 import com.productservice.entities.Product;
 import com.productservice.security.JwtUtil;
 import com.productservice.service.ProductService;
@@ -8,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,9 +39,14 @@ public class ProductController {
 				@SuppressWarnings("unchecked")
 				java.util.Map<String, Object> detailsMap = (java.util.Map<String, Object>) details;
 				Object role = detailsMap.get("role");
-				return role != null ? role.toString() : "USER";
+				if (role != null) {
+					String roleStr = role.toString();
+					System.out.println("Extracted role from authentication: " + roleStr);
+					return roleStr;
+				}
 			}
 		}
+		System.out.println("Warning: No role found in authentication details. Defaulting to USER.");
 		return "USER";
 	}
 
@@ -49,8 +57,22 @@ public class ProductController {
 
 	@PostMapping
 	public ResponseEntity<?> addProduct(@RequestBody Product product, Authentication authentication) {
+		if (authentication == null) {
+			System.out.println("ERROR: Authentication is null");
+			return ResponseEntity.status(403).body("Access denied. Authentication required.");
+		}
+		
+		String userRole = getCurrentUserRole(authentication);
+		System.out.println("User attempting to add product - Role: " + userRole + ", Email: " + getCurrentUserEmail(authentication));
+		
 		if (!isSeller(authentication)) {
-			return ResponseEntity.status(403).body("Access denied. Only sellers can add products.");
+			System.out.println("ERROR: User is not a seller. Role: " + userRole);
+			Map<String, Object> errorResponse = new HashMap<>();
+			errorResponse.put("success", false);
+			errorResponse.put("message", "Access denied. Only sellers can add products.");
+			errorResponse.put("userRole", userRole);
+			errorResponse.put("requiredRole", "SELLER");
+			return ResponseEntity.status(403).body(errorResponse);
 		}
 		
 		String userEmail = getCurrentUserEmail(authentication);
@@ -67,8 +89,70 @@ public class ProductController {
 
 	// Frontend compatibility endpoint for create-product
 	@PostMapping("/create-product")
-	public ResponseEntity<?> createProduct(@RequestBody Product product, Authentication authentication) {
-		return addProduct(product, authentication);
+	public ResponseEntity<?> createProduct(@RequestBody CreateProductRequest request, Authentication authentication) {
+		if (authentication == null) {
+			System.out.println("ERROR: Authentication is null");
+			return ResponseEntity.status(403).body("Access denied. Authentication required.");
+		}
+		
+		String userRole = getCurrentUserRole(authentication);
+		System.out.println("User attempting to add product - Role: " + userRole + ", Email: " + getCurrentUserEmail(authentication));
+		
+		if (!isSeller(authentication)) {
+			System.out.println("ERROR: User is not a seller. Role: " + userRole);
+			Map<String, Object> errorResponse = new HashMap<>();
+			errorResponse.put("success", false);
+			errorResponse.put("message", "Access denied. Only sellers can add products.");
+			errorResponse.put("userRole", userRole);
+			errorResponse.put("requiredRole", "SELLER");
+			return ResponseEntity.status(403).body(errorResponse);
+		}
+		
+		// Convert DTO to Product entity
+		Product product = new Product();
+		product.setName(request.getName());
+		product.setDescription(request.getDescription());
+		product.setCategory(request.getCategory());
+		product.setTags(request.getTags());
+		product.setOriginalPrice(request.getOriginalPrice());
+		product.setDiscountPrice(request.getDiscountPrice());
+		product.setStock(request.getStock());
+		product.setShopId(request.getShopId());
+		
+		// Convert images from List<JsonNode> to List<Map<String, Object>>
+		List<Map<String, Object>> imageMaps = new ArrayList<>();
+		if (request.getImages() != null) {
+			for (JsonNode imageNode : request.getImages()) {
+				Map<String, Object> imageMap = new HashMap<>();
+				if (imageNode.isTextual()) {
+					// Base64 string from frontend
+					String base64String = imageNode.asText();
+					imageMap.put("public_id", "local");
+					imageMap.put("url", base64String);
+				} else if (imageNode.isObject()) {
+					// Already an object, convert to Map
+					imageMap.put("public_id", imageNode.has("public_id") ? imageNode.get("public_id").asText() : "local");
+					imageMap.put("url", imageNode.has("url") ? imageNode.get("url").asText() : "");
+				} else {
+					// Handle any other type by converting to string
+					imageMap.put("public_id", "local");
+					imageMap.put("url", imageNode.asText());
+				}
+				imageMaps.add(imageMap);
+			}
+		}
+		product.setImages(imageMaps);
+		
+		String userEmail = getCurrentUserEmail(authentication);
+		System.out.println("Seller " + userEmail + " is adding a new product: " + product.getName());
+		Product created = productService.addProduct(product);
+		
+		Map<String, Object> response = new HashMap<>();
+		response.put("success", true);
+		response.put("message", "Product created successfully!");
+		response.put("product", created);
+		
+		return ResponseEntity.created(URI.create("/api/v2/product/" + created.getId())).body(response);
 	}
 
 	// Health check endpoint (no authentication required)

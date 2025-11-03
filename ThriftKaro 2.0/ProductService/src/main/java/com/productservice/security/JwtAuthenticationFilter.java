@@ -4,6 +4,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +21,7 @@ import java.util.Map;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
     private final JwtUtil jwtUtil;
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil) {
@@ -32,16 +35,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         final String authHeader = request.getHeader("Authorization");
-        logger.info("Auth header: " + authHeader);
+        logger.debug("Auth header present: " + (authHeader != null));
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-            logger.info("Extracted token: " + token.substring(0, Math.min(20, token.length())) + "...");
             try {
-                if (jwtUtil.validateToken(token)) {
+                boolean isValid = jwtUtil.validateToken(token);
+                
+                if (isValid) {
                     String email = jwtUtil.extractEmail(token);
                     String role = jwtUtil.extractRole(token);
-                    logger.info("Token valid. Email: " + email + ", Role: " + role);
+                    logger.debug("Token valid. Email: " + email + ", Role: " + (role != null ? role : "null/not found"));
 
                     UsernamePasswordAuthenticationToken authToken =
                             new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
@@ -49,23 +53,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     // Store role in authentication details
                     WebAuthenticationDetailsSource detailsSource = new WebAuthenticationDetailsSource();
                     Map<String, Object> details = new HashMap<>();
-                    details.put("role", role);
+                    details.put("role", role != null ? role : "USER"); // Default to USER if role is null
                     details.put("remoteAddress", detailsSource.buildDetails(request).getRemoteAddress());
                     details.put("sessionId", detailsSource.buildDetails(request).getSessionId());
                     authToken.setDetails(details);
                     
                     SecurityContextHolder.getContext().setAuthentication(authToken);
-                    logger.info("Authentication set successfully");
+                    logger.debug("Authentication set successfully with role: " + details.get("role"));
                 } else {
-                    logger.warn("Token validation failed");
+                    logger.warn("Token validation failed - token is invalid or expired");
                 }
             } catch (Exception e) {
-                // Invalid token, ignore and proceed (will be caught by Spring Security)
-                logger.warn("Invalid JWT token: " + e.getMessage());
-                e.printStackTrace();
+                logger.error("Exception during token validation: " + e.getMessage(), e);
             }
-        } else {
-            logger.info("No valid auth header found");
         }
 
         filterChain.doFilter(request, response);

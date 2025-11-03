@@ -35,6 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 username = jwtUtil.extractUsername(jwt);
             } catch (Exception e) {
                 logger.error("JWT token is invalid or expired", e);
+                // Continue without authentication - will return 401/403 later
             }
         }
         

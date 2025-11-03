@@ -31,12 +31,29 @@ export const cartService = {
   // Add item to cart
   addItemToCart: async (cartId, productId, quantity) => {
     try {
-      const response = await cartApiInstance.post(`/api/v2/cart/${cartId}/items`, {
-        productId,
-        quantity
+      if (!productId) {
+        console.error('cartService.addItemToCart: productId is null or undefined', { cartId, productId, quantity });
+        throw new Error('Product ID is required to add item to cart');
+      }
+      if (!cartId) {
+        console.error('cartService.addItemToCart: cartId is null or undefined', { cartId, productId, quantity });
+        throw new Error('Cart ID is required to add item to cart');
+      }
+      
+      const requestBody = {
+        productId: productId,
+        quantity: quantity || 1
+      };
+      
+      console.log('cartService.addItemToCart - Request:', {
+        url: `/api/v2/cart/${cartId}/items`,
+        body: requestBody
       });
+      
+      const response = await cartApiInstance.post(`/api/v2/cart/${cartId}/items`, requestBody);
       return response.data;
     } catch (error) {
+      console.error('cartService.addItemToCart - Error:', error);
       throw error;
     }
   },

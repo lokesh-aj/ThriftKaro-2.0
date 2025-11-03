@@ -9,7 +9,7 @@ export const createProduct = (productData) => async (dispatch) => {
 
     console.log("Creating product with data:", productData);
     
-    const response = await productApiInstance.post("/api/v2/product", productData);
+    const response = await productApiInstance.post("/api/v2/product/create-product", productData);
     
     console.log("Product creation response:", response.data);
     
@@ -19,6 +19,30 @@ export const createProduct = (productData) => async (dispatch) => {
     });
   } catch (error) {
     console.error("Product creation error:", error);
+    console.error("Error response:", error.response?.data);
+    console.error("Error status:", error.response?.status);
+    console.error("Error headers:", error.response?.headers);
+    
+    // Check if server provided detailed error info
+    if (error.response?.data) {
+      const errorData = error.response.data;
+      console.error("Server error details:", {
+        message: errorData.message,
+        userRole: errorData.userRole,
+        requiredRole: errorData.requiredRole,
+        success: errorData.success
+      });
+    }
+    
+    // Check token status
+    const sellerToken = localStorage.getItem('sellerToken');
+    const regularToken = localStorage.getItem('token');
+    console.log("Available tokens:", {
+      hasSellerToken: !!sellerToken,
+      hasRegularToken: !!regularToken,
+      sellerTokenPreview: sellerToken ? sellerToken.substring(0, 20) + "..." : "none"
+    });
+    
     dispatch({
       type: "productCreateFail",
       payload: error.response?.data?.message || error.message || "Failed to create product",
@@ -57,7 +81,7 @@ export const deleteProduct = (id) => async (dispatch) => {
     });
 
     console.log("Deleting product:", id);
-    const response = await productApiInstance.delete(`/api/v2/product/${id}`);
+    const response = await productApiInstance.delete(`/api/v2/product/delete-shop-product/${id}`);
     
     dispatch({
       type: "deleteProductSuccess",

@@ -19,7 +19,7 @@ public class CartItem {
     
     private Cart cart;
     
-    private Long productId;
+    private String productId;
     
     private Integer quantity;
 }

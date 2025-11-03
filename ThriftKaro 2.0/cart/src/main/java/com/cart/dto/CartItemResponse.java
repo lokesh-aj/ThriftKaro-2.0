@@ -11,11 +11,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CartItemResponse {
     private String cartItemId;
-    private Long productId;
+    private String productId;
     private String productName;
     private Double productPrice;
     private Integer quantity;
     private Double subtotal;
+    private ProductResponse product;  // Full product object for frontend
 }
 
 

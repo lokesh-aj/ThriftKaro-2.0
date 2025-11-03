@@ -28,8 +28,20 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Generate JWT token with userId
+    // Generate JWT token with userId (Long - kept for backward compatibility)
     public String generateToken(String email, Long userId) {
+        return Jwts.builder()
+                .setSubject(email)
+                .claim("userId", userId)
+                .claim("role", "USER")
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(key)
+                .compact();
+    }
+
+    // Generate JWT token with userId (String - for MongoDB ObjectId)
+    public String generateToken(String email, String userId) {
         return Jwts.builder()
                 .setSubject(email)
                 .claim("userId", userId)
@@ -55,8 +67,31 @@ public class JwtUtil {
         return extractEmail(token);
     }
 
-    // Extract user ID from token
-    public Long extractUserId(String token) {
+    // Extract user ID from token (returns String for MongoDB ObjectId compatibility)
+    public String extractUserId(String token) {
+        try {
+            Object userIdClaim = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .get("userId");
+            if (userIdClaim == null) {
+                return null;
+            }
+            // Handle both String and Long (for backward compatibility)
+            if (userIdClaim instanceof String) {
+                return (String) userIdClaim;
+            } else {
+                return userIdClaim.toString();
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    // Extract user ID as Long (kept for backward compatibility)
+    public Long extractUserIdAsLong(String token) {
         try {
             return Jwts.parserBuilder()
                     .setSigningKey(key)

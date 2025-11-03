@@ -26,7 +26,7 @@ public class CartService {
     @Autowired
     private ProductServiceClient productServiceClient;
     
-    public CartResponse createCart(Long userId) {
+    public CartResponse createCart(String userId) {
         // Check if cart already exists for user
         Optional<Cart> existingCart = cartRepository.findByUserId(userId);
         if (existingCart.isPresent()) {
@@ -41,7 +41,7 @@ public class CartService {
         return convertToCartResponse(savedCart);
     }
     
-    public CartResponse addItemToCart(String cartId, Long productId, int quantity, String token) {
+    public CartResponse addItemToCart(String cartId, String productId, int quantity, String token) {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found with id: " + cartId));
         
@@ -78,7 +78,7 @@ public class CartService {
         return convertToCartResponse(cart);
     }
     
-    public CartResponse removeItemFromCart(String cartId, Long productId) {
+    public CartResponse removeItemFromCart(String cartId, String productId) {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found with id: " + cartId));
         
@@ -89,7 +89,7 @@ public class CartService {
         return convertToCartResponse(cart);
     }
     
-    public CartResponse getCartByUserId(Long userId) {
+    public CartResponse getCartByUserId(String userId) {
         Cart cart = cartRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Cart not found for user: " + userId));
         
@@ -128,7 +128,10 @@ public class CartService {
             ProductResponse product = productServiceClient.getProductById(cartItem.getProductId(), "");
             
             if (product != null) {
-                Double productPrice = product.getPrice().doubleValue();
+                // Use discountPrice if available, otherwise use price
+                Double productPrice = product.getDiscountPrice() != null ? 
+                        product.getDiscountPrice().doubleValue() : 
+                        product.getPrice().doubleValue();
                 Double subtotal = productPrice * cartItem.getQuantity();
                 
                 return CartItemResponse.builder()
@@ -138,6 +141,7 @@ public class CartService {
                         .productPrice(productPrice)
                         .quantity(cartItem.getQuantity())
                         .subtotal(subtotal)
+                        .product(product)  // Include full product object for frontend
                         .build();
             } else {
                 // Fallback if product not found

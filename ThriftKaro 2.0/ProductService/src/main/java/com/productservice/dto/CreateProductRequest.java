@@ -1,5 +1,6 @@
-package com.cart.dto;
+package com.productservice.dto;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,22 +8,23 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductResponse {
-    private String id;
+public class CreateProductRequest {
     private String name;
     private String description;
+    private String category;
+    private String tags;
     private BigDecimal originalPrice;
     private BigDecimal discountPrice;
-    private BigDecimal price;
     private Integer stock;
-    private Integer stockQuantity;
-    private List<Map<String, Object>> images;
+    private String shopId;
+    
+    // Accept images as JsonNode array - Jackson can deserialize this flexibly
+    // JsonNode can represent strings, objects, or any JSON value
+    private List<JsonNode> images;
 }
-
 

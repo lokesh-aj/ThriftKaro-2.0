@@ -28,20 +28,30 @@ const ShopInfo = ({ isOwner }) => {
   
 
   const logoutHandler = async () => {
-    // Clear localStorage tokens
+    // Clear localStorage tokens and data
     localStorage.removeItem('token');
+    localStorage.removeItem('sellerToken');
     localStorage.removeItem('user');
     localStorage.removeItem('seller');
     window.location.reload();
   };
 
+  // Safely calculate totals with null checks
   const totalReviewsLength =
-    products &&
-    products.reduce((acc, product) => acc + product.reviews.length, 0);
+    products && Array.isArray(products) && products.length > 0
+      ? products.reduce((acc, product) => acc + (product?.reviews?.length || 0), 0)
+      : 0;
 
-  const totalRatings = products && products.reduce((acc,product) => acc + product.reviews.reduce((sum,review) => sum + review.rating, 0),0);
+  const totalRatings = 
+    products && Array.isArray(products) && products.length > 0
+      ? products.reduce((acc, product) => {
+          const productReviews = product?.reviews || [];
+          const productRating = productReviews.reduce((sum, review) => sum + (review?.rating || 0), 0);
+          return acc + productRating;
+        }, 0)
+      : 0;
 
-  const averageRating = totalRatings / totalReviewsLength || 0;
+  const averageRating = totalReviewsLength > 0 ? Number((totalRatings / totalReviewsLength).toFixed(1)) : 0;
 
   return (
    <>

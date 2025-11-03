@@ -21,7 +21,7 @@
         </processorPath>
         <module name="cart" />
       </profile>
-      <profile name="Annotation profile for OrderService" enabled="true">
+      <profile name="Annotation profile for ConfigServer" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -30,11 +30,20 @@
         </processorPath>
         <module name="config-server" />
         <module name="UserService" />
+        <module name="PaymentService" />
         <module name="ShopService" />
+      </profile>
+      <profile name="Annotation profile for OrderService" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar" />
+        </processorPath>
+        <module name="notification-service" />
         <module name="chat-service" />
         <module name="order-service" />
-        <module name="notification-service" />
-        <module name="PaymentService" />
       </profile>
     </annotationProcessing>
   </component>

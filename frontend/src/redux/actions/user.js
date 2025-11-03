@@ -1,5 +1,19 @@
 import axiosInstance from "../../api/axiosInstance";
 
+// Helper function to normalize user object - ensure it always has _id
+const normalizeUser = (user) => {
+  if (!user) return null;
+  // If user has 'id' but not '_id', create '_id' from 'id'
+  if (user.id && !user._id) {
+    return { ...user, _id: user.id };
+  }
+  // If user has '_id' but not 'id', create 'id' from '_id' for consistency
+  if (user._id && !user.id) {
+    return { ...user, id: user._id };
+  }
+  return user;
+};
+
 // load user
 export const loadUser = () => async (dispatch) => {
   try {
@@ -20,9 +34,11 @@ export const loadUser = () => async (dispatch) => {
     // Try to load user data from API first
     try {
       const { data } = await axiosInstance.get("/api/auth/me");
+      // Normalize user object to ensure _id field exists
+      const normalizedUser = normalizeUser(data);
       dispatch({
         type: "LoadUserSuccess",
-        payload: data,
+        payload: normalizedUser,
       });
     } catch (apiError) {
       // If API fails, try to load from localStorage as fallback
@@ -31,9 +47,11 @@ export const loadUser = () => async (dispatch) => {
       const userData = localStorage.getItem('user');
       if (userData) {
         const user = JSON.parse(userData);
+        // Normalize user object to ensure _id field exists
+        const normalizedUser = normalizeUser(user);
         dispatch({
           type: "LoadUserSuccess",
-          payload: user,
+          payload: normalizedUser,
         });
       } else {
         throw apiError; // Re-throw if no fallback data

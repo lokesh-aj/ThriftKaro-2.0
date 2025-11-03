@@ -2,6 +2,11 @@ import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
   isLoading: true,
+  products: null, // Initialize products as null to avoid undefined errors
+  allProducts: null,
+  product: null,
+  error: null,
+  success: false,
 };
 
 export const productReducer = createReducer(initialState, {
@@ -30,6 +35,7 @@ export const productReducer = createReducer(initialState, {
   getAllProductsShopFailed: (state, action) => {
     state.isLoading = false;
     state.error = action.payload;
+    state.products = []; // Set to empty array on error to avoid null errors
   },
 
   // delete product of a shop

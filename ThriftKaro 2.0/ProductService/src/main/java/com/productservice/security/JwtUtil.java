@@ -1,29 +1,30 @@
 package com.productservice.security;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Date;
 
 @Component
 public class JwtUtil {
 
-    // Secret key (in production, keep this in env variable)
-    // This should match the ShopService secret key for proper validation
-    private final Key key = Keys.hmacShaKeyFor("mySecretKey123456789012345678901234567890".getBytes());
+    private final Key key;
+    private final long expiration;
 
-    // Token validity: 24 hours
-    private final long expiration = 1000 * 60 * 60 * 24;
+    public JwtUtil(@Value("${jwt.secret:mySecretKey123456789012345678901234567890}") String secret, 
+                   @Value("${jwt.expiration:86400000}") long expiration) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+        this.expiration = expiration;
+    }
 
     // Generate JWT token (if needed for testing)
     public String generateToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .setIssuedAt(new java.util.Date())
+                .setExpiration(new java.util.Date(System.currentTimeMillis() + expiration))
                 .signWith(key)
                 .compact();
     }
@@ -40,12 +41,26 @@ public class JwtUtil {
 
     // Extract role from token
     public String extractRole(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .get("role", String.class);
+        try {
+            Object roleClaim = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .get("role");
+            
+            if (roleClaim != null) {
+                String role = roleClaim.toString();
+                System.out.println("Successfully extracted role from token: " + role);
+                return role;
+            }
+            System.out.println("Warning: Token does not contain 'role' claim");
+            return null;
+        } catch (Exception e) {
+            System.err.println("Error extracting role from token: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
 
     // Validate if token is valid
@@ -57,6 +72,8 @@ public class JwtUtil {
                     .parseClaimsJws(token);
             return true;
         } catch (Exception e) {
+            System.err.println("Token validation failed: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
