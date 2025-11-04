@@ -143,6 +143,7 @@ const AdminDashboardMain = () => {
                 rows={row}
                 columns={columns}
                 pageSize={4}
+                rowsPerPageOptions={[4, 8, 12]}
                 disableSelectionOnClick
                 autoHeight
               />

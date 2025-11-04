@@ -6,7 +6,7 @@ echo ThriftKaro Microservices Connection Test
 echo ========================================
 echo.
 
-set GATEWAY=http://localhost:8080
+set GATEWAY=http://localhost:8089
 set SUCCESS_COUNT=0
 set FAIL_COUNT=0
 
@@ -329,17 +329,17 @@ if "%STATUS%"=="200" (
 )
 echo.
 
-echo Testing Shop Service Direct (Port 8089)...
-curl -s -o nul -w "%%{http_code}" http://localhost:8089/api/v2/shop/test > temp.txt
+echo Testing Shop Service Direct (Port 8091)...
+curl -s -o nul -w "%%{http_code}" http://localhost:8091/api/v2/shop/test > temp.txt
 set /p STATUS=<temp.txt
 if "%STATUS%"=="200" (
-    echo [PASS] Shop Service is running on port 8089
+    echo [PASS] Shop Service is running on port 8091
     set /a SUCCESS_COUNT+=1
 ) else if "%STATUS%"=="404" (
-    echo [PASS] Shop Service is running on port 8089 (endpoint not found is ok)
+    echo [PASS] Shop Service is running on port 8091 (endpoint not found is ok)
     set /a SUCCESS_COUNT+=1
 ) else (
-    echo [WARN] Shop Service may not be running on port 8089
+    echo [WARN] Shop Service may not be running on port 8091
 )
 echo.
 
@@ -380,7 +380,7 @@ echo.
 echo Frontend: React (Port 3000)
 echo    ^|
 echo    v
-echo API Gateway (Port 8080) ^<-- All requests go here
+echo API Gateway (Port 8089) ^<-- All requests go here
 echo    ^|
 echo    +-- JWT Authentication
 echo    +-- Service Discovery (Eureka)
@@ -392,7 +392,7 @@ echo    +-- Payment Service (Port 8085) - MongoDB Atlas (thriftkaro_payment_db)
 echo    +-- Notification Service (Port 8086) - Email Service
 echo    +-- Chat Service (Port 8087) - MongoDB Atlas (thriftkaro_chat_db)
 echo    +-- Cart Service (Port 8088) - MongoDB Atlas (thriftkaro_cart_db)
-echo    +-- Shop Service (Port 8089) - MongoDB Atlas (thriftkaro_shop_db)
+echo    +-- Shop Service (Port 8091) - MongoDB Atlas (thriftkaro_shop_db)
 echo    +-- Event Service (Port 8090) - MongoDB Atlas (thriftkaro_event_db)
 echo.
 echo ========================================

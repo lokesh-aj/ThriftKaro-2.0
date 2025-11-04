@@ -44,8 +44,30 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         System.out.println("JWT Filter - Checking path: " + path);
         System.out.println("JWT Filter - Allowlist patterns: " + allowlistPatterns);
         
-        // TEMPORARILY DISABLE JWT FILTER FOR TESTING
-        System.out.println("JWT Filter - TEMPORARILY DISABLED - ALLOWING ALL REQUESTS");
+        // Allow all allowlisted paths (public endpoints)
+        boolean isAllowlisted = allowlistPatterns.stream().anyMatch(pattern -> pathMatcher.match(pattern, path));
+        if (isAllowlisted) {
+            return chain.filter(exchange);
+        }
+
+        // Validate Authorization: Bearer <token>
+        String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            return exchange.getResponse().setComplete();
+        }
+
+        String token = authHeader.substring(7);
+        try {
+            Jwts.parserBuilder()
+                .setSigningKey(signingKey)
+                .build()
+                .parseClaimsJws(token);
+        } catch (Exception ex) {
+            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            return exchange.getResponse().setComplete();
+        }
+
         return chain.filter(exchange);
     }
 

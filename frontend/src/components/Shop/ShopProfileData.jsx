@@ -14,9 +14,11 @@ const ShopProfileData = ({ isOwner }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllProductsShop(id));
-    dispatch(getAllEventsShop(id));
-  }, [dispatch]);
+    if (id) {
+      dispatch(getAllProductsShop(id));
+      dispatch(getAllEventsShop(id));
+    }
+  }, [dispatch, id]);
 
   const [active, setActive] = useState(1);
 

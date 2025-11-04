@@ -59,10 +59,18 @@ export const getAllProductsShop = (id) => async (dispatch) => {
 
     console.log("Getting products for shop:", id);
     const response = await productApiInstance.get(`/api/v2/product/get-all-products-shop/${id}`);
+    const rawProducts = response?.data?.products || [];
+    const normalized = rawProducts.map((p) => {
+      if (p && p.id && !p._id) p._id = p.id;
+      if (!Array.isArray(p?.images)) p.images = [];
+      if (!p.shop && (p.shopId || id)) p.shop = { _id: p.shopId || id };
+      if (p.soldOut != null && p.sold_out == null) p.sold_out = p.soldOut;
+      return p;
+    });
     
     dispatch({
       type: "getAllProductsShopSuccess",
-      payload: response.data.products,
+      payload: normalized,
     });
   } catch (error) {
     console.error("Get shop products error:", error);
@@ -105,10 +113,23 @@ export const getAllProducts = () => async (dispatch) => {
 
     console.log("Getting all products");
     const response = await productApiInstance.get("/api/v2/product/get-all-products");
+    // Normalize product shape for frontend expectations
+    const rawProducts = response?.data?.products || [];
+    const normalized = rawProducts.map((p) => {
+      // Ensure _id exists (backend returns id)
+      if (p && p.id && !p._id) p._id = p.id;
+      // Ensure images is an array
+      if (!Array.isArray(p?.images)) p.images = [];
+      // Ensure shop object consistency if only shopId present
+      if (!p.shop && p.shopId) p.shop = { _id: p.shopId };
+      // Normalize naming differences
+      if (p.soldOut != null && p.sold_out == null) p.sold_out = p.soldOut;
+      return p;
+    });
     
     dispatch({
       type: "getAllProductsSuccess",
-      payload: response.data.products,
+      payload: normalized,
     });
   } catch (error) {
     console.error("Get all products error:", error);

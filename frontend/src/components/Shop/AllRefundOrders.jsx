@@ -92,6 +92,7 @@ const AllRefundOrders = () => {
             rows={row}
             columns={columns}
             pageSize={10}
+            rowsPerPageOptions={[10, 20, 50]}
             disableSelectionOnClick
             autoHeight
           />

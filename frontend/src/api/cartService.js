@@ -8,9 +8,22 @@ export const cartService = {
       throw new Error('User ID is required to create or fetch cart');
     }
     try {
+      // First try to get existing cart
+      const getResponse = await cartApiInstance.get(`/api/v2/cart/${userId}`).catch(() => null);
+      if (getResponse && getResponse.data) {
+        return getResponse.data;
+      }
+      // If no cart exists, create one
       const response = await cartApiInstance.post(`/api/v2/cart/${userId}`);
       return response.data;
     } catch (error) {
+      console.error('createOrFetchCart error:', {
+        userId,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        message: error.message
+      });
       throw error;
     }
   },
@@ -28,7 +41,38 @@ export const cartService = {
     }
   },
 
-  // Add item to cart
+  // Add item to user's cart (simpler endpoint that handles cart creation automatically)
+  addItemToUserCart: async (productId, quantity) => {
+    try {
+      if (!productId) {
+        console.error('cartService.addItemToUserCart: productId is null or undefined', { productId, quantity });
+        throw new Error('Product ID is required to add item to cart');
+      }
+      
+      const requestBody = {
+        productId: productId,
+        quantity: quantity || 1
+      };
+      
+      console.log('cartService.addItemToUserCart - Request:', {
+        url: `/api/v2/cart/items`,
+        body: requestBody
+      });
+      
+      const response = await cartApiInstance.post(`/api/v2/cart/items`, requestBody);
+      return response.data;
+    } catch (error) {
+      console.error('cartService.addItemToUserCart - Error:', {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        message: error.message
+      });
+      throw error;
+    }
+  },
+
+  // Add item to cart (requires cartId - kept for backward compatibility)
   addItemToCart: async (cartId, productId, quantity) => {
     try {
       if (!productId) {

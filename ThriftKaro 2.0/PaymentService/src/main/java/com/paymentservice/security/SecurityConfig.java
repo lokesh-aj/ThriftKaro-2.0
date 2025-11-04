@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/actuator/**", "/api/v2/payment/health").permitAll()
+                        .requestMatchers("/actuator/**", "/api/v2/payment/health", "/api/v2/payment/stripeapikey").permitAll()
                         .requestMatchers("/api/v2/payment/initiate", "/api/v2/payment/status/**", "/api/v2/payment/refund/**").authenticated()
                         .anyRequest().authenticated()
                 )

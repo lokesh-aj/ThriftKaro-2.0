@@ -25,7 +25,7 @@ const UserOrderDetails = () => {
     dispatch(getAllOrdersOfUser(user._id));
   }, [dispatch, user._id]);
 
-  const data = orders && orders.find((item) => item._id === id);
+  const data = orders && orders.find((item) => (item.id || item._id) === id);
 
   const reviewHandler = async (e) => {
     await axiosInstance

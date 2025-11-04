@@ -26,9 +26,9 @@ import { getAllOrdersOfUser } from "../../redux/actions/order";
 
 const ProfileContent = ({ active }) => {
   const { user, error, successMessage } = useSelector((state) => state.user);
-  const [name, setName] = useState(user && user.name);
-  const [email, setEmail] = useState(user && user.email);
-  const [phoneNumber, setPhoneNumber] = useState(user && user.phoneNumber);
+  const [name, setName] = useState(user?.name || "");
+  const [email, setEmail] = useState(user?.email || "");
+  const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || "");
   const [password, setPassword] = useState("");
   const [avatar, setAvatar] = useState(null);
   const dispatch = useDispatch();
@@ -56,7 +56,7 @@ const ProfileContent = ({ active }) => {
       if (reader.readyState === 2) {
         setAvatar(reader.result);
         axiosInstance
-          .put("/user/update-avatar", { avatar: reader.result })
+          .put("/api/auth/update-avatar", { avatar: reader.result })
           .then((response) => {
             dispatch(loadUser());
             toast.success("avatar updated successfully!");
@@ -126,7 +126,7 @@ const ProfileContent = ({ active }) => {
                 <div className=" w-[100%] 800px:w-[50%]">
                   <label className="block pb-2">Phone Number</label>
                   <input
-                    type="number"
+                    type="text"
                     className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
                     required
                     value={phoneNumber}
@@ -257,12 +257,17 @@ const AllOrders = () => {
   const row = [];
 
   orders &&
-    orders.forEach((item) => {
+    orders.forEach((item, index) => {
+      // Handle both id and _id from backend, ensure unique id for DataGrid
+      const orderId = item.id || item._id || `order-${index}-${Date.now()}`;
+      const cartLength = Array.isArray(item.cart) ? item.cart.length : 0;
+      const totalPrice = item.totalPrice || 0;
+      
       row.push({
-        id: item._id,
-        itemsQty: item.cart.length,
-        total: "₹" + item.totalPrice,
-        status: item.status,
+        id: orderId,
+        itemsQty: cartLength,
+        total: "₹" + totalPrice,
+        status: item.status || "Unknown",
       });
     });
 
@@ -272,6 +277,7 @@ const AllOrders = () => {
         rows={row}
         columns={columns}
         pageSize={10}
+        rowsPerPageOptions={[10, 20, 50]}
         disableSelectionOnClick
         autoHeight
       />
@@ -360,6 +366,7 @@ const AllRefundOrders = () => {
         rows={row}
         columns={columns}
         pageSize={10}
+        rowsPerPageOptions={[10, 20, 50]}
         autoHeight
         disableSelectionOnClick
       />
@@ -430,12 +437,17 @@ const TrackOrder = () => {
   const row = [];
 
   orders &&
-    orders.forEach((item) => {
+    orders.forEach((item, index) => {
+      // Handle both id and _id from backend, ensure unique id for DataGrid
+      const orderId = item.id || item._id || `order-${index}-${Date.now()}`;
+      const cartLength = Array.isArray(item.cart) ? item.cart.length : 0;
+      const totalPrice = item.totalPrice || 0;
+      
       row.push({
-        id: item._id,
-        itemsQty: item.cart.length,
-        total: "₹ " + item.totalPrice,
-        status: item.status,
+        id: orderId,
+        itemsQty: cartLength,
+        total: "₹ " + totalPrice,
+        status: item.status || "Unknown",
       });
     });
 
@@ -445,6 +457,7 @@ const TrackOrder = () => {
         rows={row}
         columns={columns}
         pageSize={10}
+        rowsPerPageOptions={[10, 20, 50]}
         disableSelectionOnClick
         autoHeight
       />
@@ -461,15 +474,15 @@ const ChangePassword = () => {
     e.preventDefault();
 
     await axiosInstance
-      .put("/user/update-user-password", { oldPassword, newPassword, confirmPassword })
+      .put("/api/auth/update-password", { oldPassword, newPassword, confirmPassword })
       .then((res) => {
-        toast.success(res.data.success);
+        toast.success(res.data.success ? "Password updated" : "Password updated");
         setOldPassword("");
         setNewPassword("");
         setConfirmPassword("");
       })
       .catch((error) => {
-        toast.error(error.response.data.message);
+        toast.error(error.response?.data?.message || error.message);
       });
   };
   return (
@@ -529,7 +542,7 @@ const Address = () => {
   const [open, setOpen] = useState(false);
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
-  const [zipCode, setZipCode] = useState();
+  const [zipCode, setZipCode] = useState("");
   const [address1, setAddress1] = useState("");
   const [address2, setAddress2] = useState("");
   const [addressType, setAddressType] = useState("");
@@ -671,7 +684,7 @@ const Address = () => {
                   <div className="w-full pb-2">
                     <label className="block pb-2">Zip Code</label>
                     <input
-                      type="number"
+                      type="text"
                       className={`${styles.input}`}
                       required
                       value={zipCode}

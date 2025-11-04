@@ -25,6 +25,27 @@ public class UserService {
     }
 
     public boolean checkPassword(String rawPassword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassword, encodedPassword);
+        if (encodedPassword == null) {
+            return false;
+        }
+        // If the stored password looks like a BCrypt hash, use encoder.matches
+        if (encodedPassword.startsWith("$2a$") || encodedPassword.startsWith("$2b$") || encodedPassword.startsWith("$2y$")) {
+            return passwordEncoder.matches(rawPassword, encodedPassword);
+        }
+        // Legacy fallback: stored as plaintext (from older data). Accept a direct match.
+        return rawPassword.equals(encodedPassword);
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    public String encodePassword(String rawPassword) {
+        return passwordEncoder.encode(rawPassword);
+    }
+
+    public boolean isEncoded(String password) {
+        if (password == null) return false;
+        return password.startsWith("$2a$") || password.startsWith("$2b$") || password.startsWith("$2y$");
     }
 }

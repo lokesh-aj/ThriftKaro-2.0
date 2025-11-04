@@ -17,12 +17,12 @@ const ProductDetailsPage = () => {
   useEffect(() => {
     if (eventData !== null) {
       const data = allEvents && allEvents.find((i) => i._id === id);
-      setData(data);
+      setData(data || null);
     } else {
       const data = allProducts && allProducts.find((i) => i._id === id);
-      setData(data);
+      setData(data || null);
     }
-  }, [allProducts, allEvents]);
+  }, [allProducts, allEvents, id, eventData]);
 
   return (
     <div>

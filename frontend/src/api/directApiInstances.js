@@ -10,7 +10,7 @@ export const userApiInstance = axios.create({
 });
 
 export const shopApiInstance = axios.create({
-  baseURL: "http://localhost:8089", // Shop Service
+  baseURL: "http://localhost:8091", // Shop Service
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -67,18 +67,34 @@ export const notificationApiInstance = axios.create({
 
 export const eventApiInstance = axios.create({
   baseURL: "http://localhost:8090", // Event Service
-  timeout: 10000,
+  timeout: 30000, // Increased timeout for image uploads
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
 // Common request interceptor for all instances
-const addAuthInterceptor = (instance) => {
+// Optionally prefer a specific token type per instance
+const addAuthInterceptor = (instance, options = { prefer: 'auto' }) => {
   instance.interceptors.request.use(
     (config) => {
-      // Prefer seller token for seller-protected services; fall back to generic token
-      const token = localStorage.getItem('sellerToken') || localStorage.getItem('token');
+      // Do not attach Authorization for auth endpoints
+      const url = config.url || '';
+      const isAuthEndpoint = /\/api\/(auth|v2\/shop)\/(login|register|login-shop|create-shop)/.test(url);
+      if (isAuthEndpoint) {
+        return config;
+      }
+      const sellerToken = localStorage.getItem('sellerToken');
+      const userToken = localStorage.getItem('token');
+      // Preference rules: 'user' -> user first, 'seller' -> seller first, 'auto' -> seller first (legacy)
+      let token;
+      if (options.prefer === 'user') {
+        token = userToken || sellerToken;
+      } else if (options.prefer === 'seller') {
+        token = sellerToken || userToken;
+      } else {
+        token = sellerToken || userToken;
+      }
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       } else {
@@ -171,19 +187,22 @@ const addResponseInterceptor = (instance) => {
 };
 
 // Apply interceptors to all instances
-const instances = [
+// Apply request/response interceptors
+// For cart service, prefer the USER token to avoid seller/user mismatches
+addAuthInterceptor(cartApiInstance, { prefer: 'user' });
+addResponseInterceptor(cartApiInstance);
+
+// Other services keep the default behavior
+[
   userApiInstance,
   shopApiInstance,
   productApiInstance,
-  cartApiInstance,
   orderApiInstance,
   paymentApiInstance,
   chatApiInstance,
   notificationApiInstance,
   eventApiInstance
-];
-
-instances.forEach(instance => {
+].forEach(instance => {
   addAuthInterceptor(instance);
   addResponseInterceptor(instance);
 });

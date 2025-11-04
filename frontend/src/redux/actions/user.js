@@ -21,13 +21,24 @@ export const loadUser = () => async (dispatch) => {
       type: "LoadUserRequest",
     });
     
-    // Check if user has a token
+    // Check if user has a token; if not, try localStorage fallback and fail silently
     const token = localStorage.getItem('token');
     if (!token) {
-      dispatch({
-        type: "LoadUserFail",
-        payload: "No authentication token found",
-      });
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        const user = JSON.parse(userData);
+        const normalizedUser = normalizeUser(user);
+        dispatch({
+          type: "LoadUserSuccess",
+          payload: normalizedUser,
+        });
+      } else {
+        // No token and no cached user — finish without setting an error message
+        dispatch({
+          type: "LoadUserFail",
+          payload: null,
+        });
+      }
       return;
     }
     
@@ -41,27 +52,46 @@ export const loadUser = () => async (dispatch) => {
         payload: normalizedUser,
       });
     } catch (apiError) {
-      // If API fails, try to load from localStorage as fallback
-      console.log("API load failed, trying localStorage fallback:", apiError.response?.data || apiError.message);
+      // If API fails (403, 401, etc.), try to load from localStorage as fallback
+      // Don't log 403 errors as they're expected when not logged in
+      if (apiError.response?.status !== 403 && apiError.response?.status !== 401) {
+        console.log("API load failed, trying localStorage fallback:", apiError.response?.data || apiError.message);
+      }
       
       const userData = localStorage.getItem('user');
       if (userData) {
-        const user = JSON.parse(userData);
-        // Normalize user object to ensure _id field exists
-        const normalizedUser = normalizeUser(user);
-        dispatch({
-          type: "LoadUserSuccess",
-          payload: normalizedUser,
-        });
+        try {
+          const user = JSON.parse(userData);
+          // Normalize user object to ensure _id field exists
+          const normalizedUser = normalizeUser(user);
+          dispatch({
+            type: "LoadUserSuccess",
+            payload: normalizedUser,
+          });
+        } catch (parseError) {
+          // Invalid JSON in localStorage, clear it
+          localStorage.removeItem('user');
+          dispatch({
+            type: "LoadUserFail",
+            payload: null,
+          });
+        }
       } else {
-        throw apiError; // Re-throw if no fallback data
+        // No fallback data - silently fail (user not logged in)
+        dispatch({
+          type: "LoadUserFail",
+          payload: null,
+        });
       }
     }
   } catch (error) {
-    console.log("Load user error:", error.response?.data || error.message);
+    // Only log unexpected errors, not 403/401 which are expected when not authenticated
+    if (error.response?.status !== 403 && error.response?.status !== 401) {
+      console.log("Load user error:", error.response?.data || error.message);
+    }
     dispatch({
       type: "LoadUserFail",
-      payload: error.response?.data?.message || "Authentication failed",
+      payload: null, // Don't set error message for auth failures
     });
   }
 };
@@ -103,19 +133,19 @@ export const updateUserInformation =
       dispatch({
         type: "updateUserInfoRequest",
       });
-
-      // Temporarily disabled - endpoint not available in UserService
-      console.log("Update user info disabled - using direct UserService connection");
-      const data = { success: true, message: "Update disabled", user: {} };
-
+      const { data } = await axiosInstance.put("/api/auth/update-me", {
+        name,
+        email,
+        phoneNumber,
+      });
       dispatch({
         type: "updateUserInfoSuccess",
-        payload: data.user,
+        payload: normalizeUser(data),
       });
     } catch (error) {
       dispatch({
         type: "updateUserInfoFailed",
-        payload: error.response.data.message,
+        payload: error.response?.data?.message || error.message,
       });
     }
   };

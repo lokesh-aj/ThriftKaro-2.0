@@ -16,8 +16,8 @@ public class CartItem {
     
     @Id
     private String cartItemId;
-    
-    private Cart cart;
+    // Store only cartId to avoid recursive embeddings
+    private String cartId;
     
     private String productId;
     

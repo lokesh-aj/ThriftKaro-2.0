@@ -86,6 +86,7 @@ const AllEvents = () => {
         rows={row}
         columns={columns}
         pageSize={10}
+        rowsPerPageOptions={[10, 20, 50]}
         disableSelectionOnClick
         autoHeight
         getRowId={(r) => r.id ?? r._id ?? `${r.name}-${r.Stock}-${r.price}`}

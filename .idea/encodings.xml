@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/EurekaServer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ThriftKaro 2.0/EurekaServer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ThriftKaro 2.0/EventService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ThriftKaro 2.0/PaymentService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ThriftKaro 2.0/ProductService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ThriftKaro 2.0/ShopService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ThriftKaro 2.0/UserService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ThriftKaro 2.0/chat-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ThriftKaro 2.0/config-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ThriftKaro 2.0/gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ThriftKaro 2.0/notification-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ThriftKaro 2.0/order-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/UserService/src/main/java" charset="UTF-8" />
+  </component>
+</project>

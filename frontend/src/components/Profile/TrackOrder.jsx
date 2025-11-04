@@ -14,7 +14,7 @@ const TrackOrder = () => {
     dispatch(getAllOrdersOfUser(user._id));
   }, [dispatch]);
 
-  const data = orders && orders.find((item) => item._id === id);
+  const data = orders && orders.find((item) => (item.id || item._id) === id);
 
   return (
     <div className="w-full h-[80vh] flex justify-center items-center">

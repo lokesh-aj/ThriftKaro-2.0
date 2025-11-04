@@ -16,9 +16,11 @@ const DashboardHero = () => {
   const { products } = useSelector((state) => state.products);
 
   useEffect(() => {
-    dispatch(getAllOrdersOfShop(seller._id));
-    dispatch(getAllProductsShop(seller._id));
-  }, [dispatch]);
+    if (seller?._id) {
+      dispatch(getAllOrdersOfShop(seller._id));
+      dispatch(getAllProductsShop(seller._id));
+    }
+  }, [dispatch, seller?._id]);
 
   const availableBalance = seller?.availableBalance.toFixed(2);
 
@@ -148,6 +150,7 @@ const DashboardHero = () => {
           rows={row}
           columns={columns}
           pageSize={10}
+          rowsPerPageOptions={[10, 20, 50]}
           disableSelectionOnClick
           autoHeight
         />

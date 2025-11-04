@@ -10,11 +10,11 @@ import java.util.Optional;
 @Repository
 public interface CartItemRepository extends MongoRepository<CartItem, String> {
     
-    Optional<CartItem> findByCartCartIdAndProductId(String cartId, String productId);
+    Optional<CartItem> findByCartIdAndProductId(String cartId, String productId);
     
-    List<CartItem> findByCartCartId(String cartId);
+    List<CartItem> findByCartId(String cartId);
     
-    void deleteByCartCartIdAndProductId(String cartId, String productId);
+    void deleteByCartIdAndProductId(String cartId, String productId);
     
-    void deleteByCartCartId(String cartId);
+    void deleteByCartId(String cartId);
 }

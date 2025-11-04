@@ -16,7 +16,7 @@ import java.util.Map;
 @Service
 public class ProductServiceClient {
     
-    @Value("${product.service.url:http://localhost:8081}")
+    @Value("${product.service.url:http://localhost:8089}")
     private String productServiceUrl;
     
     private final RestTemplate restTemplate;
@@ -30,9 +30,17 @@ public class ProductServiceClient {
             // Product Service endpoint: /api/v2/product/{id}
             String url = productServiceUrl + "/api/v2/product/" + productId;
             
+            HttpHeaders headers = new HttpHeaders();
+            if (token != null && !token.isBlank()) {
+                headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+            }
+            HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
             // Use Map to handle the response, then convert to ProductResponse
-            ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
-            Map<String, Object> productMap = response.getBody();
+            ResponseEntity<java.util.Map<String, Object>> response = restTemplate.exchange(
+                    url, HttpMethod.GET, requestEntity,
+                    (Class<java.util.Map<String, Object>>)(Class<?>)java.util.Map.class);
+            java.util.Map<String, Object> productMap = response.getBody();
             
             if (productMap == null) {
                 System.err.println("ProductServiceClient - Product not found for ID: " + productId);
@@ -60,6 +68,21 @@ public class ProductServiceClient {
             Integer stock = productMap.get("stock") != null ? 
                           ((Number) productMap.get("stock")).intValue() : 0;
             
+            // Extract shopId
+            String shopId = null;
+            if (productMap.get("shopId") != null) {
+                shopId = productMap.get("shopId").toString();
+            } else if (productMap.get("shop") != null) {
+                // Handle nested shop object
+                @SuppressWarnings("unchecked")
+                Map<String, Object> shop = (Map<String, Object>) productMap.get("shop");
+                if (shop != null && shop.get("_id") != null) {
+                    shopId = shop.get("_id").toString();
+                } else if (shop != null && shop.get("id") != null) {
+                    shopId = shop.get("id").toString();
+                }
+            }
+            
             ProductResponse productResponse = ProductResponse.builder()
                     .id(productIdStr)
                     .name((String) productMap.get("name"))
@@ -70,6 +93,7 @@ public class ProductServiceClient {
                     .stock(stock)
                     .stockQuantity(stock)
                     .images(images)
+                    .shopId(shopId)
                     .build();
             
             return productResponse;
@@ -77,9 +101,10 @@ public class ProductServiceClient {
             System.err.println("ProductServiceClient - Product not found (404): " + productId);
             return null;
         } catch (Exception e) {
-            System.err.println("ProductServiceClient - Error fetching product: " + e.getMessage());
+            // Do NOT propagate as RuntimeException; returning null lets callers continue gracefully
+            System.err.println("ProductServiceClient - Error fetching product (non-fatal): " + e.getMessage());
             e.printStackTrace();
-            throw new RuntimeException("Failed to fetch product: " + e.getMessage(), e);
+            return null;
         }
     }
     

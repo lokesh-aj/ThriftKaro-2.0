@@ -20,6 +20,18 @@ public class CloudinaryConfig {
     
     @Bean
     public Cloudinary cloudinary() {
+        // Only create Cloudinary if credentials are provided
+        // If not configured, create a dummy instance that will fail gracefully
+        if (cloudName == null || cloudName.isEmpty() || 
+            apiKey == null || apiKey.isEmpty() || 
+            apiSecret == null || apiSecret.isEmpty()) {
+            // Return a Cloudinary instance with empty credentials (will fail gracefully)
+            return new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", "",
+                "api_key", "",
+                "api_secret", ""
+            ));
+        }
         return new Cloudinary(ObjectUtils.asMap(
             "cloud_name", cloudName,
             "api_key", apiKey,

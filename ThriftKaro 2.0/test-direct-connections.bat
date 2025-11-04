@@ -4,8 +4,8 @@ echo Testing Direct API Connections
 echo ===============================================
 echo.
 
-echo Testing Shop Service (Port 8089)...
-curl -X GET "http://localhost:8089/api/v2/shop/health" -H "Content-Type: application/json" 2>nul
+echo Testing Shop Service (Port 8091)...
+curl -X GET "http://localhost:8091/api/v2/shop/health" -H "Content-Type: application/json" 2>nul
 if %errorlevel% equ 0 (
     echo ✓ Shop Service is accessible
 ) else (

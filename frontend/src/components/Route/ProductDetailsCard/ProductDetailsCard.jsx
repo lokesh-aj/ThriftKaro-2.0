@@ -48,7 +48,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
     if (isItemExists) {
       toast.error("Item already in cart!");
     } else {
-      if (data.stock < count) {
+      if (!data?.stock || data.stock < count) {
         toast.error("Product stock limited!");
       } else {
         const cartData = { ...data, qty: count };

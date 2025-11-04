@@ -178,7 +178,7 @@ Payment Service: 8085
 Notification Service: 8086
 Chat Service: 8087
 Cart Service: 8088
-Shop Service: 8089
+Shop Service: 8091
 Event Service: 8090
 
 Frontend: 3000
@@ -188,7 +188,7 @@ USEFUL COMMANDS
 ===============================================
 
 Check if a port is in use (Windows):
-netstat -ano | findstr :8080
+netstat -ano | findstr :8089
 
 Kill a process using a port:
 taskkill /PID <process_id> /F
@@ -215,7 +215,7 @@ Stop all services:
 API TESTING WITH CURL OR POSTMAN
 ===============================================
 
-Base URL: http://localhost:8080/api/v2
+Base URL: http://localhost:8089/api/v2
 
 Test User Registration:
 POST /user/create-user

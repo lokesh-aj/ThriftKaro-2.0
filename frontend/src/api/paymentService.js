@@ -5,7 +5,7 @@ export const paymentService = {
   // Get Stripe public API key
   getStripeApiKey: async () => {
     try {
-      const response = await paymentApiInstance.get('/api/v2/payment/stripe/key');
+      const response = await paymentApiInstance.get('/api/v2/payment/stripeapikey');
       return response.data;
     } catch (error) {
       console.error('Error fetching Stripe API key:', error);

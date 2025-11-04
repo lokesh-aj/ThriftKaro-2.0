@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/ThriftKaro 2.0/EurekaServer/pom.xml" />
+        <option value="$PROJECT_DIR$/ThriftKaro 2.0/gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/ThriftKaro 2.0/notification-service/pom.xml" />
+        <option value="$PROJECT_DIR$/ThriftKaro 2.0/order-service/pom.xml" />
+        <option value="$PROJECT_DIR$/ThriftKaro 2.0/PaymentService/pom.xml" />
+        <option value="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/pom.xml" />
+        <option value="$PROJECT_DIR$/ThriftKaro 2.0/ShopService/pom.xml" />
+        <option value="$PROJECT_DIR$/ThriftKaro 2.0/UserService/pom.xml" />
+        <option value="$PROJECT_DIR$/ThriftKaro 2.0/cart/pom.xml" />
+        <option value="$PROJECT_DIR$/ThriftKaro 2.0/chat-service/pom.xml" />
+        <option value="$PROJECT_DIR$/ThriftKaro 2.0/config-server/pom.xml" />
+        <option value="$PROJECT_DIR$/ThriftKaro 2.0/EventService/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="21" project-jdk-type="JavaSDK" />
+</project>

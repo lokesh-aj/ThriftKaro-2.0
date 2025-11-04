@@ -11,7 +11,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useSelector, useDispatch } from "react-redux";
-import axiosInstance from "../../api/axiosInstance";
+import { orderApiInstance } from "../../api/directApiInstances";
 import { toast } from "react-toastify";
 import { RxCross1 } from "react-icons/rx";
 import { clearCart } from "../../redux/actions/cart";
@@ -25,10 +25,23 @@ const Payment = () => {
   const stripe = useStripe();
   const elements = useElements();
 
+  // All hooks must be called before any conditional returns
   useEffect(() => {
     const orderData = JSON.parse(localStorage.getItem("latestOrder"));
     setOrderData(orderData);
   }, []);
+
+  // Handle case when Stripe is not available - AFTER all hooks
+  if (!stripe || !elements) {
+    return (
+      <div className="w-full flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">Payment Service Loading...</h2>
+          <p className="text-gray-600">Please wait while we initialize the payment system.</p>
+        </div>
+      </div>
+    );
+  }
 
   const createOrder = (data, actions) => {
     return actions.order
@@ -84,8 +97,8 @@ const Payment = () => {
       type: "Paypal",
     };
 
-    await axiosInstance
-      .post("/order/create-order", order, config)
+    await orderApiInstance
+      .post("/api/v2/order/create-order", order, config)
       .then((res) => {
         setOpen(false);
         navigate("/order/success");
@@ -93,6 +106,10 @@ const Payment = () => {
         dispatch(clearCart(user._id));
         localStorage.setItem("latestOrder", JSON.stringify([]));
         window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Order creation error:", error);
+        toast.error(error.response?.data?.message || "Failed to create order. Please try again.");
       });
   };
 
@@ -109,8 +126,9 @@ const Payment = () => {
         },
       };
 
-      const { data } = await axiosInstance.post(
-        `/payment/process`,
+      // TODO: Update payment processing to use PaymentService
+      const { data } = await orderApiInstance.post(
+        `/api/v2/payment/process`,
         paymentData,
         config
       );
@@ -128,14 +146,14 @@ const Payment = () => {
         toast.error(result.error.message);
       } else {
         if (result.paymentIntent.status === "succeeded") {
-          order.paymnentInfo = {
+          order.paymentInfo = {
             id: result.paymentIntent.id,
             status: result.paymentIntent.status,
             type: "Credit Card",
           };
 
-          await axiosInstance
-            .post(`/order/create-order`, order, config)
+          await orderApiInstance
+            .post(`/api/v2/order/create-order`, order, config)
             .then((res) => {
               setOpen(false);
               navigate("/order/success");
@@ -143,11 +161,16 @@ const Payment = () => {
               dispatch(clearCart(user._id));
               localStorage.setItem("latestOrder", JSON.stringify([]));
               window.location.reload();
+            })
+            .catch((error) => {
+              console.error("Order creation error:", error);
+              toast.error(error.response?.data?.message || "Failed to create order. Please try again.");
             });
         }
       }
     } catch (error) {
-      toast.error(error);
+      console.error("Payment error:", error);
+      toast.error(error.response?.data?.message || error.message || "Payment failed. Please try again.");
     }
   };
 
@@ -164,8 +187,8 @@ const Payment = () => {
       type: "Cash On Delivery",
     };
 
-    await axiosInstance
-      .post("/order/create-order", order, config)
+    await orderApiInstance
+      .post("/api/v2/order/create-order", order, config)
       .then((res) => {
         setOpen(false);
         navigate("/order/success");
@@ -173,6 +196,10 @@ const Payment = () => {
         dispatch(clearCart(user._id));
         localStorage.setItem("latestOrder", JSON.stringify([]));
         window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Order creation error:", error);
+        toast.error(error.response?.data?.message || "Failed to create order. Please try again.");
       });
   };
 

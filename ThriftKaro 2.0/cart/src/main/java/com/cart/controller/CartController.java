@@ -245,17 +245,45 @@ public class CartController {
     }
     
     @PostMapping("/items")
-    public ResponseEntity<CartResponse> addItemToUserCart(@RequestBody AddItemRequest request,
+    public ResponseEntity<?> addItemToUserCart(@RequestBody AddItemRequest request,
                                                           HttpServletRequest httpRequest) {
         try {
+            // Validate request body
+            if (request == null) {
+                System.err.println("ERROR: Request body is null");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("error", "Request body is required", "message", "Request body cannot be null"));
+            }
+            
+            // Validate productId
+            if (request.getProductId() == null || request.getProductId().isEmpty()) {
+                System.err.println("ERROR: ProductId is null or empty");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("error", "Product ID is required", "message", "ProductId cannot be null or empty"));
+            }
+            
+            // Validate quantity
+            if (request.getQuantity() == null || request.getQuantity() <= 0) {
+                System.err.println("ERROR: Quantity is null or invalid: " + request.getQuantity());
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("error", "Invalid quantity", "message", "Quantity must be greater than 0"));
+            }
+            
             String token = getTokenFromRequest(httpRequest);
             if (token == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                System.err.println("ERROR: No token found in request");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("error", "Authentication required", "message", "No token found in request"));
             }
+            
             String userId = jwtUtil.extractUserId(token);
             if (userId == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                System.err.println("ERROR: Could not extract userId from token");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("error", "Invalid token", "message", "Could not extract userId from token"));
             }
+            
+            System.out.println("addItemToUserCart - userId: " + userId + ", productId: " + request.getProductId() + ", quantity: " + request.getQuantity());
             
             // First, ensure the user has a cart
             CartResponse userCart;
@@ -263,10 +291,14 @@ public class CartController {
                 userCart = cartService.getCartByUserId(userId);
             } catch (RuntimeException e) {
                 // If cart doesn't exist for user, create it first
-                if (e.getMessage().contains("not found")) {
+                if (e.getMessage() != null && e.getMessage().contains("not found")) {
+                    System.out.println("Cart not found for user " + userId + ", creating new cart...");
                     userCart = cartService.createCart(userId);
                 } else {
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                    System.err.println("ERROR getting cart for user " + userId + ": " + e.getMessage());
+                    e.printStackTrace();
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body(Map.of("error", "Failed to get or create cart", "message", e.getMessage()));
                 }
             }
             
@@ -274,13 +306,26 @@ public class CartController {
                                                                 request.getQuantity(), token);
             return ResponseEntity.ok(updatedCart);
         } catch (RuntimeException e) {
-            System.out.println("Error in addItemToUserCart: " + e.getMessage());
-            if (e.getMessage().contains("not found")) {
-                return ResponseEntity.notFound().build();
-            } else if (e.getMessage().contains("Insufficient stock")) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            System.err.println("ERROR in addItemToUserCart (RuntimeException): " + e.getMessage());
+            e.printStackTrace();
+            if (e.getMessage() != null) {
+                if (e.getMessage().contains("not found")) {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                            .body(Map.of("error", "Cart or product not found", "message", e.getMessage()));
+                } else if (e.getMessage().contains("Insufficient stock")) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(Map.of("error", "Insufficient stock", "message", e.getMessage()));
+                }
             }
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Internal server error", "message", 
+                        e.getMessage() != null ? e.getMessage() : "An unexpected error occurred"));
+        } catch (Exception e) {
+            System.err.println("ERROR in addItemToUserCart (Exception): " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Internal server error", "message", 
+                        e.getMessage() != null ? e.getMessage() : "An unexpected error occurred"));
         }
     }
     

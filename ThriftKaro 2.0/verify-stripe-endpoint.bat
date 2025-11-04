@@ -29,11 +29,11 @@ timeout /t 20 /nobreak > nul
 echo [5/6] Testing endpoints...
 echo.
 echo Testing PaymentService Health...
-curl -s http://localhost:8080/api/v2/payment/health
+curl -s http://localhost:8089/api/v2/payment/health
 echo.
 echo.
 echo Testing Stripe API Key endpoint...
-curl -s http://localhost:8080/api/v2/payment/stripeapikey
+curl -s http://localhost:8089/api/v2/payment/stripeapikey
 echo.
 echo.
 
@@ -44,7 +44,7 @@ echo VERIFICATION RESULTS:
 echo ========================================
 echo.
 echo ✅ Eureka Server: http://localhost:8761
-echo ✅ API Gateway: http://localhost:8080
+echo ✅ API Gateway: http://localhost:8089
 echo ✅ PaymentService: http://localhost:8086
 echo ✅ Stripe API Key Endpoint: /api/v2/payment/stripeapikey
 echo.

@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e1e3723e-c9c7-4f37-b734-6f2bc0207916" name="Changes" comment="Connection between frontend and backend, major bug fixes in the frontend retrieving data.">
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/EventService/src/main/java/com/eventservice/config/CloudinaryConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/EventService/src/main/java/com/eventservice/config/CloudinaryConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/EventService/src/main/java/com/eventservice/service/EventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/EventService/src/main/java/com/eventservice/service/EventService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/EventService/target/classes/com/eventservice/controller/EventController.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/EventService/target/classes/com/eventservice/controller/EventController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/EventService/target/classes/com/eventservice/security/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/EventService/target/classes/com/eventservice/security/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/EventService/target/classes/com/eventservice/service/EventService.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/EventService/target/classes/com/eventservice/service/EventService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/MIGRATION_README.md" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/MIGRATION_README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/MIGRATION_VERIFICATION.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/MIGRATION_VERIFICATION.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/PaymentService/src/main/java/com/paymentservice/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/PaymentService/src/main/java/com/paymentservice/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/PaymentService/target/classes/com/paymentservice/security/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/PaymentService/target/classes/com/paymentservice/security/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/ProductServiceApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/ProductServiceApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/controller/ProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/controller/ProductController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/dto/CreateProductRequest$CreateProductRequestBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/dto/CreateProductRequest$CreateProductRequestBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/dto/CreateProductRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/dto/CreateProductRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/entities/Product$ProductBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/entities/Product$ProductBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/entities/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/entities/Product.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/exception/GlobalExceptionHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/exception/GlobalExceptionHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/repository/ProductRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/repository/ProductRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/security/JwtAuthenticationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/security/JwtAuthenticationFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/security/JwtUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/security/JwtUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/security/SecurityConfig$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/security/SecurityConfig$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/security/SecurityConfig$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/security/SecurityConfig$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/security/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/security/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/service/ProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ProductService/target/classes/com/productservice/service/ProductService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/QUICK_START_GUIDE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/QUICK_START_GUIDE.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/STRIPE_ENDPOINT_VERIFICATION_REPORT.md" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/STRIPE_ENDPOINT_VERIFICATION_REPORT.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ShopService/src/main/java/com/shopservice/security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ShopService/src/main/java/com/shopservice/security/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ShopService/src/main/java/com/shopservice/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ShopService/src/main/java/com/shopservice/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ShopService/src/main/java/com/shopservice/service/ShopService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ShopService/src/main/java/com/shopservice/service/ShopService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ShopService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ShopService/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ShopService/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ShopService/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ShopService/target/classes/com/shopservice/security/JwtUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ShopService/target/classes/com/shopservice/security/JwtUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ShopService/target/classes/com/shopservice/security/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ShopService/target/classes/com/shopservice/security/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/ShopService/target/classes/com/shopservice/service/ShopService.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/ShopService/target/classes/com/shopservice/service/ShopService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/UserService/src/main/java/com/userservice/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/UserService/src/main/java/com/userservice/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/UserService/src/main/java/com/userservice/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/UserService/src/main/java/com/userservice/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/java/com/cart/controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/java/com/cart/controller/CartController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/java/com/cart/dto/ProductResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/java/com/cart/dto/ProductResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/java/com/cart/entities/CartItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/java/com/cart/entities/CartItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/java/com/cart/repository/CartItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/java/com/cart/repository/CartItemRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/java/com/cart/repository/CartRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/java/com/cart/repository/CartRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/java/com/cart/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/java/com/cart/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/java/com/cart/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/java/com/cart/service/CartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/java/com/cart/service/ProductServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/java/com/cart/service/ProductServiceClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/cart/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/chat-service/target/classes/com/chatservice/controller/ConversationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/chat-service/target/classes/com/chatservice/controller/ConversationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/chat-service/target/classes/com/chatservice/service/ConversationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/chat-service/target/classes/com/chatservice/service/ConversationService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/gateway/src/main/java/com/example/gateway/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/gateway/src/main/java/com/example/gateway/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/gateway/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/notification-service/target/classes/com/notificationservice/NotificationServiceApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/notification-service/target/classes/com/notificationservice/NotificationServiceApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/notification-service/target/classes/com/notificationservice/controller/NotificationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/notification-service/target/classes/com/notificationservice/controller/NotificationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/quick-start-core-services.bat" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/quick-start-core-services.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/restart-microservices.bat" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/restart-microservices.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/start-microservices.bat" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/start-microservices.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/start-services.bat" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/start-services.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/test-connections.bat" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/test-connections.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/test-direct-connections.bat" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/test-direct-connections.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/verify-all-connections.bat" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/verify-all-connections.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThriftKaro 2.0/verify-stripe-endpoint.bat" beforeDir="false" afterPath="$PROJECT_DIR$/ThriftKaro 2.0/verify-stripe-endpoint.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/axiosInstance.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/axiosInstance.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/cartService.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/cartService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/directApiInstances.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/directApiInstances.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Admin/AdminDashboardMain.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Admin/AdminDashboardMain.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Admin/AllEvents.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Admin/AllEvents.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Admin/AllProducts.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Admin/AllProducts.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Admin/AllSellers.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Admin/AllSellers.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Admin/AllUsers.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Admin/AllUsers.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Admin/AllWithdraw.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Admin/AllWithdraw.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Events/EventCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Events/EventCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Layout/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Layout/Footer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Login/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Login/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Products/ProductDetails.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Products/ProductDetails.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Profile/ProfileContent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Profile/ProfileContent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Route/ProductCard/ProductCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Route/ProductCard/ProductCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Route/ProductDetailsCard/ProductDetailsCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Route/ProductDetailsCard/ProductDetailsCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Shop/AllCoupons.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Shop/AllCoupons.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Shop/AllRefundOrders.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Shop/AllRefundOrders.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Shop/DashboardHero.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Shop/DashboardHero.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Shop/ShopCreate.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Shop/ShopCreate.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Shop/ShopInfo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Shop/ShopInfo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Shop/ShopLogin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Shop/ShopLogin.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Shop/ShopProfileData.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Shop/ShopProfileData.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/cart/Cart.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/cart/Cart.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AdminDashboardOrders.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AdminDashboardOrders.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ProductDetailsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ProductDetailsPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/actions/cart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/actions/product.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/actions/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/product.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/static/data.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/static/data.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;lokesh-aj&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/lokesh-aj/ThriftKaro-2.0.git&quot;,
+    &quot;accountId&quot;: &quot;7463ffc0-e9d8-45dc-a042-80e9aa2f8e18&quot;
+  }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\xampp\php\php.exe" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="32ElnKbiPmsdpUcDCwKG5ue9LwB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.EurekaServerApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.UserServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.EurekaServer [clean].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.CartApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.ChatServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.ConfigServerApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.EurekaServerApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.EventServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.GatewayApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.NotificationServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.OrderServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.PaymentServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.ProductServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.ShopServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.UserServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Zuhair/IdeaProjects/ThriftKaro-2.0/ThriftKaro 2.0/EventService&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Lokesh Vyas\Downloads\eureka\demo" />
+      <recent name="E:\ThriftKaro 2.0" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean" />
+    </option>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="KtorApplicationConfigurationType" />
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.ConfigServerApplication">
+    <configuration name="EurekaServerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.eurekaserver.EurekaServerApplication" />
+      <module name="EurekaServer" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.eurekaserver.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.userservice.UserServiceApplication" />
+      <module name="UserService" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.userservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="ThriftKaro 2.0" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="ThriftKaro 2.0" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <configuration name="CartApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="cart" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.cart.CartApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ChatServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="chat-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.chatservice.ChatServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ConfigServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="config-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.configserver.ConfigServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EurekaServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="EurekaServer" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.eurekaserver.EurekaServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EventServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="event-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.eventservice.EventServiceApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.eventservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.gateway.GatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NotificationServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="notification-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.notificationservice.NotificationServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OrderServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="order-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.orderservice.OrderServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PaymentServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="PaymentService" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.paymentservice.PaymentServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProductServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="ProductService" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.productservice.ProductServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ShopServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="ShopService" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.shopservice.ShopServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="UserService" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.userservice.UserServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.EventServiceApplication" />
+        <item itemvalue="Application.UserServiceApplication" />
+        <item itemvalue="Application.EurekaServerApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e1e3723e-c9c7-4f37-b734-6f2bc0207916" name="Changes" comment="" />
+      <created>1756993778930</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1756993778930</updated>
+      <workItem from="1761668444941" duration="992000" />
+      <workItem from="1761716171751" duration="8402000" />
+      <workItem from="1761814842752" duration="2401000" />
+      <workItem from="1761926054199" duration="1644000" />
+      <workItem from="1762187243741" duration="4264000" />
+      <workItem from="1762264444263" duration="2239000" />
+      <workItem from="1762272986902" duration="7241000" />
+    </task>
+    <task id="LOCAL-00001" summary="Connection between frontend and backend, major bug fixes in the frontend retrieving data.">
+      <option name="closed" value="true" />
+      <created>1761926219822</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1761926219822</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Connection between frontend and backend, major bug fixes in the frontend retrieving data." />
+    <option name="LAST_COMMIT_MESSAGE" value="Connection between frontend and backend, major bug fixes in the frontend retrieving data." />
+  </component>
+</project>

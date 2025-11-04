@@ -53,15 +53,6 @@ export const addTocart = (productData, userId) => async (dispatch, getState) => 
   try {
     dispatch({ type: CART_LOADING });
     
-    const { cart } = getState().cart;
-    let cartId = cart?.cartId || cart?.id;
-    
-    // If no cart exists, create one
-    if (!cartId) {
-      const newCart = await cartService.createOrFetchCart(userId);
-      cartId = newCart.cartId || newCart.id;
-    }
-    
     // Validate product data
     const productId = productData._id || productData.id;
     if (!productId) {
@@ -74,9 +65,8 @@ export const addTocart = (productData, userId) => async (dispatch, getState) => 
       return;
     }
     
-    // Add item to cart
-    const updatedCart = await cartService.addItemToCart(
-      cartId, 
+    // Use the simpler endpoint that automatically handles cart creation
+    const updatedCart = await cartService.addItemToUserCart(
       productId, 
       productData.qty || 1
     );
@@ -90,11 +80,12 @@ export const addTocart = (productData, userId) => async (dispatch, getState) => 
     return updatedCart;
   } catch (error) {
     console.error('Error adding to cart:', error);
+    const errorMessage = error.response?.data?.message || error.message || 'Failed to add item to cart';
     dispatch({ 
       type: CART_ERROR, 
-      payload: error.response?.data?.message || error.message || 'Failed to add item to cart' 
+      payload: errorMessage
     });
-    toast.error(error.response?.data?.message || error.message || 'Failed to add item to cart');
+    toast.error(errorMessage);
     throw error;
   }
 };

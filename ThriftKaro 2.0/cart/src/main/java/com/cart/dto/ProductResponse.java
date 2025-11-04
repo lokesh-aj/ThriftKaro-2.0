@@ -23,6 +23,7 @@ public class ProductResponse {
     private Integer stock;
     private Integer stockQuantity;
     private List<Map<String, Object>> images;
+    private String shopId;  // Added for coupon validation
 }
 
 

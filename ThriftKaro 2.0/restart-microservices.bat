@@ -73,7 +73,7 @@ echo.
 echo All services started! Please wait 30 seconds for all services to fully initialize.
 echo.
 echo Services should be available at:
-echo - Gateway: http://localhost:8080
+echo - Gateway: http://localhost:8089
 echo - Eureka Dashboard: http://localhost:8761
 echo - User Service: http://localhost:8082
 echo - Product Service: http://localhost:8083
@@ -82,7 +82,7 @@ echo - Payment Service: http://localhost:8085
 echo - Notification Service: http://localhost:8086
 echo - Chat Service: http://localhost:8087
 echo - Cart Service: http://localhost:8088
-echo - Shop Service: http://localhost:8089
+echo - Shop Service: http://localhost:8091
 echo - Event Service: http://localhost:8090
 echo.
 pause

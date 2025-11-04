@@ -42,7 +42,7 @@ start "Event Service" cmd /k "cd EventService && mvn spring-boot:run"
 
 echo ========================================
 echo All services started!
-echo Gateway: http://localhost:8080
+echo Gateway: http://localhost:8089
 echo Eureka: http://localhost:8761
 echo ========================================
 echo.

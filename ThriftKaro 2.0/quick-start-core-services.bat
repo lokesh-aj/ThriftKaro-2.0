@@ -21,7 +21,7 @@ echo ========================================
 echo.
 echo Service Status URLs:
 echo - Eureka Dashboard: http://localhost:8761
-echo - API Gateway: http://localhost:8080
+echo - API Gateway: http://localhost:8089
 echo - User Service: http://localhost:8082
 echo.
 echo Wait 30-60 seconds for all services to fully start.

@@ -14,8 +14,13 @@ const AllOrders = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllOrdersOfShop(seller._id));
-  }, [dispatch]);
+    if (seller?._id) {
+      console.log("Fetching orders for shop:", seller._id);
+      dispatch(getAllOrdersOfShop(seller._id));
+    } else {
+      console.log("Seller ID not available yet");
+    }
+  }, [dispatch, seller?._id]);
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
@@ -71,12 +76,17 @@ const AllOrders = () => {
   const row = [];
 
   orders &&
-    orders.forEach((item) => {
+    orders.forEach((item, index) => {
+      // Handle both id and _id from backend, ensure unique id for DataGrid
+      const orderId = item.id || item._id || `order-${index}-${Date.now()}`;
+      const cartLength = Array.isArray(item.cart) ? item.cart.length : 0;
+      const totalPrice = item.totalPrice || 0;
+      
       row.push({
-        id: item._id,
-        itemsQty: item.cart.length,
-        total: "₹ " + item.totalPrice,
-        status: item.status,
+        id: orderId,
+        itemsQty: cartLength,
+        total: "₹ " + totalPrice,
+        status: item.status || "Unknown",
       });
     });
 

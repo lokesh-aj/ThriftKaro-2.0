@@ -49,6 +49,7 @@ import {
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Store from "./redux/store";
+import { useDispatch } from "react-redux";
 import { loadSeller, loadUser } from "./redux/actions/user";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import ProtectedAdminRoute from "./routes/ProtectedAdminRoute";
@@ -56,50 +57,48 @@ import { ShopHomePage } from "./ShopRoutes.js";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute";
 import { getAllProducts } from "./redux/actions/product";
 import { getAllEvents } from "./redux/actions/event";
-import axiosInstance from "./api/axiosInstance";
+import { paymentService } from "./api/paymentService";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import StripeApiKeyTest from "./components/Payment/StripeApiKeyTest";
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState("");
+  const [stripePromise, setStripePromise] = useState(null);
 
   async function getStripeApikey() {
     try {
-      // Temporarily disabled - PaymentService not available when connecting directly to UserService
-      console.log('Stripe API key loading disabled - using direct UserService connection');
-      setStripeApiKey('');
+      const response = await paymentService.getStripeApiKey();
+      if (response && response.stripeApiKey) {
+        setStripeApiKey(response.stripeApiKey);
+        setStripePromise(loadStripe(response.stripeApiKey));
+        console.log('Stripe API key loaded successfully');
+      } else {
+        console.warn('Stripe API key not found in response');
+        setStripeApiKey('');
+        setStripePromise(null);
+      }
     } catch (error) {
       console.error('Failed to load Stripe API key:', error);
       // Set a default or empty key to prevent app from hanging
       setStripeApiKey('');
+      setStripePromise(null);
     }
   }
+  const dispatch = useDispatch();
+
   useEffect(() => {
     console.log('App component mounted');
-    Store.dispatch(loadUser());
-    Store.dispatch(loadSeller());
-    Store.dispatch(getAllProducts());
-    Store.dispatch(getAllEvents());
+    // Prefer component-scoped dispatch to avoid store instance mismatches
+    dispatch(loadUser());
+    dispatch(loadSeller());
+    dispatch(getAllProducts());
+    dispatch(getAllEvents());
     getStripeApikey();
-  }, []);
+  }, [dispatch]);
 
   return (
     <BrowserRouter>
-      {stripeApikey && (
-        <Elements stripe={loadStripe(stripeApikey)}>
-          <Routes>
-            <Route
-              path="/payment"
-              element={
-                <ProtectedRoute>
-                  <PaymentPage />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </Elements>
-      )}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -122,6 +121,22 @@ const App = () => {
           element={
             <ProtectedRoute>
               <CheckoutPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/payment"
+          element={
+            <ProtectedRoute>
+              {stripePromise ? (
+                <Elements stripe={stripePromise}>
+                  <PaymentPage />
+                </Elements>
+              ) : (
+                <Elements stripe={null}>
+                  <PaymentPage />
+                </Elements>
+              )}
             </ProtectedRoute>
           }
         />
@@ -326,6 +341,14 @@ const App = () => {
         />
         {/* Test route for Stripe API key verification */}
         <Route path="/test-stripe" element={<StripeApiKeyTest />} />
+        {/* Catch-all route for unmatched paths */}
+        <Route path="*" element={
+          <div style={{ padding: '2rem', textAlign: 'center' }}>
+            <h1>404 - Page Not Found</h1>
+            <p>The page you are looking for does not exist.</p>
+            <a href="/" style={{ color: '#007bff' }}>Go to Home</a>
+          </div>
+        } />
       </Routes>
       <ToastContainer
         position="bottom-center"

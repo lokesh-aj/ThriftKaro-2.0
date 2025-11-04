@@ -4,7 +4,7 @@ import { Country, State } from "country-state-city";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import axiosInstance from "../../api/axiosInstance";
+import { orderApiInstance } from "../../api/directApiInstances";
 import { toast } from "react-toastify";
 
 const Checkout = () => {
@@ -15,7 +15,7 @@ const Checkout = () => {
   const [userInfo, setUserInfo] = useState(false);
   const [address1, setAddress1] = useState("");
   const [address2, setAddress2] = useState("");
-  const [zipCode, setZipCode] = useState(null);
+  const [zipCode, setZipCode] = useState("");
   const [couponCode, setCouponCode] = useState("");
   const [couponCodeData, setCouponCodeData] = useState(null);
   const [discountPrice, setDiscountPrice] = useState(null);
@@ -26,7 +26,7 @@ const Checkout = () => {
   }, []);
 
   const paymentSubmit = () => {
-    if (address1 === "" || address2 === "" || zipCode === null || country === "" || city === "") {
+    if (address1 === "" || address2 === "" || zipCode === "" || country === "" || city === "") {
       toast.error("Please choose your delivery address!")
     } else {
       const shippingAddress = {
@@ -63,36 +63,83 @@ const Checkout = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const name = couponCode;
+    const name = couponCode.trim();
 
-    // Temporarily disabled - OrderService not available when connecting directly to UserService
-    console.log("Get coupon value disabled - using direct UserService connection");
-    const res = { data: { value: 0 } };
-    // Simulate async behavior
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
-    const shopId = res.data.couponCode?.shopId;
-    const couponCodeValue = res.data.couponCode?.value;
-    if (res.data.couponCode !== null) {
-      const isCouponValid =
-        items && items.filter((item) => item.product.shopId === shopId);
+    if (!name) {
+      toast.error("Please enter a coupon code");
+      return;
+    }
 
-      if (isCouponValid.length === 0) {
-        toast.error("Coupon code is not valid for this shop");
-        setCouponCode("");
+    try {
+      const res = await orderApiInstance.get(`/api/v2/coupon/get-coupon-value/${name}`);
+      
+      if (res.data.success && res.data.couponCode) {
+        const coupon = res.data.couponCode;
+        const shopId = coupon.shopId;
+        const couponCodeValue = coupon.value;
+
+        // Debug logging
+        console.log("Coupon validation:", {
+          couponShopId: shopId,
+          cartItems: items?.map(item => ({
+            productId: item.product?.id || item.product?._id,
+            productShopId: item.product?.shopId,
+            productShop: item.product?.shop
+          }))
+        });
+
+        // Check if coupon is valid for items in cart
+        // Handle both shopId directly or nested in shop object
+        const isCouponValid = items && items.filter((item) => {
+          const itemShopId = item.product?.shopId || 
+                           item.product?.shop?._id || 
+                           item.product?.shop?.id;
+          return itemShopId && String(itemShopId) === String(shopId);
+        });
+
+        if (isCouponValid.length === 0) {
+          console.warn("Coupon validation failed:", {
+            couponShopId: shopId,
+            cartItemsCount: items?.length,
+            itemShopIds: items?.map(item => item.product?.shopId || item.product?.shop?._id)
+          });
+          toast.error("Coupon code is not valid for this shop");
+          setCouponCode("");
+        } else {
+          // Calculate discount based on eligible items
+          const eligiblePrice = isCouponValid.reduce(
+            (acc, item) => acc + item.quantity * item.product.discountPrice,
+            0
+          );
+          
+          // Check minimum amount requirement if exists
+          if (coupon.minAmount && eligiblePrice < coupon.minAmount) {
+            toast.error(`Minimum purchase amount of ₹${coupon.minAmount} required for this coupon`);
+            setCouponCode("");
+            return;
+          }
+
+          // Check maximum discount if exists
+          let discountPrice = (eligiblePrice * couponCodeValue) / 100;
+          if (coupon.maxAmount && discountPrice > coupon.maxAmount) {
+            discountPrice = coupon.maxAmount;
+          }
+
+          setDiscountPrice(discountPrice);
+          setCouponCodeData(coupon);
+          setCouponCode("");
+          toast.success("Coupon code applied successfully!");
+        }
       } else {
-        const eligiblePrice = isCouponValid.reduce(
-          (acc, item) => acc + item.quantity * item.product.discountPrice,
-          0
-        );
-        const discountPrice = (eligiblePrice * couponCodeValue) / 100;
-        setDiscountPrice(discountPrice);
-        setCouponCodeData(res.data.couponCode);
+        toast.error("Coupon code doesn't exist!");
         setCouponCode("");
       }
-    }
-    if (res.data.couponCode === null) {
-      toast.error("Coupon code doesn't exists!");
+    } catch (error) {
+      console.error("Coupon error:", error);
+      const errorMessage = error.response?.data?.message || 
+                          error.message || 
+                          "Failed to apply coupon code. Please try again.";
+      toast.error(errorMessage);
       setCouponCode("");
     }
   };

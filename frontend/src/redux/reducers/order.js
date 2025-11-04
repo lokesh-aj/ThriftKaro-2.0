@@ -11,7 +11,15 @@ export const orderReducer = createReducer(initialState, {
   },
   getAllOrdersUserSuccess: (state, action) => {
     state.isLoading = false;
-    state.orders = action.payload;
+    // Normalize orders to ensure they have id field for DataGrid
+    state.orders = (action.payload || []).map((order, index) => ({
+      ...order,
+      id: order.id || order._id || `order-${index}`,
+      _id: order._id || order.id || `order-${index}`,
+      cart: Array.isArray(order.cart) ? order.cart : [],
+      totalPrice: order.totalPrice || 0,
+      status: order.status || "Unknown",
+    }));
   },
   getAllOrdersUserFailed: (state, action) => {
     state.isLoading = false;
@@ -24,7 +32,15 @@ export const orderReducer = createReducer(initialState, {
   },
   getAllOrdersShopSuccess: (state, action) => {
     state.isLoading = false;
-    state.orders = action.payload;
+    // Normalize orders to ensure they have id field for DataGrid
+    state.orders = (action.payload || []).map((order, index) => ({
+      ...order,
+      id: order.id || order._id || `order-${index}`,
+      _id: order._id || order.id || `order-${index}`,
+      cart: Array.isArray(order.cart) ? order.cart : [],
+      totalPrice: order.totalPrice || 0,
+      status: order.status || "Unknown",
+    }));
   },
   getAllOrdersShopFailed: (state, action) => {
     state.isLoading = false;
@@ -37,7 +53,15 @@ export const orderReducer = createReducer(initialState, {
   },
   adminAllOrdersSuccess: (state, action) => {
     state.adminOrderLoading = false;
-    state.adminOrders = action.payload;
+    // Normalize orders to ensure they have id field for DataGrid
+    state.adminOrders = (action.payload || []).map((order, index) => ({
+      ...order,
+      id: order.id || order._id || `order-${index}`,
+      _id: order._id || order.id || `order-${index}`,
+      cart: Array.isArray(order.cart) ? order.cart : [],
+      totalPrice: order.totalPrice || 0,
+      status: order.status || "Unknown",
+    }));
   },
   adminAllOrdersFailed: (state, action) => {
     state.adminOrderLoading = false;

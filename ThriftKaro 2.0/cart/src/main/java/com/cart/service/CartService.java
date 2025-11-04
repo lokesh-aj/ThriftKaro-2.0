@@ -27,10 +27,43 @@ public class CartService {
     private ProductServiceClient productServiceClient;
     
     public CartResponse createCart(String userId) {
-        // Check if cart already exists for user
-        Optional<Cart> existingCart = cartRepository.findByUserId(userId);
+        // Check if cart already exists for user - use findFirst to handle duplicates
+        Optional<Cart> existingCart = cartRepository.findFirstByUserIdOrderByCreatedAtDesc(userId);
         if (existingCart.isPresent()) {
-            return convertToCartResponse(existingCart.get());
+            Cart cart = existingCart.get();
+            // If there are multiple carts, clean them up and use the most recent one
+            List<Cart> allCarts = cartRepository.findAllByUserId(userId);
+            if (allCarts.size() > 1) {
+                System.out.println("Warning: Found " + allCarts.size() + " carts for user " + userId + ". Cleaning up duplicates...");
+                // Merge items from all carts into the most recent one, then delete others
+                for (int i = 1; i < allCarts.size(); i++) {
+                    Cart duplicateCart = allCarts.get(i);
+                    // Merge items from duplicate cart into main cart
+                    List<CartItem> duplicateItems = cartItemRepository.findByCartId(duplicateCart.getCartId());
+                    for (CartItem duplicateItem : duplicateItems) {
+                        Optional<CartItem> existingItem = cartItemRepository.findByCartIdAndProductId(cart.getCartId(), duplicateItem.getProductId());
+                        if (existingItem.isPresent()) {
+                            // Update quantity if item already exists in main cart
+                            CartItem existing = existingItem.get();
+                            existing.setQuantity(existing.getQuantity() + duplicateItem.getQuantity());
+                            cartItemRepository.save(existing);
+                        } else {
+                            // Create new item in main cart with same product and quantity
+                            CartItem newItem = CartItem.builder()
+                                    .cartId(cart.getCartId())
+                                    .productId(duplicateItem.getProductId())
+                                    .quantity(duplicateItem.getQuantity())
+                                    .build();
+                            cartItemRepository.save(newItem);
+                        }
+                    }
+                    // Delete duplicate cart items and cart
+                    cartItemRepository.deleteByCartId(duplicateCart.getCartId());
+                    cartRepository.delete(duplicateCart);
+                }
+                System.out.println("Cleaned up duplicate carts. Using cart: " + cart.getCartId());
+            }
+            return convertToCartResponse(cart);
         }
         
         Cart cart = Cart.builder()
@@ -46,17 +79,21 @@ public class CartService {
                 .orElseThrow(() -> new RuntimeException("Cart not found with id: " + cartId));
         
         // Validate product exists and has sufficient stock
-        ProductResponse product = productServiceClient.getProductById(productId, token);
-        if (product == null) {
-            throw new RuntimeException("Product not found with id: " + productId);
+        ProductResponse product = null;
+        try {
+            product = productServiceClient.getProductById(productId, token);
+        } catch (Exception e) {
+            System.err.println("CartService.addItemToCart - Warning: Failed to validate product via ProductService: " + e.getMessage());
+            // Continue without blocking add-to-cart; product details will be fetched lazily when reading cart
         }
-        
-        if (product.getStockQuantity() < quantity) {
-            throw new RuntimeException("Insufficient stock for product: " + product.getName());
+        if (product != null) {
+            if (product.getStockQuantity() < quantity) {
+                throw new RuntimeException("Insufficient stock for product: " + product.getName());
+            }
         }
         
         // Check if item already exists in cart
-        Optional<CartItem> existingItem = cartItemRepository.findByCartCartIdAndProductId(cartId, productId);
+        Optional<CartItem> existingItem = cartItemRepository.findByCartIdAndProductId(cartId, productId);
         
         if (existingItem.isPresent()) {
             // Update quantity
@@ -66,7 +103,7 @@ public class CartService {
         } else {
             // Create new cart item
             CartItem cartItem = CartItem.builder()
-                    .cart(cart)
+                    .cartId(cartId)
                     .productId(productId)
                     .quantity(quantity)
                     .build();
@@ -82,7 +119,7 @@ public class CartService {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found with id: " + cartId));
         
-        cartItemRepository.deleteByCartCartIdAndProductId(cartId, productId);
+        cartItemRepository.deleteByCartIdAndProductId(cartId, productId);
         
         // Refresh cart to get updated items
         cart = cartRepository.findById(cartId).orElseThrow();
@@ -90,7 +127,8 @@ public class CartService {
     }
     
     public CartResponse getCartByUserId(String userId) {
-        Cart cart = cartRepository.findByUserId(userId)
+        // Use findFirst to handle potential duplicate carts
+        Cart cart = cartRepository.findFirstByUserIdOrderByCreatedAtDesc(userId)
                 .orElseThrow(() -> new RuntimeException("Cart not found for user: " + userId));
         
         return convertToCartResponse(cart);
@@ -100,11 +138,13 @@ public class CartService {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found with id: " + cartId));
         
-        cartItemRepository.deleteByCartCartId(cartId);
+        cartItemRepository.deleteByCartId(cartId);
     }
     
     private CartResponse convertToCartResponse(Cart cart) {
-        List<CartItemResponse> cartItemResponses = cart.getCartItems().stream()
+        // Fetch items by cartId to avoid relying on embedded items on Cart document
+        List<CartItem> cartItems = cartItemRepository.findByCartId(cart.getCartId());
+        List<CartItemResponse> cartItemResponses = cartItems.stream()
                 .map(this::convertToCartItemResponse)
                 .collect(Collectors.toList());
         

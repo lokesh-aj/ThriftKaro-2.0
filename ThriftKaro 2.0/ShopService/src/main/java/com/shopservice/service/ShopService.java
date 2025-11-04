@@ -71,7 +71,14 @@ public class ShopService {
     public Map<String, Object> login(String email, String password) {
         Shop shop = shopRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
         if (!passwordEncoder.matches(password, shop.getPassword())) {
-            throw new IllegalArgumentException("Invalid email or password");
+            // Legacy fallback: if stored password isn't a bcrypt hash, compare as plaintext
+            if (!isEncoded(shop.getPassword()) || password.equals(shop.getPassword())) {
+                // Upgrade to bcrypt on-the-fly
+                shop.setPassword(passwordEncoder.encode(password));
+                shopRepository.save(shop);
+            } else {
+                throw new IllegalArgumentException("Invalid email or password");
+            }
         }
         
         // Generate JWT token
@@ -98,6 +105,11 @@ public class ShopService {
         response.put("seller", sellerResponse);
         
         return response;
+    }
+
+    private boolean isEncoded(String stored) {
+        if (stored == null) return false;
+        return stored.startsWith("$2a$") || stored.startsWith("$2b$") || stored.startsWith("$2y$");
     }
 
     public Shop details(String shopId) {

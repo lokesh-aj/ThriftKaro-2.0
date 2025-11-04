@@ -8,6 +8,8 @@ import com.userservice.security.JwtUtil;
 import com.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -85,7 +87,17 @@ public class AuthController {
             response.put("token", token);
             response.put("user", userResponse);
             
-            return ResponseEntity.ok(response);
+            ResponseCookie cookie = ResponseCookie.from("tk_token", token)
+                    .httpOnly(true)
+                    .secure(true)
+                    .sameSite("None")
+                    .path("/")
+                    .maxAge(86400)
+                    .build();
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                    .body(response);
         } catch (Exception e) {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("message", "Registration failed: " + e.getMessage());
@@ -102,6 +114,12 @@ public class AuthController {
                 Map<String, String> errorResponse = new HashMap<>();
                 errorResponse.put("message", "Invalid email or password");
                 return ResponseEntity.status(401).body(errorResponse);
+            }
+
+            // If the stored password was plaintext (legacy), upgrade to bcrypt transparently
+            if (!userService.isEncoded(user.getPasswordHash())) {
+                user.setPasswordHash(userService.encodePassword(request.getPassword()));
+                userService.save(user);
             }
 
             // Generate token with userId included (as String to match MongoDB ObjectId format)
@@ -124,12 +142,37 @@ public class AuthController {
             response.put("token", token);
             response.put("user", userResponse);
             
-            return ResponseEntity.ok(response);
+            ResponseCookie cookie = ResponseCookie.from("tk_token", token)
+                    .httpOnly(true)
+                    .secure(true)
+                    .sameSite("None")
+                    .path("/")
+                    .maxAge(86400)
+                    .build();
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                    .body(response);
         } catch (Exception e) {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("message", "Login failed: " + e.getMessage());
             return ResponseEntity.status(500).body(errorResponse);
         }
+    }
+
+    // -------- LOGOUT (clear cookie) --------
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout() {
+        ResponseCookie cleared = ResponseCookie.from("tk_token", "")
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
+                .path("/")
+                .maxAge(0)
+                .build();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cleared.toString())
+                .body(Map.of("success", true));
     }
 
     // -------- PROTECTED ENDPOINT (ME) --------
@@ -143,6 +186,85 @@ public class AuthController {
             return ResponseEntity.ok(user);
         } catch (Exception e) {
             return ResponseEntity.status(401).body("Invalid token");
+        }
+    }
+
+    // -------- UPDATE PROFILE (name/email/phone) --------
+    @PutMapping("/update-me")
+    public ResponseEntity<?> updateMe(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody Map<String, Object> updates
+    ) {
+        try {
+            String token = authHeader.replace("Bearer ", "");
+            String email = jwtUtil.extractEmail(token);
+            User user = userService.findByEmail(email);
+            if (user == null) return ResponseEntity.status(404).body("User not found");
+
+            if (updates.containsKey("name")) user.setName((String) updates.get("name"));
+            if (updates.containsKey("email")) user.setEmail((String) updates.get("email"));
+            if (updates.containsKey("phoneNumber")) user.setPhoneNumber((String) updates.get("phoneNumber"));
+
+            User saved = userService.save(user);
+            return ResponseEntity.ok(saved);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Update failed: " + e.getMessage());
+        }
+    }
+
+    // -------- UPDATE AVATAR --------
+    @PutMapping("/update-avatar")
+    public ResponseEntity<?> updateAvatar(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody Map<String, Object> body
+    ) {
+        try {
+            String token = authHeader.replace("Bearer ", "");
+            String email = jwtUtil.extractEmail(token);
+            User user = userService.findByEmail(email);
+            if (user == null) return ResponseEntity.status(404).body("User not found");
+
+            Object avatar = body.get("avatar");
+            if (avatar instanceof String && !((String) avatar).isEmpty()) {
+                Map<String, Object> avatarMap = new HashMap<>();
+                avatarMap.put("url", avatar);
+                user.setAvatar(avatarMap);
+            }
+            User saved = userService.save(user);
+            return ResponseEntity.ok(saved);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Avatar update failed: " + e.getMessage());
+        }
+    }
+
+    // -------- UPDATE PASSWORD --------
+    @PutMapping("/update-password")
+    public ResponseEntity<?> updatePassword(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody Map<String, String> body
+    ) {
+        try {
+            String token = authHeader.replace("Bearer ", "");
+            String email = jwtUtil.extractEmail(token);
+            User user = userService.findByEmail(email);
+            if (user == null) return ResponseEntity.status(404).body("User not found");
+
+            String oldPassword = body.get("oldPassword");
+            String newPassword = body.get("newPassword");
+            String confirmPassword = body.get("confirmPassword");
+
+            if (oldPassword == null || newPassword == null || confirmPassword == null)
+                return ResponseEntity.badRequest().body("Missing password fields");
+            if (!userService.checkPassword(oldPassword, user.getPasswordHash()))
+                return ResponseEntity.status(401).body(Map.of("message", "Old password incorrect"));
+            if (!newPassword.equals(confirmPassword))
+                return ResponseEntity.badRequest().body(Map.of("message", "Passwords do not match"));
+
+            user.setPasswordHash(userService.encodePassword(newPassword));
+            userService.save(user);
+            return ResponseEntity.ok(Map.of("success", true));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Password update failed: " + e.getMessage());
         }
     }
 }

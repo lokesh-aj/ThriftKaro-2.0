@@ -28,6 +28,8 @@ const Login = () => {
         // Store JWT token in localStorage
         if (res.data.token) {
           localStorage.setItem('token', res.data.token);
+          // Also keep it in-memory for browsers blocking storage
+          window.__AUTH_TOKEN__ = res.data.token;
         }
         // Store user data if provided
         if (res.data.user) {

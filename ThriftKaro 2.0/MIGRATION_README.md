@@ -136,7 +136,7 @@ STRIPE_PUBLISHABLE_KEY=your-stripe-publishable-key
 
 ### Service Health Checks:
 - Eureka: http://localhost:8761
-- API Gateway: http://localhost:8080/actuator/health
+ - API Gateway: http://localhost:8089/actuator/health
 - Individual services: http://localhost:PORT/actuator/health
 
 ## 🔄 Migration Benefits

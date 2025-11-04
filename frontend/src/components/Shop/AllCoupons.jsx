@@ -25,31 +25,55 @@ const AllCoupons = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setIsLoading(true);
-    orderApiInstance
-      .get(`/api/v2/coupon/get-coupon/${seller._id}`)
-      .then((res) => {
-        setIsLoading(false);
-        setCoupouns(res.data.couponCodes);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-      });
-  }, [dispatch]);
+    if (seller?._id) {
+      setIsLoading(true);
+      orderApiInstance
+        .get(`/api/v2/coupon/get-coupon/${seller._id}`)
+        .then((res) => {
+          setIsLoading(false);
+          if (res.data.success) {
+            setCoupouns(res.data.couponCodes || []);
+          } else {
+            setCoupouns([]);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching coupons:", error);
+          setIsLoading(false);
+          setCoupouns([]);
+        });
+    }
+  }, [dispatch, seller?._id]);
 
   useEffect(() => {
     if (seller?._id) dispatch(getAllProductsShop(seller._id));
   }, [dispatch, seller]);
 
   const handleDelete = async (id) => {
-    // Temporarily disabled - OrderService not available when connecting directly to UserService
-    console.log("Delete coupon disabled - using direct UserService connection");
-    const res = { data: { success: true, message: "Coupon deletion disabled" } };
-    // Simulate async behavior
-    setTimeout(() => {
-      toast.success("Coupon code deleted succesfully!")
-    })
-    window.location.reload();
+    if (!window.confirm("Are you sure you want to delete this coupon?")) {
+      return;
+    }
+    
+    try {
+      setIsLoading(true);
+      const res = await orderApiInstance.delete(`/api/v2/coupon/delete-coupon/${id}`);
+      
+      if (res.data.success) {
+        toast.success("Coupon code deleted successfully!");
+        // Refresh the coupon list instead of reloading the page
+        const refreshRes = await orderApiInstance.get(`/api/v2/coupon/get-coupon/${seller._id}`);
+        if (refreshRes.data.success) {
+          setCoupouns(refreshRes.data.couponCodes);
+        }
+      } else {
+        toast.error(res.data.message || "Failed to delete coupon");
+      }
+    } catch (error) {
+      console.error("Delete coupon error:", error);
+      toast.error(error.response?.data?.message || error.message || "Failed to delete coupon");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -137,6 +161,7 @@ const AllCoupons = () => {
             rows={row}
             columns={columns}
             pageSize={10}
+            rowsPerPageOptions={[10, 20, 50]}
             disableSelectionOnClick
             autoHeight
             getRowId={(r) => r.id || r._id || r.name}

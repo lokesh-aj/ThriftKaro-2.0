@@ -14,7 +14,9 @@ const ShopInfo = ({ isOwner }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllProductsShop(id));
+    if (id) {
+      dispatch(getAllProductsShop(id));
+    }
     setIsLoading(true);
     // Temporarily disabled - ShopService not available when connecting directly to UserService
     console.log("Get shop info disabled - using direct UserService connection");
@@ -24,7 +26,7 @@ const ShopInfo = ({ isOwner }) => {
       setData(res.data.shop);
       setIsLoading(false);
     }, 100);
-  }, [])
+  }, [id])
   
 
   const logoutHandler = async () => {

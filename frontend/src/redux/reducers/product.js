@@ -62,6 +62,7 @@ export const productReducer = createReducer(initialState, {
   getAllProductsFailed: (state, action) => {
     state.isLoading = false;
     state.error = action.payload;
+    state.allProducts = []; // Set to empty array on error to avoid null errors
   },
   
   clearErrors: (state) => {

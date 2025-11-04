@@ -6,15 +6,34 @@ export const createevent = (data) => async (dispatch) => {
     dispatch({
       type: "eventCreateRequest",
     });
-    const res = await eventApiInstance.post("/api/v2/event/create-event", data);
-    dispatch({
-      type: "eventCreateSuccess",
-      payload: res.data.event,
+    
+    console.log("Creating event with data:", {
+      name: data.name,
+      shopId: data.shopId,
+      imagesCount: data.images?.length || 0,
+      hasStartDate: !!data.start_Date,
+      hasEndDate: !!data.Finish_Date
     });
+    
+    const res = await eventApiInstance.post("/api/v2/event/create-event", data);
+    
+    if (res.data.success && res.data.event) {
+      dispatch({
+        type: "eventCreateSuccess",
+        payload: res.data.event,
+      });
+    } else {
+      throw new Error(res.data.message || "Event creation failed");
+    }
   } catch (error) {
+    console.error("Event creation error:", error);
+    const errorMessage = error.code === 'ECONNABORTED' 
+      ? "Request timed out. Please check your connection and try again."
+      : error.response?.data?.message || error.message || "Failed to create event";
+    
     dispatch({
       type: "eventCreateFail",
-      payload: error.response?.data?.message || error.message,
+      payload: errorMessage,
     });
   }
 };

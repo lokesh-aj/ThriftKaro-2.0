@@ -18,7 +18,7 @@ import java.util.Map;
 public class EventService {
     
     private final EventRepository eventRepository;
-    private final Cloudinary cloudinary;
+    private final Cloudinary cloudinary; // Can be null if not configured
     
     public Event createEvent(Event event, List<String> imageBase64List) throws IOException {
         List<ImageData> imagesLinks = new ArrayList<>();
@@ -26,27 +26,40 @@ public class EventService {
         // Upload images to Cloudinary (best-effort). If Cloudinary is not configured or fails,
         // fall back to storing the provided data URL directly so event creation still works in dev.
         if (imageBase64List != null && !imageBase64List.isEmpty()) {
+            // Check if Cloudinary is configured (has credentials)
+            boolean cloudinaryConfigured = cloudinary != null && 
+                cloudinary.config != null &&
+                cloudinary.config.cloudName != null && 
+                !cloudinary.config.cloudName.isEmpty();
+            
             for (String imageBase64 : imageBase64List) {
-                try {
-                    Map uploadResult = cloudinary != null
-                        ? cloudinary.uploader().upload(imageBase64, ObjectUtils.asMap("folder", "events"))
-                        : null;
-
-                    ImageData imageData = new ImageData();
-                    if (uploadResult != null) {
-                        imageData.setPublic_id((String) uploadResult.get("public_id"));
-                        imageData.setUrl((String) uploadResult.get("secure_url"));
-                    } else {
-                        imageData.setPublic_id("local");
-                        imageData.setUrl(imageBase64); // data URI fallback
+                ImageData imageData = new ImageData();
+                
+                if (cloudinaryConfigured) {
+                    try {
+                        // Try Cloudinary upload with timeout handling
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> uploadResult = cloudinary.uploader().upload(
+                            imageBase64, 
+                            ObjectUtils.asMap("folder", "events", "timeout", 5000)
+                        );
+                        
+                        if (uploadResult != null) {
+                            imageData.setPublic_id((String) uploadResult.get("public_id"));
+                            imageData.setUrl((String) uploadResult.get("secure_url"));
+                            imagesLinks.add(imageData);
+                            continue;
+                        }
+                    } catch (Exception ex) {
+                        // Cloudinary upload failed, fall back to data URI
+                        System.err.println("Cloudinary upload failed, using data URI: " + ex.getMessage());
                     }
-                    imagesLinks.add(imageData);
-                } catch (Exception ex) {
-                    ImageData imageData = new ImageData();
-                    imageData.setPublic_id("local");
-                    imageData.setUrl(imageBase64);
-                    imagesLinks.add(imageData);
                 }
+                
+                // Fallback: store data URI directly
+                imageData.setPublic_id("local");
+                imageData.setUrl(imageBase64);
+                imagesLinks.add(imageData);
             }
         }
         

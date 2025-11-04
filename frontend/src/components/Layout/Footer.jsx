@@ -41,13 +41,14 @@ const Footer = () => {
           <br />
           <p>Join ThriftKaro and turn thrift shopping into a lifestyle. Together, let’s build a sustainable future, one stylish find at a time!</p>
           <div className="flex items-center mt-[15px]">
+            <a href="https://github.com/Zuhairkhambati" target="_blank" rel="noopener noreferrer">
+              <AiFillGithub size={25} style={{ marginLeft: "15px", cursor: "pointer" }} />
+            </a>
+
             <a href="https://github.com/lokesh-aj" target="_blank" rel="noopener noreferrer">
               <AiFillGithub size={25} className="cursor-pointer" />
             </a>
 
-            <a href="https://github.com/Tanya-636" target="_blank" rel="noopener noreferrer">
-              <AiFillGithub size={25} style={{ marginLeft: "15px", cursor: "pointer" }} />
-            </a>
 
           </div>
         </ul>
@@ -102,7 +103,7 @@ const Footer = () => {
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10
          text-center pt-2 text-gray-400 text-sm pb-8"
       >
-        <span>© 2024 Tanya & Lokesh. All rights reserved.</span>
+        <span>© 2025 Zuhair & Lokesh. All rights reserved.</span>
         <span>Terms · Privacy Policy</span>
         <div className="sm:block flex items-center justify-center w-full">
           <img

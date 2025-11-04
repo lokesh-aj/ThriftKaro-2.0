@@ -99,10 +99,10 @@ cd "ThriftKaro 2.0"
 ### 2. Test Endpoints Directly
 ```bash
 # Health check
-curl http://localhost:8080/api/v2/payment/health
+curl http://localhost:8089/api/v2/payment/health
 
 # Stripe API key
-curl http://localhost:8080/api/v2/payment/stripeapikey
+curl http://localhost:8089/api/v2/payment/stripeapikey
 ```
 
 ### 3. Test Frontend Integration

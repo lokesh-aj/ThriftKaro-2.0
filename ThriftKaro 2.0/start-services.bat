@@ -69,12 +69,12 @@ echo All services are starting...
 echo.
 echo Eureka Server: http://localhost:8761
 echo Config Server: http://localhost:8888
-echo API Gateway: http://localhost:8080
+echo API Gateway: http://localhost:8089
 echo User Service: http://localhost:8082
 echo Product Service: http://localhost:8083
 echo Cart Service: http://localhost:8088
 echo Order Service: http://localhost:8084
-echo Shop Service: http://localhost:8089
+echo Shop Service: http://localhost:8091
 echo Payment Service: http://localhost:8085
 echo Chat Service: http://localhost:8087
 echo Notification Service: http://localhost:8086
